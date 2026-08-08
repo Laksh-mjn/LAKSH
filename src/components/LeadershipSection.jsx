@@ -1,5 +1,4 @@
-import React from 'react';
-import { Award, HeartHandshake, Users, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Award, HeartHandshake, Users, CheckCircle2 } from 'lucide-react';
 
 export default function LeadershipSection() {
   const organizations = [

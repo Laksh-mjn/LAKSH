@@ -1,7 +1,4 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-
-export default function HeroSection({ onOpenRaktaan }) {
+export default function HeroSection() {
   return (
     <section className="pt-36 pb-24 bg-[#F8F7F4] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">

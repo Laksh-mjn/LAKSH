@@ -11,7 +11,7 @@ import ProjectsSection from './components/ProjectsSection';
 import RaktaanArtistPage from './components/RaktaanArtistPage';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
-import { Award, ShieldCheck, ExternalLink, ArrowRight, BookOpen, Feather } from 'lucide-react';
+import { ShieldCheck, ArrowRight, BookOpen, Feather, Disc } from 'lucide-react';
 
 export default function App() {
   const [activePage, setActivePage] = useState('portfolio');

@@ -1,5 +1,4 @@
-import React from 'react';
-import { ArrowLeft, BookOpen, Disc } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 export default function Navbar({ activePage, setActivePage }) {
   const isRaktaan = activePage === 'raktaan';
@@ -13,7 +12,7 @@ export default function Navbar({ activePage, setActivePage }) {
     { name: 'Leadership', href: '#leadership' },
     { name: 'Skills', href: '#skills' },
     { name: 'Projects', href: '#projects' },
-    { name: 'MJ World (Novels)', href: '#mjworld' },
+    { name: 'MJ World', href: '#mjworld' },
     { name: 'Raktaan World', href: '#raktaan' },
   ];
 
@@ -27,23 +26,10 @@ export default function Navbar({ activePage, setActivePage }) {
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 h-20 flex items-center justify-between">
         
-        {/* Brand Logo */}
+        {/* Brand Logo - Clean Laksh Mahajan */}
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActivePage('portfolio')}>
           <span className="font-heading text-2xl sm:text-3xl font-bold tracking-tight">
             Laksh Mahajan
-          </span>
-          <span
-            className={`text-xs font-mono-code px-2.5 py-1 rounded-full border ${
-              isRaktaan
-                ? 'bg-[#D6C6A5]/10 border-[#D6C6A5]/40 text-[#D6C6A5]'
-                : isMJWorld
-                ? 'bg-[#D6C6A5]/10 border-[#D6C6A5]/40 text-[#D6C6A5]'
-                : isCertifications
-                ? 'bg-[#2B4C7E]/10 border-[#2B4C7E]/40 text-[#2B4C7E]'
-                : 'bg-[#2B4C7E]/10 border-[#2B4C7E]/20 text-[#2B4C7E]'
-            }`}
-          >
-            {isRaktaan ? 'Raktaan World' : isMJWorld ? 'MJ World' : isCertifications ? 'Certifications Vault' : 'Raktaan'}
           </span>
         </div>
 
@@ -57,10 +43,10 @@ export default function Navbar({ activePage, setActivePage }) {
                 if (link.name === 'Certifications') {
                   e.preventDefault();
                   setActivePage('certifications');
-                } else if (link.name === 'MJ World (Novels)') {
+                } else if (link.name === 'MJ World') {
                   e.preventDefault();
                   setActivePage('mjworld');
-                } else if (link.name === 'Raktaan World' || link.name === 'Raktaan (Music)') {
+                } else if (link.name === 'Raktaan World') {
                   e.preventDefault();
                   setActivePage('raktaan');
                 } else if (isRaktaan || isCertifications || isMJWorld) {
@@ -92,15 +78,7 @@ export default function Navbar({ activePage, setActivePage }) {
               <ArrowLeft className="w-4 h-4" />
               <span>Switch to Portfolio</span>
             </button>
-          ) : (
-            <button
-              onClick={() => setActivePage('mjworld')}
-              className="px-4 py-2 rounded-full text-xs font-semibold font-mono-code flex items-center gap-2 transition-all cursor-pointer shadow-xs bg-[#141414] text-[#F8F7F4] hover:bg-[#2B4C7E]"
-            >
-              <BookOpen className="w-4 h-4" />
-              <span>MJ World Novels</span>
-            </button>
-          )}
+          ) : null}
 
           {/* Single Contact Action Button */}
           <a
@@ -115,7 +93,7 @@ export default function Navbar({ activePage, setActivePage }) {
                 }, 100);
               }
             }}
-            className={`hidden sm:flex px-4 py-2 rounded-full text-xs font-semibold border transition-all ${
+            className={`px-5 py-2 rounded-full text-xs font-semibold border transition-all ${
               isRaktaan || isMJWorld
                 ? 'border-[#D6C6A5]/40 text-[#D6C6A5] hover:bg-[#D6C6A5]/10'
                 : 'border-[#141414] text-[#141414] hover:bg-[#141414] hover:text-[#F8F7F4]'

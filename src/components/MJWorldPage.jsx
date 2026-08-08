@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, ArrowLeft, ExternalLink, Sparkles, Star, Bookmark, Eye, Feather, Download, Plus } from 'lucide-react';
+import { BookOpen, ArrowLeft, Feather, Plus } from 'lucide-react';
 
 const initialNovels = [
   {
