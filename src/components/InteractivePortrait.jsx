@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { motion, useSpring, useTransform } from 'framer-motion';
 import { Camera, Check } from 'lucide-react';
+import lakshPortrait from '../assets/laksh-portrait.jpg';
 
 export default function InteractivePortrait() {
   const cardRef = useRef(null);
   // Default to Laksh's uploaded portrait photo
-  const [portraitPhoto, setPortraitPhoto] = useState('/laksh-portrait.jpg');
+  const [portraitPhoto, setPortraitPhoto] = useState(lakshPortrait);
   const [isHovered, setIsHovered] = useState(false);
 
   // Mouse normalized spring physics

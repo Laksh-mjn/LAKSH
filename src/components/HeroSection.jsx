@@ -1,3 +1,5 @@
+import lakshPortrait from '../assets/laksh-portrait.jpg';
+
 export default function HeroSection() {
   return (
     <section className="pt-36 pb-24 bg-[#F8F7F4] relative overflow-hidden">
@@ -35,7 +37,7 @@ export default function HeroSection() {
             <div className="relative w-full max-w-sm rounded-3xl overflow-hidden border-2 border-[#E5E2DC] bg-[#FFFFFF] p-3 shadow-xl group">
               <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-[#EFECE6]">
                 <img
-                  src="/laksh-portrait.jpg"
+                  src={lakshPortrait}
                   alt="Laksh Mahajan"
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 filter contrast-105"
                 />

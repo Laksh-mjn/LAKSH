@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Disc, ExternalLink, ArrowLeft, Music, Sparkles, Play, Volume2 } from 'lucide-react';
+import raktaanArtist from '../assets/raktaan-artist.jpg';
 
 const songs = [
   {
@@ -209,7 +210,7 @@ export default function RaktaanArtistPage({ onBack }) {
                 className="relative w-64 h-72 sm:w-72 sm:h-80 rounded-2xl overflow-hidden border-2 border-[#D6C6A5]/40 shadow-2xl bg-[#161513] group block cursor-pointer"
               >
                 <img
-                  src="/raktaan-artist.jpg"
+                  src={raktaanArtist}
                   alt="Raktaan Artist Profile"
                   className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-700 filter contrast-105"
                 />
