@@ -1,19 +1,18 @@
-import { ArrowLeft } from 'lucide-react';
+import React from 'react';
+import { ArrowLeft, Feather, Disc } from 'lucide-react';
 
 export default function Navbar({ activePage, setActivePage }) {
   const isRaktaan = activePage === 'raktaan';
   const isCertifications = activePage === 'certifications';
   const isMJWorld = activePage === 'mjworld';
 
-  const navLinks = [
+  const standardNavLinks = [
     { name: 'About', href: '#about' },
     { name: 'Education', href: '#education' },
     { name: 'Certifications', href: '#certifications' },
     { name: 'Leadership', href: '#leadership' },
     { name: 'Skills', href: '#skills' },
     { name: 'Projects', href: '#projects' },
-    { name: 'MJ World', href: '#mjworld' },
-    { name: 'Raktaan World', href: '#raktaan' },
   ];
 
   return (
@@ -34,8 +33,9 @@ export default function Navbar({ activePage, setActivePage }) {
         </div>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden lg:flex items-center gap-6 text-xs sm:text-sm font-medium">
-          {navLinks.map((link) => (
+        <div className="hidden lg:flex items-center gap-4 text-xs sm:text-sm font-medium">
+          {/* Standard Navigation Links */}
+          {standardNavLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
@@ -43,17 +43,11 @@ export default function Navbar({ activePage, setActivePage }) {
                 if (link.name === 'Certifications') {
                   e.preventDefault();
                   setActivePage('certifications');
-                } else if (link.name === 'MJ World') {
-                  e.preventDefault();
-                  setActivePage('mjworld');
-                } else if (link.name === 'Raktaan World') {
-                  e.preventDefault();
-                  setActivePage('raktaan');
                 } else if (isRaktaan || isCertifications || isMJWorld) {
                   setActivePage('portfolio');
                 }
               }}
-              className={`transition-colors cursor-pointer ${
+              className={`transition-colors cursor-pointer px-2 py-1 ${
                 isRaktaan || isMJWorld
                   ? 'text-[#A7A7A7] hover:text-[#D6C6A5]'
                   : 'text-[#5C5C5C] hover:text-[#141414]'
@@ -62,6 +56,32 @@ export default function Navbar({ activePage, setActivePage }) {
               {link.name}
             </a>
           ))}
+
+          {/* Stylish Distinctive MJ World Button */}
+          <button
+            onClick={() => setActivePage('mjworld')}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-bold inline-flex items-center gap-1.5 transition-all shadow-xs border cursor-pointer hover:scale-105 ${
+              isMJWorld
+                ? 'bg-[#D6C6A5] text-[#111111] border-[#D6C6A5] shadow-[0_0_15px_rgba(214,198,165,0.4)]'
+                : 'bg-[#1C1A17] text-[#D6C6A5] border-[#D6C6A5]/40 hover:border-[#D6C6A5] hover:bg-[#282420]'
+            }`}
+          >
+            <Feather className="w-3.5 h-3.5 text-[#D6C6A5]" />
+            <span>MJ World</span>
+          </button>
+
+          {/* Stylish Distinctive Raktaan World Button */}
+          <button
+            onClick={() => setActivePage('raktaan')}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-bold inline-flex items-center gap-1.5 transition-all shadow-xs border cursor-pointer hover:scale-105 ${
+              isRaktaan
+                ? 'bg-[#D6C6A5] text-[#111111] border-[#D6C6A5] shadow-[0_0_15px_rgba(214,198,165,0.4)]'
+                : 'bg-[#1A1816] text-[#F5F5F5] border-[#D6C6A5]/40 hover:border-[#D6C6A5] hover:bg-[#25221F]'
+            }`}
+          >
+            <Disc className="w-3.5 h-3.5 text-[#D6C6A5]" />
+            <span>Raktaan World</span>
+          </button>
         </div>
 
         {/* CTA Action Buttons */}
