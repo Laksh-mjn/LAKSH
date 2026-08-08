@@ -231,10 +231,10 @@ export default function ContactSection({ onOpenRaktaan }) {
 
               <button
                 type="submit"
-                className="w-full py-4 rounded-full bg-[#141414] hover:bg-[#2B4C7E] text-[#F8F7F4] font-bold text-sm tracking-wider uppercase flex items-center justify-center gap-3 transition-all shadow-md cursor-pointer"
+                className="w-full px-5 sm:px-8 py-4 sm:py-4.5 rounded-full bg-[#141414] hover:bg-[#2B4C7E] text-[#F8F7F4] font-bold text-xs sm:text-sm tracking-wider uppercase flex items-center justify-center gap-2.5 sm:gap-3 transition-all shadow-md cursor-pointer text-center leading-snug"
               >
-                <Send className="w-5 h-5" />
-                <span>Send Message to laksh7583@gmail.com</span>
+                <Send className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                <span className="break-words">Send Message to laksh7583@gmail.com</span>
               </button>
             </form>
           </div>
