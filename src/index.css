@@ -2,15 +2,17 @@
 
 @layer base {
   :root {
-    --bg-primary: #F8F7F4;
-    --bg-secondary: #EFECE6;
-    --card-bg: #FFFFFF;
-    --text-primary: #141414;
-    --text-secondary: #5C5C5C;
-    --border-color: #E5E2DC;
-    --accent-navy: #2B4C7E;
-    --accent-forest: #3E6B48;
-    --accent-gold: #D6C6A5;
+    --bg-primary: #08080A;
+    --bg-secondary: #0F0F12;
+    --bg-card: rgba(18, 18, 22, 0.65);
+    --text-primary: #F5F5F7;
+    --text-secondary: #A1A1AA;
+    --text-muted: #71717A;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-blade: rgba(255, 255, 255, 0.2);
+    --accent-steel: #E4E4E7;
+    --accent-titanium: #FFFFFF;
+    --accent-zinc: #52525B;
   }
 
   html {
@@ -18,36 +20,87 @@
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #08080A;
+    color: #F5F5F7;
+    touch-action: pan-y;
   }
 
   body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    font-family: 'Inter', sans-serif;
-    line-height: 1.65;
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    overflow-x: clip;
   }
 }
 
 /* Custom Typography Utilities */
 .font-heading {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.font-display {
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 .font-mono-code {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Custom Scrollbar */
+/* Blade Razor Sheen & Slash Effects */
+.blade-shine {
+  position: relative;
+  overflow: hidden;
+}
+.blade-shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 70%
+  );
+  transform: rotate(25deg);
+  transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.blade-shine:hover::after {
+  left: 100%;
+}
+
+/* Minimalist Hairline Borders */
+.hairline-border {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.hairline-border:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Apple-style Glass Panel */
+.apple-glass {
+  background: rgba(15, 15, 18, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Minimal Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #F8F7F4;
+  background: #08080A;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D5D1C8;
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #B5B0A4;
+  background: rgba(255, 255, 255, 0.35);
 }

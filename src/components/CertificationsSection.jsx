@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Award, CheckCircle2, ExternalLink, Search, Sparkles, ShieldCheck, Tag } from 'lucide-react';
+import { Award, CheckCircle2, ExternalLink, Search, ShieldCheck } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-export default function CertificationsSection() {
+export default function CertificationsSection({ onOpenFullVault }) {
   const [selectedIssuer, setSelectedIssuer] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -15,9 +16,8 @@ export default function CertificationsSection() {
       credentialId: 'xepmi2735v44',
       skills: ['Anthropic Claude', 'Prompt Engineering', 'LLM Architectures'],
       category: 'Anthropic',
-      accentColor: 'border-l-4 border-l-[#D97706]',
-      badgeStyle: 'bg-[#D97706]/10 text-[#D97706] border-[#D97706]/30',
-      iconBg: 'bg-[#D97706]/10 text-[#D97706]',
+      accentColor: 'border-l-4 border-l-[#FFD700]',
+      badgeStyle: 'bg-[#FFD700]/10 text-[#FFD700] border-[#FFD700]/40',
     },
     {
       id: 'openai-ai-foundations',
@@ -28,9 +28,8 @@ export default function CertificationsSection() {
       credentialId: '8mf9prc96o',
       skills: ['ChatGPT', 'AI Basics', 'Generative Workflows'],
       category: 'OpenAI',
-      accentColor: 'border-l-4 border-l-[#10B981]',
-      badgeStyle: 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/30',
-      iconBg: 'bg-[#10B981]/10 text-[#10B981]',
+      accentColor: 'border-l-4 border-l-[#00FF9D]',
+      badgeStyle: 'bg-[#00FF9D]/10 text-[#00FF9D] border-[#00FF9D]/40',
     },
     {
       id: 'microsoft-fabric-analytics',
@@ -40,9 +39,8 @@ export default function CertificationsSection() {
       date: 'Aug 2026',
       skills: ['Microsoft Fabric', 'End-to-End Data Analytics', 'Cloud Analytics'],
       category: 'Microsoft',
-      accentColor: 'border-l-4 border-l-[#0078D4]',
-      badgeStyle: 'bg-[#0078D4]/10 text-[#0078D4] border-[#0078D4]/30',
-      iconBg: 'bg-[#0078D4]/10 text-[#0078D4]',
+      accentColor: 'border-l-4 border-l-[#00F0FF]',
+      badgeStyle: 'bg-[#00F0FF]/10 text-[#00F0FF] border-[#00F0FF]/40',
     },
     {
       id: 'ibm-multiagent-systems',
@@ -52,9 +50,8 @@ export default function CertificationsSection() {
       date: 'Jun 2026',
       skills: ['Multi-Agent Systems', 'Agent Orchestration', 'Autonomous Agents'],
       category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
+      accentColor: 'border-l-4 border-l-[#8A2BE2]',
+      badgeStyle: 'bg-[#8A2BE2]/10 text-[#C084FC] border-[#8A2BE2]/40',
     },
     {
       id: 'ibm-mastering-bob-agentic',
@@ -64,9 +61,8 @@ export default function CertificationsSection() {
       date: 'Jun 2026',
       skills: ['IBM Bob', 'Agentic Engineering', 'Spec-Driven Development'],
       category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
+      accentColor: 'border-l-4 border-l-[#8A2BE2]',
+      badgeStyle: 'bg-[#8A2BE2]/10 text-[#C084FC] border-[#8A2BE2]/40',
     },
     {
       id: 'ibm-unleashing-ai-agents',
@@ -76,33 +72,8 @@ export default function CertificationsSection() {
       date: 'Jun 2026',
       skills: ['AI Agents', 'Agentic Workflows', 'Autonomous Decision Making'],
       category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
-    },
-    {
-      id: 'ibm-ai-agents-jul',
-      title: 'AI Agents',
-      issuer: 'IBM',
-      logoText: 'IBM',
-      date: 'Jul 2026',
-      skills: ['AI Agents', 'Intelligent Systems', 'Cognitive Agents'],
-      category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
-    },
-    {
-      id: 'ibm-make-agentic-ai-work',
-      title: 'Make Agentic AI Work for You',
-      issuer: 'IBM',
-      logoText: 'IBM',
-      date: 'Jun 2026',
-      skills: ['Agentic AI', 'Productivity Automation', 'AI Integration'],
-      category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
+      accentColor: 'border-l-4 border-l-[#8A2BE2]',
+      badgeStyle: 'bg-[#8A2BE2]/10 text-[#C084FC] border-[#8A2BE2]/40',
     },
     {
       id: 'ibm-rag-intro',
@@ -112,9 +83,8 @@ export default function CertificationsSection() {
       date: 'Jun 2026',
       skills: ['Retrieval-Augmented Generation (RAG)', 'Vector Search', 'Knowledge Retrieval'],
       category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
+      accentColor: 'border-l-4 border-l-[#8A2BE2]',
+      badgeStyle: 'bg-[#8A2BE2]/10 text-[#C084FC] border-[#8A2BE2]/40',
     },
     {
       id: 'ibm-llm-intro',
@@ -124,21 +94,8 @@ export default function CertificationsSection() {
       date: 'Jun 2026',
       skills: ['Large Language Models (LLM)', 'Transformer Architectures', 'NLP'],
       category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
-    },
-    {
-      id: 'ibm-virtual-agents-watsonx',
-      title: 'Introduction to Intelligent Virtual Agents (IVAs) with IBM watsonx Assistant',
-      issuer: 'IBM',
-      logoText: 'IBM',
-      date: 'Jul 2026',
-      skills: ['IBM watsonx Assistant', 'Virtual Agents', 'Conversational AI'],
-      category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
+      accentColor: 'border-l-4 border-l-[#8A2BE2]',
+      badgeStyle: 'bg-[#8A2BE2]/10 text-[#C084FC] border-[#8A2BE2]/40',
     },
     {
       id: 'ibm-foundations-genai',
@@ -148,93 +105,8 @@ export default function CertificationsSection() {
       date: 'Jun 2026',
       skills: ['Generative AI', 'Foundation Models', 'Prompting'],
       category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
-    },
-    {
-      id: 'ibm-intro-genai',
-      title: 'Introduction to Generative AI',
-      issuer: 'IBM',
-      logoText: 'IBM',
-      date: 'Jun 2026',
-      skills: ['Generative AI', 'Deep Learning Basics', 'AI Concepts'],
-      category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
-    },
-    {
-      id: 'ibm-getting-started-genai',
-      title: 'Getting Started with Generative AI',
-      issuer: 'IBM',
-      logoText: 'IBM',
-      date: 'Jun 2026',
-      skills: ['Generative AI', 'Practical AI Application', 'AI Strategy'],
-      category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
-    },
-    {
-      id: 'ibm-ethics-genai',
-      title: 'Ethical Considerations for Generative AI',
-      issuer: 'IBM',
-      logoText: 'IBM',
-      date: 'Jun 2026',
-      skills: ['AI Ethics', 'Responsible AI', 'Bias & Safety'],
-      category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
-    },
-    {
-      id: 'ibm-aicte-skillsbuild-internship',
-      title: 'AICTE | IBM SkillsBuild AI Automation & Intelligent Solutions Internship | BharatCares',
-      issuer: 'IBM / BharatCares / AICTE',
-      logoText: 'IBM / BHARATCARES',
-      date: 'Jul 2026',
-      skills: ['AI Basics', 'Automation', 'Intelligent Solutions', 'Industry Internship'],
-      category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
-    },
-    {
-      id: 'ibm-bob-troubleshoot-lab',
-      title: 'Lab: Troubleshoot Your Code Using IBM Bob',
-      issuer: 'IBM',
-      logoText: 'IBM',
-      date: 'Jul 2026',
-      skills: ['IBM Bob Debugging', 'Code Troubleshooting', 'AI Code Assistants'],
-      category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
-    },
-    {
-      id: 'ibm-world-youth-skills-day',
-      title: 'World Youth Skills Day 2026: Skills for a Shared Future | BharatCares',
-      issuer: 'IBM / BharatCares',
-      logoText: 'IBM / BHARATCARES',
-      date: 'Jul 2026',
-      skills: ['Youth Skills', 'Future Readiness', 'Digital Empowerment'],
-      category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
-    },
-    {
-      id: 'ibm-resume-writing-ai',
-      title: 'Improve your resume writing with AI',
-      issuer: 'IBM',
-      logoText: 'IBM',
-      date: 'Jul 2026',
-      skills: ['AI Resume Engineering', 'Career Communication', 'AI Productivity'],
-      category: 'IBM',
-      accentColor: 'border-l-4 border-l-[#0F62FE]',
-      badgeStyle: 'bg-[#0F62FE]/10 text-[#0F62FE] border-[#0F62FE]/30',
-      iconBg: 'bg-[#0F62FE]/10 text-[#0F62FE]',
+      accentColor: 'border-l-4 border-l-[#8A2BE2]',
+      badgeStyle: 'bg-[#8A2BE2]/10 text-[#C084FC] border-[#8A2BE2]/40',
     },
   ];
 
@@ -250,26 +122,42 @@ export default function CertificationsSection() {
   });
 
   return (
-    <section id="certifications" className="py-24 bg-[#F8F7F4] border-b border-[#E5E2DC]">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
+    <section id="certifications" className="py-28 bg-[#05060A] border-b border-[#00F0FF]/15 relative overflow-hidden scanline">
+      
+      {/* Grid background */}
+      <div className="absolute inset-0 cyber-grid-bg opacity-20 pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10 space-y-16">
         
         {/* Section Header */}
-        <div className="max-w-4xl mb-12">
-          <span className="text-xs font-mono-code font-bold tracking-widest text-[#2B4C7E] uppercase block mb-3">
-            VERIFIED CREDENTIALS & LICENSES ({certifications.length})
-          </span>
-          <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-medium text-[#141414] tracking-tight mb-4">
-            Certifications & Professional Licenses
-          </h2>
-          <p className="text-base sm:text-lg text-[#5C5C5C] leading-relaxed font-normal">
-            Verified LinkedIn certifications in Agentic Engineering, Multi-Agent Systems, Generative AI, Retrieval-Augmented Generation (RAG), and Cloud Analytics from global technology leaders including Anthropic, OpenAI, IBM, and Microsoft.
-          </p>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="max-w-4xl">
+            <span className="text-xs font-mono-code font-bold tracking-widest text-[#00F0FF] uppercase block mb-3">
+              VERIFIED CREDENTIALS & LICENSES (19 TOTAL)
+            </span>
+            <h2 className="font-heading text-4xl sm:text-6xl font-extrabold text-[#F0F4FF] tracking-tight">
+              Certifications & Credentials
+            </h2>
+            <p className="text-base sm:text-lg text-[#8A99AD] mt-2 font-light">
+              Verified certifications in Agentic Engineering, Multi-Agent Systems, Generative AI, RAG, and Cloud Analytics from Anthropic, OpenAI, IBM, and Microsoft.
+            </p>
+          </div>
+
+          {onOpenFullVault && (
+            <button
+              onClick={onOpenFullVault}
+              className="px-8 py-4 rounded-full bg-[#00F0FF] text-black font-mono-code font-bold text-xs uppercase tracking-wider flex items-center gap-3 transition-all hover:bg-white hover:scale-105 shadow-[0_0_20px_#00F0FF] shrink-0 cursor-pointer"
+              data-cursor="VAULT"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              <span>Explore All 19 Credentials ↗</span>
+            </button>
+          )}
         </div>
 
-        {/* Filter Controls Bar */}
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-10 p-4 rounded-2xl bg-[#FFFFFF] border border-[#E5E2DC] shadow-xs">
+        {/* Filter Bar */}
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 p-4 rounded-2xl bg-[#0A0D18]/90 border border-[#00F0FF]/25 shadow-2xl backdrop-blur-xl box-glow-cyan">
           
-          {/* Issuer Tabs */}
           <div className="flex flex-wrap items-center gap-2">
             {categoriesList.map((cat) => {
               const count = cat === 'All' ? certifications.length : certifications.filter((c) => c.category === cat).length;
@@ -280,8 +168,8 @@ export default function CertificationsSection() {
                   onClick={() => setSelectedIssuer(cat)}
                   className={`px-4 py-2 rounded-xl text-xs font-mono-code font-bold transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-[#141414] text-[#F8F7F4] shadow-xs'
-                      : 'bg-[#F8F7F4] text-[#5C5C5C] hover:bg-[#E5E2DC] hover:text-[#141414]'
+                      ? 'bg-[#00F0FF] text-black shadow-[0_0_10px_#00F0FF]'
+                      : 'bg-[#05060A] text-[#8A99AD] hover:text-[#00F0FF] border border-white/10'
                   }`}
                 >
                   {cat} ({count})
@@ -290,97 +178,75 @@ export default function CertificationsSection() {
             })}
           </div>
 
-          {/* Search Box */}
-          <div className="relative min-w-[240px] md:min-w-[280px]">
-            <Search className="w-4 h-4 text-[#888888] absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <div className="relative min-w-[240px]">
+            <Search className="w-4 h-4 text-[#8A99AD] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search certs (e.g. Agent, RAG, Claude)..."
+              placeholder="Search certs (e.g. Claude, RAG)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-xl bg-[#F8F7F4] border border-[#E5E2DC] text-xs font-mono-code text-[#141414] focus:outline-none focus:ring-2 focus:ring-[#2B4C7E] transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#05060A] border border-[#00F0FF]/20 text-xs font-mono-code text-[#F0F4FF] focus:outline-none focus:border-[#00F0FF] transition-all"
             />
           </div>
 
         </div>
 
         {/* Certifications Grid */}
-        {filteredCertifications.length === 0 ? (
-          <div className="p-12 rounded-3xl bg-[#FFFFFF] border border-[#E5E2DC] text-center text-[#5C5C5C] font-mono-code text-sm">
-            No certifications found matching "{searchQuery}".
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredCertifications.map((cert) => (
-              <div
-                key={cert.id}
-                className={`p-7 rounded-3xl bg-[#FFFFFF] border border-[#E5E2DC] shadow-sm hover:shadow-md transition-all flex flex-col justify-between ${cert.accentColor}`}
-              >
-                <div>
-                  {/* Top Issuer Badge & Date */}
-                  <div className="flex items-center justify-between mb-4">
-                    <span className={`text-[10px] font-mono-code font-bold px-2.5 py-1 rounded-full border ${cert.badgeStyle}`}>
-                      {cert.logoText}
-                    </span>
-                    <span className="text-xs font-mono-code text-[#888888]">
-                      Issued {cert.date}
-                    </span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredCertifications.map((cert) => (
+            <div
+              key={cert.id}
+              className={`p-7 rounded-3xl bg-[#0A0D18]/80 border border-[#00F0FF]/20 shadow-2xl backdrop-blur-xl hover:border-[#00F0FF]/60 transition-all flex flex-col justify-between space-y-6 ${cert.accentColor} box-glow-cyan`}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className={`text-[10px] font-mono-code font-bold px-2.5 py-1 rounded-full border ${cert.badgeStyle}`}>
+                    {cert.logoText}
+                  </span>
+                  <span className="text-xs font-mono-code text-[#8A99AD]">
+                    {cert.date}
+                  </span>
+                </div>
+
+                <h3 className="font-heading text-lg sm:text-xl font-bold text-[#F0F4FF] leading-snug mb-3">
+                  {cert.title}
+                </h3>
+
+                <p className="text-xs font-mono-code text-[#8A99AD] font-semibold mb-4">
+                  Issuer: <span className="text-[#00F0FF]">{cert.issuer}</span>
+                </p>
+
+                {cert.credentialId && (
+                  <div className="mb-4 p-2.5 rounded-xl bg-[#05060A] border border-white/10 text-[11px] font-mono-code text-[#8A99AD] flex items-center justify-between">
+                    <span>Credential ID:</span>
+                    <strong className="text-[#FFD700]">{cert.credentialId}</strong>
                   </div>
+                )}
 
-                  {/* Title */}
-                  <h3 className="font-heading text-lg sm:text-xl font-bold text-[#141414] leading-snug mb-3">
-                    {cert.title}
-                  </h3>
-
-                  {/* Issuer */}
-                  <p className="text-xs font-mono-code text-[#5C5C5C] font-semibold mb-4">
-                    Issuer: <span className="text-[#141414]">{cert.issuer}</span>
-                  </p>
-
-                  {/* Credential ID */}
-                  {cert.credentialId && (
-                    <div className="mb-4 p-2.5 rounded-xl bg-[#F8F7F4] border border-[#E5E2DC] text-[11px] font-mono-code text-[#5C5C5C] flex items-center justify-between">
-                      <span>Credential ID:</span>
-                      <strong className="text-[#141414] font-bold">{cert.credentialId}</strong>
-                    </div>
-                  )}
-
-                  {/* Skills Tags */}
-                  {cert.skills && cert.skills.length > 0 && (
-                    <div className="mb-4">
-                      <span className="text-[10px] font-mono-code font-bold text-[#888888] uppercase tracking-wider block mb-2">
-                        SKILLS DEMONSTRATED
+                {cert.skills && (
+                  <div className="flex flex-wrap gap-1.5">
+                    {cert.skills.map((skill) => (
+                      <span key={skill} className="px-2.5 py-1 rounded-md bg-[#05060A] border border-[#00F0FF]/20 text-[11px] font-mono-code text-[#D0D9EA]">
+                        ✓ {skill}
                       </span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {cert.skills.map((skill) => (
-                          <span
-                            key={skill}
-                            className="px-2.5 py-1 rounded-md bg-[#F8F7F4] border border-[#E5E2DC] text-[11px] font-mono-code text-[#141414] font-medium"
-                          >
-                            ✓ {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Footer Credential Verification Link */}
-                <div className="pt-4 border-t border-[#E5E2DC] flex items-center justify-between text-xs font-mono-code">
-                  <span className="flex items-center gap-1.5 text-[#3E6B48] font-bold">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>Verified License</span>
-                  </span>
-                  
-                  <span className="text-[#2B4C7E] flex items-center gap-1 font-semibold group-hover:underline">
-                    <span>Show Credential</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </span>
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
-            ))}
-          </div>
-        )}
+
+              <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono-code">
+                <span className="flex items-center gap-1.5 text-[#00FF9D] font-bold">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>Verified License</span>
+                </span>
+                <span className="text-[#00F0FF] flex items-center gap-1 font-semibold">
+                  <span>Show Credential</span>
+                  <ExternalLink className="w-3 h-3" />
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
 
       </div>
     </section>

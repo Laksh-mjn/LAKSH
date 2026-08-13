@@ -9,7 +9,6 @@ export default function ContactSection({ onOpenRaktaan }) {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
-    // Direct mailto trigger so the user's browser opens their mail client targeting laksh7583@gmail.com
     const subject = encodeURIComponent(`Portfolio Message from ${formData.name}`);
     const body = encodeURIComponent(
       `Hello Laksh,\n\nName: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
@@ -26,123 +25,127 @@ export default function ContactSection({ onOpenRaktaan }) {
       handle: 'Laksh Mahajan',
       href: 'https://www.linkedin.com/in/laksh-mahajan-696157329/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BUYEdRiLrScW7qBHKCbQcog%3D%3D',
       icon: Globe,
-      color: 'hover:border-[#0A66C2] hover:text-[#0A66C2]',
     },
     {
       name: 'Personal Instagram',
       handle: '@laksh_mahajann',
       href: 'https://www.instagram.com/laksh_mahajann/',
       icon: Share2,
-      color: 'hover:border-[#E4405F] hover:text-[#E4405F]',
     },
     {
       name: 'Artist Instagram',
       handle: '@raktaan',
       href: 'https://www.instagram.com/raktaan/',
       icon: Share2,
-      color: 'hover:border-[#E4405F] hover:text-[#E4405F]',
     },
     {
       name: 'Spotify Artist Profile',
       handle: 'Raktaan (7 Singles)',
       href: 'https://open.spotify.com/artist/1lkEE1c2w8HcHWEixWwc7E?si=l7nGAUANSciFDPzbXnN0DQ',
       icon: Disc,
-      color: 'hover:border-[#1DB954] hover:text-[#1DB954]',
     },
   ];
 
   return (
-    <section id="contact" className="py-24 bg-[#EFECE6] border-t border-[#E5E2DC]">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
+    <section id="contact" className="py-28 bg-[#08080A] border-t border-white/[0.06] relative overflow-hidden">
+      
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10 space-y-20">
         
-        {/* Section Header */}
-        <div className="max-w-3xl mb-14">
-          <span className="text-sm font-mono-code font-bold tracking-widest text-[#2B4C7E] uppercase block mb-3">
-            GET IN TOUCH
+        {/* Minimalist Bold CTA Headline */}
+        <div className="text-center space-y-6 max-w-4xl mx-auto">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[#86868B] text-xs font-mono-code uppercase">
+            <span>GET IN TOUCH</span>
           </span>
-          <h2 className="font-heading text-5xl sm:text-6xl font-bold text-[#141414] tracking-tight mb-4">
-            Let's Connect & Collaborate
+
+          <h2 className="font-heading text-5xl sm:text-7xl lg:text-8xl font-black text-[#F5F5F7] tracking-tight uppercase leading-[0.95]">
+            LET’S BUILD <br />
+            <span className="text-white">SOMETHING</span> <br />
+            <span className="text-[#86868B]">INTELLIGENT.</span>
           </h2>
-          <p className="text-base sm:text-lg text-[#5C5C5C] leading-relaxed font-normal">
+
+          <p className="text-base sm:text-lg text-[#86868B] font-light max-w-2xl mx-auto">
             Open for AI engineering projects, technology leadership roles, software development, or music production inquiries.
           </p>
         </div>
 
+        {/* Contact Info & Direct Mail Form Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           
-          {/* Left Column: Direct Contact Info & Working Profile Links */}
-          <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
+          {/* Left Column: Direct Credentials & Social Badges */}
+          <div className="lg:col-span-5 space-y-4">
             
             {/* Phone Card */}
             <a
               href="tel:+917006659770"
-              className="p-7 rounded-2xl bg-[#FFFFFF] border border-[#E5E2DC] shadow-xs flex items-center justify-between hover:border-[#2B4C7E] transition-all group cursor-pointer"
+              className="p-6 rounded-2xl bg-[#0F0F12]/80 border border-white/10 shadow-lg flex items-center justify-between hover:border-white/30 transition-all group cursor-pointer"
+              data-cursor="CALL"
             >
               <div className="flex items-center gap-4">
-                <div className="p-4 rounded-xl bg-[#2B4C7E]/10 text-[#2B4C7E] shrink-0 group-hover:bg-[#2B4C7E] group-hover:text-white transition-colors">
-                  <Phone className="w-6 h-6" />
+                <div className="p-3.5 rounded-xl bg-[#08080A] text-white border border-white/10 group-hover:bg-white group-hover:text-black transition-colors">
+                  <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-mono-code font-bold text-[#2B4C7E] uppercase tracking-wider mb-1">
+                  <h4 className="text-[11px] font-mono-code font-medium text-[#86868B] uppercase tracking-wider">
                     Direct Phone / WhatsApp
                   </h4>
-                  <p className="text-xl sm:text-2xl font-bold text-[#141414] group-hover:text-[#2B4C7E] transition-colors">
+                  <p className="text-xl font-bold text-[#F5F5F7] group-hover:text-white transition-colors">
                     +91 7006659770
                   </p>
                 </div>
               </div>
-              <ExternalLink className="w-5 h-5 text-[#5C5C5C] group-hover:text-[#2B4C7E]" />
+              <ExternalLink className="w-4 h-4 text-[#86868B] group-hover:text-white" />
             </a>
 
-            {/* Email Direct Card */}
+            {/* Email Card */}
             <a
               href="mailto:laksh7583@gmail.com"
-              className="p-7 rounded-2xl bg-[#FFFFFF] border border-[#E5E2DC] shadow-xs flex items-center justify-between hover:border-[#2B4C7E] transition-all group cursor-pointer"
+              className="p-6 rounded-2xl bg-[#0F0F12]/80 border border-white/10 shadow-lg flex items-center justify-between hover:border-white/30 transition-all group cursor-pointer"
+              data-cursor="EMAIL"
             >
               <div className="flex items-center gap-4">
-                <div className="p-4 rounded-xl bg-[#2B4C7E]/10 text-[#2B4C7E] shrink-0 group-hover:bg-[#2B4C7E] group-hover:text-white transition-colors">
-                  <Mail className="w-6 h-6" />
+                <div className="p-3.5 rounded-xl bg-[#08080A] text-white border border-white/10 group-hover:bg-white group-hover:text-black transition-colors">
+                  <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-mono-code font-bold text-[#2B4C7E] uppercase tracking-wider mb-1">
+                  <h4 className="text-[11px] font-mono-code font-medium text-[#86868B] uppercase tracking-wider">
                     Direct Email
                   </h4>
-                  <p className="text-lg sm:text-xl font-bold text-[#141414] group-hover:text-[#2B4C7E] transition-colors">
+                  <p className="text-lg font-bold text-[#F5F5F7] group-hover:text-white transition-colors">
                     laksh7583@gmail.com
                   </p>
                 </div>
               </div>
-              <ExternalLink className="w-5 h-5 text-[#5C5C5C] group-hover:text-[#2B4C7E]" />
+              <ExternalLink className="w-4 h-4 text-[#86868B] group-hover:text-white" />
             </a>
 
-            {/* Primary Location Card (Udhampur, Jammu and Kashmir) */}
+            {/* Location Card */}
             <a
               href="https://www.google.com/maps/search/?api=1&query=Udhampur%2C+Jammu+and+Kashmir"
               target="_blank"
               rel="noreferrer"
-              className="p-7 rounded-2xl bg-[#FFFFFF] border border-[#E5E2DC] shadow-xs flex items-center justify-between hover:border-[#2B4C7E] transition-all group cursor-pointer"
+              className="p-6 rounded-2xl bg-[#0F0F12]/80 border border-white/10 shadow-lg flex items-center justify-between hover:border-white/30 transition-all group cursor-pointer"
             >
               <div className="flex items-center gap-4">
-                <div className="p-4 rounded-xl bg-[#2B4C7E]/10 text-[#2B4C7E] shrink-0 group-hover:bg-[#2B4C7E] group-hover:text-white transition-colors">
-                  <MapPin className="w-6 h-6" />
+                <div className="p-3.5 rounded-xl bg-[#08080A] text-white border border-white/10 group-hover:bg-white group-hover:text-black transition-colors">
+                  <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-mono-code font-bold text-[#2B4C7E] uppercase tracking-wider mb-1">
+                  <h4 className="text-[11px] font-mono-code font-medium text-[#86868B] uppercase tracking-wider">
                     Primary Location
                   </h4>
-                  <p className="text-lg sm:text-xl font-bold text-[#141414] group-hover:text-[#2B4C7E] transition-colors">
+                  <p className="text-lg font-bold text-[#F5F5F7] group-hover:text-white transition-colors">
                     Udhampur, Jammu and Kashmir
                   </p>
                 </div>
               </div>
-              <ExternalLink className="w-5 h-5 text-[#5C5C5C] group-hover:text-[#2B4C7E] shrink-0" />
+              <ExternalLink className="w-4 h-4 text-[#86868B] group-hover:text-white shrink-0" />
             </a>
 
-            {/* Social & Professional Profile Badges */}
-            <div className="pt-6 border-t border-[#E5E2DC]">
-              <h4 className="text-xs font-mono-code font-bold text-[#2B4C7E] uppercase tracking-wider mb-4">
-                Social & Professional Handles
-              </h4>
+            {/* Social Handles */}
+            <div className="pt-4 space-y-3">
+              <span className="text-xs font-mono-code font-medium text-[#86868B] uppercase tracking-wider block">
+                HANDLES & PROFILES:
+              </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {socials.map((s) => {
                   const IconComp = s.icon;
@@ -152,16 +155,16 @@ export default function ContactSection({ onOpenRaktaan }) {
                       href={s.href}
                       target="_blank"
                       rel="noreferrer"
-                      className={`p-4 rounded-xl bg-[#FFFFFF] border border-[#E5E2DC] text-[#141414] flex items-center justify-between transition-all shadow-xs ${s.color}`}
+                      className="p-3.5 rounded-xl bg-[#0F0F12]/80 border border-white/10 text-[#F5F5F7] flex items-center justify-between hover:border-white/30 transition-all"
                     >
-                      <div className="flex items-center gap-3 overflow-hidden">
-                        <IconComp className="w-5 h-5 shrink-0 text-[#2B4C7E]" />
+                      <div className="flex items-center gap-2.5 overflow-hidden">
+                        <IconComp className="w-4 h-4 shrink-0 text-white/70" />
                         <div className="truncate">
-                          <span className="block font-bold text-sm truncate">{s.name}</span>
-                          <span className="block text-xs text-[#5C5C5C] font-mono-code truncate font-medium">{s.handle}</span>
+                          <span className="block font-bold text-xs truncate">{s.name}</span>
+                          <span className="block text-[10px] text-[#86868B] font-mono-code truncate">{s.handle}</span>
                         </div>
                       </div>
-                      <ExternalLink className="w-4 h-4 shrink-0 text-[#5C5C5C]" />
+                      <ExternalLink className="w-3.5 h-3.5 shrink-0 text-[#86868B]" />
                     </a>
                   );
                 })}
@@ -170,26 +173,28 @@ export default function ContactSection({ onOpenRaktaan }) {
 
           </div>
 
-          {/* Right Column: Interactive Direct Email Contact Form */}
-          <div className="lg:col-span-7 p-8 sm:p-12 rounded-2xl bg-[#FFFFFF] border border-[#E5E2DC] shadow-xs">
-            <h3 className="font-heading text-3xl font-bold text-[#141414] mb-2">
-              Send a Direct Message
-            </h3>
-            <p className="text-sm text-[#5C5C5C] mb-8 font-mono-code">
-              Submitting this form directly opens your email client addressed to laksh7583@gmail.com.
-            </p>
+          {/* Right Column: Direct Email Form */}
+          <div className="lg:col-span-7 p-8 sm:p-12 rounded-3xl bg-[#0F0F12]/80 border border-white/10 shadow-xl space-y-6">
+            <div className="space-y-1">
+              <h3 className="font-heading text-2xl sm:text-3xl font-bold text-[#F5F5F7]">
+                Send a Message
+              </h3>
+              <p className="text-xs text-[#86868B] font-mono-code">
+                Submitting this form opens your email client addressed to laksh7583@gmail.com.
+              </p>
+            </div>
 
             {submitted && (
-              <div className="mb-6 p-4 rounded-xl bg-[#3E6B48]/10 border border-[#3E6B48]/30 text-[#3E6B48] text-sm font-medium flex items-center gap-3">
-                <CheckCircle2 className="w-6 h-6 shrink-0" />
-                <span>Opening email client with your message for laksh7583@gmail.com!</span>
+              <div className="p-4 rounded-xl bg-white/[0.06] border border-white/20 text-white text-xs font-mono-code flex items-center gap-3">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>Opening email client addressed to laksh7583@gmail.com!</span>
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5 font-mono-code">
               <div>
-                <label className="block text-xs font-mono-code font-bold text-[#141414] uppercase mb-2">
-                  Your Full Name *
+                <label className="block text-xs font-medium text-[#A1A1AA] uppercase mb-2">
+                  YOUR FULL NAME *
                 </label>
                 <input
                   type="text"
@@ -197,13 +202,13 @@ export default function ContactSection({ onOpenRaktaan }) {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="Enter your full name"
-                  className="w-full px-5 py-3.5 rounded-xl border border-[#E5E2DC] bg-[#F8F7F4] text-[#141414] text-base font-medium focus:outline-none focus:ring-2 focus:ring-[#2B4C7E] focus:border-transparent transition-all"
+                  className="w-full px-5 py-3.5 rounded-xl border border-white/10 bg-[#08080A] text-[#F5F5F7] text-sm focus:outline-none focus:border-white/40 transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-mono-code font-bold text-[#141414] uppercase mb-2">
-                  Your Email Address *
+                <label className="block text-xs font-medium text-[#A1A1AA] uppercase mb-2">
+                  YOUR EMAIL ADDRESS *
                 </label>
                 <input
                   type="email"
@@ -211,13 +216,13 @@ export default function ContactSection({ onOpenRaktaan }) {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="name@example.com"
-                  className="w-full px-5 py-3.5 rounded-xl border border-[#E5E2DC] bg-[#F8F7F4] text-[#141414] text-base font-medium focus:outline-none focus:ring-2 focus:ring-[#2B4C7E] focus:border-transparent transition-all"
+                  className="w-full px-5 py-3.5 rounded-xl border border-white/10 bg-[#08080A] text-[#F5F5F7] text-sm focus:outline-none focus:border-white/40 transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-mono-code font-bold text-[#141414] uppercase mb-2">
-                  Your Message *
+                <label className="block text-xs font-medium text-[#A1A1AA] uppercase mb-2">
+                  YOUR MESSAGE *
                 </label>
                 <textarea
                   rows="5"
@@ -225,16 +230,16 @@ export default function ContactSection({ onOpenRaktaan }) {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Hello Laksh, I would like to get in touch regarding..."
-                  className="w-full px-5 py-3.5 rounded-xl border border-[#E5E2DC] bg-[#F8F7F4] text-[#141414] text-base font-medium focus:outline-none focus:ring-2 focus:ring-[#2B4C7E] focus:border-transparent transition-all"
+                  className="w-full px-5 py-3.5 rounded-xl border border-white/10 bg-[#08080A] text-[#F5F5F7] text-sm focus:outline-none focus:border-white/40 transition-all"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full px-5 sm:px-8 py-4 sm:py-4.5 rounded-full bg-[#141414] hover:bg-[#2B4C7E] text-[#F8F7F4] font-bold text-xs sm:text-sm tracking-wider uppercase flex items-center justify-center gap-2.5 sm:gap-3 transition-all shadow-md cursor-pointer text-center leading-snug"
+                className="w-full px-8 py-4 rounded-full bg-white text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-3 transition-all hover:bg-[#E5E5EA] hover:scale-105 cursor-pointer shadow-lg"
               >
-                <Send className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
-                <span className="break-words">Send Message to laksh7583@gmail.com</span>
+                <Send className="w-4 h-4" />
+                <span>Send to laksh7583@gmail.com</span>
               </button>
             </form>
           </div>

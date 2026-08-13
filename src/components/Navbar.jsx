@@ -1,10 +1,28 @@
-import React from 'react';
-import { ArrowLeft, Feather, Disc } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowLeft, Feather, Disc, Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar({ activePage, setActivePage }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolledPastIntro, setScrolledPastIntro] = useState(false);
+
   const isRaktaan = activePage === 'raktaan';
   const isCertifications = activePage === 'certifications';
   const isMJWorld = activePage === 'mjworld';
+
+  React.useEffect(() => {
+    const checkScroll = () => {
+      // Show navbar once user scrolls past the katana scroll section (~250vh) or on subpages
+      if (isRaktaan || isCertifications || isMJWorld) {
+        setScrolledPastIntro(true);
+      } else {
+        setScrolledPastIntro(window.scrollY > window.innerHeight * 2.2);
+      }
+    };
+    checkScroll();
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    return () => window.removeEventListener('scroll', checkScroll);
+  }, [isRaktaan, isCertifications, isMJWorld]);
 
   const standardNavLinks = [
     { name: 'About', href: '#about' },
@@ -15,115 +33,178 @@ export default function Navbar({ activePage, setActivePage }) {
     { name: 'Projects', href: '#projects' },
   ];
 
+  const handleNavClick = (linkName, href, e) => {
+    if (e) e.preventDefault();
+    setMobileMenuOpen(false);
+
+    if (linkName === 'Certifications') {
+      setActivePage('certifications');
+    } else {
+      if (isRaktaan || isCertifications || isMJWorld) {
+        setActivePage('portfolio');
+        setTimeout(() => {
+          const el = document.querySelector(href);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+      } else {
+        const el = document.querySelector(href);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const showNav = scrolledPastIntro || isRaktaan || isCertifications || isMJWorld;
+
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 backdrop-blur-md ${
-        isRaktaan || isMJWorld
-          ? 'bg-[#0F0E0D]/90 border-b border-[#D6C6A5]/20 text-[#F5F5F5]'
-          : 'bg-[#F8F7F4]/90 border-b border-[#E5E2DC] text-[#141414]'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 h-20 flex items-center justify-between">
+    <header className={`fixed top-0 left-0 right-0 z-50 p-4 sm:p-6 transition-all duration-700 pointer-events-none ${
+      showNav ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8 pointer-events-none'
+    }`}>
+      <div className="max-w-7xl mx-auto flex items-center justify-between pointer-events-auto">
         
-        {/* Brand Logo - Clean Laksh Mahajan */}
-        <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActivePage('portfolio')}>
-          <span className="font-heading text-2xl sm:text-3xl font-bold tracking-tight">
-            Laksh Mahajan
+        {/* Brand Logo */}
+        <div
+          onClick={() => {
+            setActivePage('portfolio');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="flex items-center gap-3 bg-[#0F0F12]/80 border border-white/10 px-4 py-2 rounded-full backdrop-blur-xl shadow-lg cursor-pointer group hover:border-white/30 transition-all"
+          data-cursor="HOME"
+        >
+          <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+          <span className="font-heading text-sm font-bold tracking-tight text-[#F5F5F7]">
+            LAKSH MAHAJAN
           </span>
         </div>
 
-        {/* Desktop Navigation Links */}
-        <div className="hidden lg:flex items-center gap-4 text-xs sm:text-sm font-medium">
-          {/* Standard Navigation Links */}
+        {/* Desktop Minimal Nav Pills */}
+        <nav className="hidden lg:flex items-center gap-1 bg-[#0F0F12]/80 border border-white/10 px-3 py-1.5 rounded-full backdrop-blur-xl shadow-xl">
           {standardNavLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              onClick={(e) => {
-                if (link.name === 'Certifications') {
-                  e.preventDefault();
-                  setActivePage('certifications');
-                } else if (isRaktaan || isCertifications || isMJWorld) {
-                  setActivePage('portfolio');
-                }
-              }}
-              className={`transition-colors cursor-pointer px-2 py-1 ${
-                isRaktaan || isMJWorld
-                  ? 'text-[#A7A7A7] hover:text-[#D6C6A5]'
-                  : 'text-[#5C5C5C] hover:text-[#141414]'
-              }`}
+              onClick={(e) => handleNavClick(link.name, link.href, e)}
+              className="px-3.5 py-1 rounded-full text-xs font-mono-code font-medium text-[#86868B] hover:text-white hover:bg-white/[0.06] transition-all cursor-pointer"
             >
               {link.name}
             </a>
           ))}
 
-          {/* Stylish Distinctive MJ World Button */}
+          <div className="w-px h-3.5 bg-white/10 mx-1" />
+
+          {/* MJ World */}
           <button
             onClick={() => setActivePage('mjworld')}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-bold inline-flex items-center gap-1.5 transition-all shadow-xs border cursor-pointer hover:scale-105 ${
+            className={`px-3.5 py-1 rounded-full text-xs font-mono-code font-medium inline-flex items-center gap-1.5 transition-all cursor-pointer ${
               isMJWorld
-                ? 'bg-[#D6C6A5] text-[#111111] border-[#D6C6A5] shadow-[0_0_15px_rgba(214,198,165,0.4)]'
-                : 'bg-[#1C1A17] text-[#D6C6A5] border-[#D6C6A5]/40 hover:border-[#D6C6A5] hover:bg-[#282420]'
+                ? 'bg-white text-black font-bold shadow-md'
+                : 'text-[#A1A1AA] hover:text-white hover:bg-white/[0.06]'
             }`}
+            data-cursor="MJ WORLD"
           >
-            <Feather className="w-3.5 h-3.5 text-[#D6C6A5]" />
+            <Feather className="w-3 h-3" />
             <span>MJ World</span>
           </button>
 
-          {/* Stylish Distinctive Raktaan World Button */}
+          {/* Raktaan World */}
           <button
             onClick={() => setActivePage('raktaan')}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-bold inline-flex items-center gap-1.5 transition-all shadow-xs border cursor-pointer hover:scale-105 ${
+            className={`px-3.5 py-1 rounded-full text-xs font-mono-code font-medium inline-flex items-center gap-1.5 transition-all cursor-pointer ${
               isRaktaan
-                ? 'bg-[#D6C6A5] text-[#111111] border-[#D6C6A5] shadow-[0_0_15px_rgba(214,198,165,0.4)]'
-                : 'bg-[#1A1816] text-[#F5F5F5] border-[#D6C6A5]/40 hover:border-[#D6C6A5] hover:bg-[#25221F]'
+                ? 'bg-white text-black font-bold shadow-md'
+                : 'text-[#A1A1AA] hover:text-white hover:bg-white/[0.06]'
             }`}
+            data-cursor="RAKTAAN"
           >
-            <Disc className="w-3.5 h-3.5 text-[#D6C6A5]" />
-            <span>Raktaan World</span>
+            <Disc className="w-3 h-3" />
+            <span>Raktaan</span>
           </button>
-        </div>
+        </nav>
 
-        {/* CTA Action Buttons */}
+        {/* Action Controls & Mobile Toggle */}
         <div className="flex items-center gap-3">
-          {isRaktaan || isCertifications || isMJWorld ? (
+          {(isRaktaan || isCertifications || isMJWorld) && (
             <button
               onClick={() => setActivePage('portfolio')}
-              className={`px-4 py-2 rounded-full text-xs font-semibold font-mono-code flex items-center gap-2 transition-all cursor-pointer shadow-xs ${
-                isRaktaan || isMJWorld
-                  ? 'bg-[#D6C6A5] text-[#111111] hover:bg-[#c5b391]'
-                  : 'bg-[#2B4C7E] text-white hover:bg-[#1E3A8A]'
-              }`}
+              className="px-4 py-2 rounded-full text-xs font-mono-code font-bold bg-white text-black hover:bg-[#E5E5EA] transition-all flex items-center gap-2 cursor-pointer shadow-md"
             >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Switch to Portfolio</span>
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Portfolio</span>
             </button>
-          ) : null}
+          )}
 
-          {/* Single Contact Action Button */}
           <a
             href="#contact"
-            onClick={(e) => {
-              if (isRaktaan || isCertifications || isMJWorld) {
-                e.preventDefault();
-                setActivePage('portfolio');
-                setTimeout(() => {
-                  const el = document.getElementById('contact');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-              }
-            }}
-            className={`px-5 py-2 rounded-full text-xs font-semibold border transition-all ${
-              isRaktaan || isMJWorld
-                ? 'border-[#D6C6A5]/40 text-[#D6C6A5] hover:bg-[#D6C6A5]/10'
-                : 'border-[#141414] text-[#141414] hover:bg-[#141414] hover:text-[#F8F7F4]'
-            }`}
+            onClick={(e) => handleNavClick('Contact', '#contact', e)}
+            className="hidden sm:flex px-5 py-2 rounded-full text-xs font-mono-code font-bold border border-white/20 text-[#F5F5F7] hover:bg-white hover:text-black transition-all"
           >
             Contact
           </a>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden p-2.5 rounded-full bg-[#0F0F12] border border-white/15 text-white backdrop-blur-xl"
+            aria-label="Toggle Navigation Menu"
+          >
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          </button>
         </div>
 
       </div>
-    </nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="lg:hidden pointer-events-auto fixed inset-x-4 top-20 z-50 bg-[#0F0F12]/95 border border-white/15 rounded-3xl p-6 backdrop-blur-2xl shadow-2xl space-y-4"
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-white/10 text-xs font-mono-code text-[#86868B]">
+              <span>NAVIGATION</span>
+              <span>LAKSH MAHAJAN</span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              {standardNavLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(link.name, link.href, e)}
+                  className="p-3 rounded-xl bg-[#08080A] border border-white/10 text-xs font-mono-code text-[#D4D4D8] hover:text-white"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </div>
+
+            <div className="pt-2 grid grid-cols-2 gap-2">
+              <button
+                onClick={() => {
+                  setActivePage('mjworld');
+                  setMobileMenuOpen(false);
+                }}
+                className="p-3 rounded-xl bg-white/[0.05] border border-white/10 text-[#F5F5F7] font-mono-code font-medium text-xs flex items-center justify-center gap-2"
+              >
+                <Feather className="w-3.5 h-3.5" />
+                <span>MJ World</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setActivePage('raktaan');
+                  setMobileMenuOpen(false);
+                }}
+                className="p-3 rounded-xl bg-white/[0.05] border border-white/10 text-[#F5F5F7] font-mono-code font-medium text-xs flex items-center justify-center gap-2"
+              >
+                <Disc className="w-3.5 h-3.5" />
+                <span>Raktaan</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }

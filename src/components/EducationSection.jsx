@@ -1,5 +1,6 @@
 import React from 'react';
-import { School, GraduationCap, MapPin, Calendar, BookOpen, CheckCircle2, Award } from 'lucide-react';
+import { School, GraduationCap, MapPin, CheckCircle2, Award } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function EducationSection() {
   const educationStages = [
@@ -11,12 +12,12 @@ export default function EducationSection() {
       institution: 'MHS DAV Public Higher Secondary School',
       location: 'Udhampur, Jammu & Kashmir',
       stream: 'General Academics & Fundamental Sciences',
-      desc: 'Completed secondary education with strong foundation in mathematics, general science, logical reasoning, and core analytical subjects.',
+      desc: 'Completed secondary education with strong foundation in mathematics, analytical reasoning, and core physical sciences.',
       highlights: ['Mathematics & Logical Reasoning', 'General Science Foundations', 'Secondary Board Standard'],
       icon: School,
-      accentColor: 'border-l-4 border-l-[#3E6B48]',
-      badgeStyle: 'bg-[#3E6B48]/10 text-[#3E6B48] border-[#3E6B48]/20',
-      iconBg: 'bg-[#3E6B48]/10 text-[#3E6B48]',
+      accentColor: 'border-l-4 border-l-white/40',
+      badgeStyle: 'bg-white/[0.06] text-[#E4E4E7] border-white/10',
+      iconBg: 'bg-white/[0.06] text-white',
     },
     {
       id: 'class-12',
@@ -25,13 +26,13 @@ export default function EducationSection() {
       title: 'Class 12th Standard',
       institution: 'MHS DAV Public Higher Secondary School',
       location: 'Udhampur, Jammu & Kashmir',
-      stream: 'Science Stream (PCM + PCB Dual Focus: Biology with Mathematics)',
+      stream: 'Science Stream (Dual Focus: Physics, Chemistry, Biology & Mathematics)',
       desc: 'Pursued senior secondary education specializing in both Physical Sciences (Physics, Chemistry, Mathematics) and Biological Sciences (Biology with Mathematics).',
-      highlights: ['Physics, Chemistry & Higher Mathematics', 'Biology & Life Sciences', 'Dual Science Stream (PCM + PCB)'],
+      highlights: ['Physics, Chemistry & Higher Mathematics', 'Biological Sciences', 'Dual Science Stream (PCM + PCB)'],
       icon: Award,
-      accentColor: 'border-l-4 border-l-[#6F5B8A]',
-      badgeStyle: 'bg-[#6F5B8A]/10 text-[#6F5B8A] border-[#6F5B8A]/20',
-      iconBg: 'bg-[#6F5B8A]/10 text-[#6F5B8A]',
+      accentColor: 'border-l-4 border-l-white/60',
+      badgeStyle: 'bg-white/[0.06] text-[#E4E4E7] border-white/10',
+      iconBg: 'bg-white/[0.06] text-white',
     },
     {
       id: 'engineering',
@@ -51,104 +52,118 @@ export default function EducationSection() {
         'Web & Distributed Systems Engineering',
       ],
       icon: GraduationCap,
-      accentColor: 'border-l-4 border-l-[#2B4C7E]',
-      badgeStyle: 'bg-[#2B4C7E]/10 text-[#2B4C7E] border-[#2B4C7E]/20',
-      iconBg: 'bg-[#2B4C7E]/10 text-[#2B4C7E]',
+      accentColor: 'border-l-4 border-l-white',
+      badgeStyle: 'bg-white text-black border-white font-bold',
+      iconBg: 'bg-white text-black',
       status: 'CURRENT UNDERGRADUATE',
     },
   ];
 
   return (
-    <section id="education" className="py-24 bg-[#F8F7F4] border-b border-[#E5E2DC]">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
+    <section id="education" className="py-28 bg-[#08080A]/60 backdrop-blur-md border-b border-white/[0.06] relative overflow-hidden">
+      
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10 space-y-16">
         
         {/* Section Header */}
-        <div className="max-w-4xl mb-16">
-          <span className="text-xs font-mono-code font-bold tracking-widest text-[#2B4C7E] uppercase block mb-3">
-            ACADEMIC PROGRESSION
+        <div className="max-w-3xl space-y-4">
+          <span className="text-xs font-mono-code font-medium tracking-widest text-[#86868B] uppercase block">
+            ACADEMIC FOUNDATION & TECHNICAL DEGREE
           </span>
-          <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-medium text-[#141414] tracking-tight mb-4">
-            Education & Qualifications
+          <h2 className="font-heading text-4xl sm:text-6xl font-bold text-[#F5F5F7] tracking-tight">
+            Education Journey
           </h2>
-          <p className="text-base sm:text-lg text-[#5C5C5C] leading-relaxed">
-            Chronological academic journey from foundational schooling to higher engineering degree.
+          <p className="text-base sm:text-lg text-[#86868B] font-light">
+            Comprehensive academic progression spanning secondary sciences to undergraduate Computer Science & Engineering.
           </p>
         </div>
 
-        {/* Sequential Academic Timeline Cards (10th -> 12th -> Engineering) */}
-        <div className="space-y-10">
-          {educationStages.map((stage) => {
+        {/* Chronological Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {educationStages.map((stage, idx) => {
             const IconComp = stage.icon;
             return (
-              <div
+              <motion.div
                 key={stage.id}
-                className={`p-8 sm:p-10 rounded-3xl bg-[#FFFFFF] border border-[#E5E2DC] shadow-sm hover:shadow-md transition-all duration-300 ${stage.accentColor}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.15 }}
+                className={`rounded-3xl p-8 bg-[#0F0F12]/80 border border-white/10 backdrop-blur-xl shadow-xl flex flex-col justify-between space-y-8 relative group hairline-border ${stage.accentColor}`}
               >
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-[#E5E2DC]">
-                  
-                  <div className="flex items-start gap-5">
-                    <div className={`p-4 rounded-2xl ${stage.iconBg} shrink-0`}>
-                      <IconComp className="w-8 h-8" />
+                <div className="space-y-6">
+                  {/* Step & Badge Header */}
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono-code text-2xl font-black text-white/20 group-hover:text-white/60 transition-colors">
+                      {stage.stepNumber}
+                    </span>
+                    <span className={`px-3 py-1 rounded-full text-[10px] font-mono-code font-bold uppercase tracking-wider border ${stage.badgeStyle}`}>
+                      {stage.badge}
+                    </span>
+                  </div>
+
+                  {/* Icon & Title */}
+                  <div className="space-y-3">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border border-white/10 shadow-md ${stage.iconBg}`}>
+                      <IconComp className="w-6 h-6" />
                     </div>
 
-                    <div className="space-y-1.5">
-                      <div className="flex flex-wrap items-center gap-2.5">
-                        <span className="text-xs font-mono-code font-bold text-[#141414]/40">
-                          {stage.stepNumber}
-                        </span>
-                        <span className={`text-[11px] font-mono-code font-bold px-3 py-0.5 rounded-full border ${stage.badgeStyle}`}>
-                          {stage.badge}
-                        </span>
-                        {stage.status && (
-                          <span className="text-[11px] font-mono-code font-bold px-3 py-0.5 rounded-full bg-[#2B4C7E]/10 text-[#2B4C7E] border border-[#2B4C7E]/20">
-                            {stage.status}
-                          </span>
-                        )}
-                      </div>
+                    <h3 className="font-heading text-2xl font-bold text-[#F5F5F7] tracking-tight">
+                      {stage.title}
+                    </h3>
+                  </div>
 
-                      <h3 className="font-heading text-3xl sm:text-4xl font-bold text-[#141414]">
-                        {stage.title}
-                      </h3>
-
-                      <p className="text-base sm:text-lg font-semibold text-[#141414]/80">
-                        {stage.institution}
-                      </p>
-
-                      <div className="flex items-center gap-2 text-xs sm:text-sm font-mono-code text-[#5C5C5C]">
-                        <MapPin className="w-4 h-4 text-[#2B4C7E]" />
-                        <span>{stage.location}</span>
-                      </div>
+                  {/* Institution & Location */}
+                  <div className="space-y-1.5 border-t border-b border-white/[0.06] py-3.5 text-xs font-mono-code">
+                    <div className="text-[#F5F5F7] font-semibold flex items-center gap-1.5">
+                      <span>{stage.institution}</span>
+                    </div>
+                    <div className="text-[#86868B] flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-white/60" />
+                      <span>{stage.location}</span>
                     </div>
                   </div>
 
-                </div>
+                  {/* Stream Focus */}
+                  <div className="space-y-2">
+                    <span className="text-[11px] font-mono-code text-[#A1A1AA] uppercase tracking-wider block font-semibold">
+                      Stream & Specialization:
+                    </span>
+                    <p className="text-sm font-medium text-white/90 leading-snug">
+                      {stage.stream}
+                    </p>
+                  </div>
 
-                {/* Details & Highlights */}
-                <div className="pt-6 space-y-4">
-                  <p className="text-sm sm:text-base text-[#4A4A4A] leading-relaxed font-normal">
+                  {/* Description */}
+                  <p className="text-sm text-[#86868B] leading-relaxed font-light">
                     {stage.desc}
                   </p>
 
-                  <div>
-                    <span className="text-xs font-mono-code font-bold text-[#141414] uppercase tracking-wider block mb-3">
-                      KEY ACADEMIC HIGHLIGHTS & SUBJECTS
+                  {/* Key Highlights */}
+                  <div className="space-y-2 pt-2">
+                    <span className="text-[10px] font-mono-code text-[#71717A] uppercase tracking-wider block">
+                      Core Pillars:
                     </span>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                      {stage.highlights.map((item) => (
-                        <div
-                          key={item}
-                          className="p-3.5 rounded-xl bg-[#F8F7F4] border border-[#E5E2DC] text-xs font-mono-code text-[#141414] font-medium flex items-center gap-2.5"
-                        >
-                          <CheckCircle2 className="w-4 h-4 text-[#2B4C7E] shrink-0" />
-                          <span>{item}</span>
+                    <div className="space-y-1.5">
+                      {stage.highlights.map((h, i) => (
+                        <div key={i} className="flex items-center gap-2 text-xs text-[#D4D4D8]">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-white/80 shrink-0" />
+                          <span>{h}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
 
-              </div>
+                {/* Bottom Status Pill */}
+                {stage.status && (
+                  <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono-code text-white">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                      {stage.status}
+                    </span>
+                  </div>
+                )}
+              </motion.div>
             );
           })}
         </div>
