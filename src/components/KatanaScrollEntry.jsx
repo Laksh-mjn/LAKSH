@@ -21,7 +21,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
   // Mouse & Touch Parallax
   const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
 
-  // Animation controller refs (zero-state lag in RAF loop)
+  // Animation controller refs
   const currentFrameRef = useRef(0);
   const targetFrameRef = useRef(0);
   const scrollVelocityRef = useRef(0);
@@ -31,7 +31,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
   // Depth-separated 3D atmospheric particles
   const particlesRef = useRef([]);
 
-  // Initialize multi-depth particles
+  // Initialize multi-depth atmospheric particles
   useEffect(() => {
     const isMobile = window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches;
     const particleCount = isMobile ? 12 : 24;
@@ -41,12 +41,12 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
       particles.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        vx: (Math.random() - 0.5) * (0.2 + depth * 0.3),
-        vy: 0.15 + depth * 0.35,
-        size: depth > 0.7 ? 2.5 + Math.random() * 1.5 : 1.0 + Math.random() * 1.2,
+        vx: (Math.random() - 0.5) * (0.15 + depth * 0.25),
+        vy: 0.12 + depth * 0.3,
+        size: depth > 0.7 ? 2.2 + Math.random() * 1.4 : 1.0 + Math.random() * 1.0,
         rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.02,
-        opacity: depth > 0.7 ? 0.3 + Math.random() * 0.3 : 0.1 + Math.random() * 0.2,
+        rotationSpeed: (Math.random() - 0.5) * 0.015,
+        opacity: depth > 0.7 ? 0.28 + Math.random() * 0.25 : 0.08 + Math.random() * 0.18,
         depth: depth,
         type: Math.random() > 0.35 ? 'petal' : 'mist',
       });
@@ -54,7 +54,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     particlesRef.current = particles;
   }, []);
 
-  // Trigger singleton preloading
+  // Trigger frame preloading
   useEffect(() => {
     preloadKatanaFrames();
     const unsubscribe = onFrameLoaded(() => {
@@ -65,47 +65,47 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     return () => unsubscribe();
   }, []);
 
-  // Cinematic Camera Transform Matrix across story acts (Balanced, Elegant)
+  // Cinematic Camera Transform Matrix across story acts
   const getCameraTransform = (progress, camX, camY, isVertical) => {
     let baseScale = 1.0;
     let panX = 0;
     let panY = 0;
 
     if (progress < 0.17) {
-      baseScale = 1.0 + progress * 0.06;
+      baseScale = 1.0 + progress * 0.05;
       panX = 0;
       panY = 0;
     } else if (progress >= 0.17 && progress < 0.34) {
       const p = (progress - 0.17) / 0.17;
-      baseScale = 1.01 + p * 0.06;
-      panX = -p * (isVertical ? 0.01 : 0.02);
-      panY = p * 0.01;
+      baseScale = 1.01 + p * 0.05;
+      panX = -p * (isVertical ? 0.008 : 0.018);
+      panY = p * 0.008;
     } else if (progress >= 0.34 && progress < 0.51) {
       const p = (progress - 0.34) / 0.17;
-      baseScale = 1.07 - p * 0.04;
-      panX = (isVertical ? -0.01 : -0.02) + p * (isVertical ? 0.01 : 0.02);
-      panY = 0.01 - p * 0.01;
+      baseScale = 1.06 - p * 0.03;
+      panX = (isVertical ? -0.008 : -0.018) + p * (isVertical ? 0.008 : 0.018);
+      panY = 0.008 - p * 0.008;
     } else if (progress >= 0.51 && progress < 0.68) {
       const p = (progress - 0.51) / 0.17;
-      baseScale = 1.01 + Math.sin(p * Math.PI) * 0.02;
+      baseScale = 1.01 + Math.sin(p * Math.PI) * 0.015;
       panX = 0;
       panY = 0;
     } else if (progress >= 0.68 && progress < 0.85) {
       const p = (progress - 0.68) / 0.17;
-      baseScale = 1.02 + p * 0.04;
-      panX = p * (isVertical ? 0.008 : 0.015);
-      panY = -p * 0.01;
+      baseScale = 1.02 + p * 0.03;
+      panX = p * (isVertical ? 0.006 : 0.012);
+      panY = -p * 0.008;
     } else {
       const p = (progress - 0.85) / 0.15;
-      baseScale = 1.06 - p * 0.06;
-      panX = (isVertical ? 0.008 : 0.015) * (1 - p);
-      panY = -0.01 * (1 - p);
+      baseScale = 1.05 - p * 0.05;
+      panX = (isVertical ? 0.006 : 0.012) * (1 - p);
+      panY = -0.008 * (1 - p);
     }
 
     return {
       scale: baseScale,
-      offsetX: panX + camX * (isVertical ? 0.008 : 0.012),
-      offsetY: panY + camY * (isVertical ? 0.008 : 0.012),
+      offsetX: panX + camX * (isVertical ? 0.006 : 0.01),
+      offsetY: panY + camY * (isVertical ? 0.006 : 0.01),
     };
   };
 
@@ -119,7 +119,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     const cw = canvas.width;
     const ch = canvas.height;
 
-    // Obsidian base
+    // Deep Obsidian base
     ctx.fillStyle = '#08080A';
     ctx.fillRect(0, 0, cw, ch);
 
@@ -151,12 +151,12 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     // Blade Hamon Razor Light Sheen Sweep (Frames 125 to 245)
     if (frameIdx >= 125 && frameIdx <= 245) {
       const bProgress = (frameIdx - 125) / 120;
-      const gx = nx + nw * (0.32 + bProgress * 0.35) + mouseRef.current.x * (isVertical ? 25 : 50);
-      const gy = ny + nh * 0.44 + mouseRef.current.y * (isVertical ? 18 : 35);
+      const gx = nx + nw * (0.32 + bProgress * 0.35) + mouseRef.current.x * (isVertical ? 20 : 40);
+      const gy = ny + nh * 0.44 + mouseRef.current.y * (isVertical ? 15 : 30);
 
-      const grad = ctx.createRadialGradient(gx, gy, 4, gx, gy, isVertical ? 100 : 150);
-      grad.addColorStop(0, 'rgba(255, 255, 255, 0.28)');
-      grad.addColorStop(0.4, 'rgba(255, 255, 255, 0.06)');
+      const grad = ctx.createRadialGradient(gx, gy, 4, gx, gy, isVertical ? 95 : 140);
+      grad.addColorStop(0, 'rgba(255, 255, 255, 0.26)');
+      grad.addColorStop(0.4, 'rgba(255, 255, 255, 0.05)');
       grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
       ctx.fillStyle = grad;
@@ -180,9 +180,9 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
 
-      const speedMultiplier = 1 + Math.min(Math.abs(velocity), 3) * 1.2;
+      const speedMultiplier = 1 + Math.min(Math.abs(velocity), 2.5) * 1.0;
       p.y += p.vy * speedMultiplier;
-      p.x += p.vx * speedMultiplier + mouseX * 0.25 * p.depth;
+      p.x += p.vx * speedMultiplier + mouseX * 0.2 * p.depth;
       p.rotation += p.rotationSpeed;
 
       if (p.y > h + 20) p.y = -20;
@@ -195,12 +195,12 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
       ctx.globalAlpha = p.opacity;
 
       if (p.type === 'petal') {
-        ctx.fillStyle = p.depth > 0.6 ? 'rgba(255, 255, 255, 0.6)' : 'rgba(215, 215, 225, 0.3)';
+        ctx.fillStyle = p.depth > 0.6 ? 'rgba(255, 255, 255, 0.55)' : 'rgba(215, 215, 225, 0.25)';
         ctx.beginPath();
         ctx.ellipse(0, 0, p.size * 1.4, p.size * 0.75, Math.PI / 4, 0, Math.PI * 2);
         ctx.fill();
       } else {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
         ctx.beginPath();
         ctx.arc(0, 0, p.size * 0.5, 0, Math.PI * 2);
         ctx.fill();
@@ -235,7 +235,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
 
-  // Master High-Speed Render Loop with perfectly balanced 0.18 lerp for smooth cinematic scrubbing
+  // Master High-Speed Render Loop with calibrated 0.11 lerp for luxury, deliberate pacing
   useEffect(() => {
     let animId;
 
@@ -262,20 +262,20 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // Professional Apple-grade 0.18 cinematic lerp
+    // Professional 0.11 cinematic lerp
     const loop = () => {
       const frameDiff = targetFrameRef.current - currentFrameRef.current;
-      currentFrameRef.current += frameDiff * 0.18;
+      currentFrameRef.current += frameDiff * 0.11;
       const currentRounded = Math.min(
         FRAME_COUNT - 1,
         Math.max(0, Math.round(currentFrameRef.current))
       );
 
-      mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.08;
-      mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.08;
+      mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.06;
+      mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.06;
 
-      const camX = mouseRef.current.x * 0.25;
-      const camY = mouseRef.current.y * 0.25;
+      const camX = mouseRef.current.x * 0.2;
+      const camY = mouseRef.current.y * 0.2;
 
       setActiveFrame(currentRounded);
 
@@ -342,7 +342,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
         mouseRef.current.targetX = 0;
         mouseRef.current.targetY = 0;
       }}
-      className="relative h-[420vh] sm:h-[460vh] bg-[#08080A] selection:bg-white selection:text-black cursor-default touch-pan-y"
+      className="relative h-[560vh] sm:h-[620vh] bg-[#08080A] selection:bg-white selection:text-black cursor-default touch-pan-y"
     >
       {/* Sticky Fullscreen Cinematic Canvas Layer */}
       <div className="sticky top-0 h-screen w-full flex flex-col justify-between overflow-hidden select-none z-30 pointer-events-auto">
@@ -369,9 +369,9 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
         {/* Layer 3: Interactive Ambient Studio Light Drift */}
         <div 
           style={{
-            transform: `translate(${mouseRef.current.x * 20}px, ${mouseRef.current.y * 20}px)`,
+            transform: `translate(${mouseRef.current.x * 16}px, ${mouseRef.current.y * 16}px)`,
           }}
-          className="absolute inset-0 bg-radial from-white/[0.04] via-transparent to-transparent pointer-events-none z-25 transition-transform duration-700 ease-out"
+          className="absolute inset-0 bg-radial from-white/[0.035] via-transparent to-transparent pointer-events-none z-25 transition-transform duration-700 ease-out"
         />
 
         {/* TOP BAR */}
@@ -403,7 +403,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="max-w-2xl space-y-4"
               >
                 <div className="flex items-center gap-3">
@@ -429,7 +429,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="max-w-2xl space-y-4"
               >
                 <div className="flex items-center gap-3">
@@ -455,7 +455,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="max-w-2xl space-y-4"
               >
                 <div className="flex items-center gap-3">
@@ -481,7 +481,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="max-w-2xl space-y-4"
               >
                 <div className="flex items-center gap-3">
@@ -507,7 +507,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="max-w-2xl space-y-4"
               >
                 <div className="flex items-center gap-3">
@@ -533,7 +533,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="max-w-2xl space-y-6 pointer-events-auto"
               >
                 <div className="flex items-center gap-3">

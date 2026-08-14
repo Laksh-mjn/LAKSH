@@ -7,8 +7,9 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const rotateY = useSpring(useTransform(mouseX, [-1, 1], [-6, 6]), { damping: 25, stiffness: 180 });
-  const rotateX = useSpring(useTransform(mouseY, [-1, 1], [6, -6]), { damping: 25, stiffness: 180 });
+  // Silky smooth, weighted tilt physics
+  const rotateY = useSpring(useTransform(mouseX, [-1, 1], [-5, 5]), { damping: 32, stiffness: 120 });
+  const rotateX = useSpring(useTransform(mouseY, [-1, 1], [5, -5]), { damping: 32, stiffness: 120 });
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -37,7 +38,7 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[#A1A1AA] text-xs font-mono-code tracking-wider"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
@@ -47,9 +48,9 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
             {/* Main Headline with Razor Slash Underline */}
             <div className="space-y-4">
               <motion.h1
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                 className="font-heading text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight text-[#F5F5F7] leading-[0.95] uppercase"
               >
                 Laksh <br />
@@ -59,7 +60,7 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
                   <motion.span
                     initial={{ width: 0 }}
                     animate={{ width: '100%' }}
-                    transition={{ delay: 0.6, duration: 0.8, ease: 'easeOut' }}
+                    transition={{ delay: 0.5, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                     className="absolute -bottom-2 left-0 h-[1.5px] bg-gradient-to-r from-white via-white/60 to-transparent"
                   />
                 </span>
@@ -68,7 +69,7 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
+                transition={{ delay: 0.4, duration: 0.7 }}
                 className="font-mono-code text-xs sm:text-sm text-[#A1A1AA] tracking-wide uppercase font-medium pt-1"
               >
                 Lyricist • Composer • Music Producer • Event Director • Novelist • B.Tech CSE
@@ -79,7 +80,7 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
             <motion.p
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
+              transition={{ delay: 0.5, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="text-base sm:text-lg text-[#86868B] leading-relaxed max-w-2xl font-light"
             >
               I’m <strong className="text-[#F5F5F7] font-semibold">Laksh Mahajan</strong>, an aspiring AI Engineer exploring <span className="text-white font-medium">Artificial Intelligence, Machine Learning, Cybersecurity, Data Analytics, and Cloud Computing</span>. Beyond engineering, I compose and produce music as <strong className="text-white font-semibold">Raktaan</strong>, author novels in <strong className="text-white font-semibold">MJ World</strong>, and lead as President of Youth On Beat & District VP of Betiya Foundation.
@@ -89,7 +90,7 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
+              transition={{ delay: 0.7, duration: 0.7 }}
               className="p-6 rounded-2xl bg-[#0F0F12]/80 border border-white/10 backdrop-blur-xl relative overflow-hidden blade-shine"
             >
               <p className="font-display text-lg sm:text-xl italic text-[#E5E5EA] leading-snug font-normal">
@@ -101,7 +102,7 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 0.6 }}
+              transition={{ delay: 0.9, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-wrap items-center gap-4 pt-2"
             >
               <a
@@ -134,7 +135,7 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
 
           </div>
 
-          {/* Right Column: Minimal Katana Anime Artwork Frame */}
+          {/* Right Column: Minimal Katana Artwork Frame */}
           <div className="lg:col-span-5 flex justify-center">
             <motion.div
               style={{
@@ -149,7 +150,7 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
                 <img
                   src={heroKatanaMinimal}
                   alt="Laksh Mahajan - Minimal Katana & Strings Anime Aesthetic"
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 filter contrast-105"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out filter contrast-105"
                 />
 
                 {/* Subtle Apple-style bottom overlay */}
