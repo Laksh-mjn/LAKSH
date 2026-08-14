@@ -1,6 +1,5 @@
 import React from 'react';
-import { School, GraduationCap, MapPin, CheckCircle2, Award } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { School, GraduationCap, MapPin, Award, CheckCircle2 } from 'lucide-react';
 
 export default function EducationSection() {
   const educationStages = [
@@ -79,16 +78,12 @@ export default function EducationSection() {
 
         {/* Chronological Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {educationStages.map((stage, idx) => {
+          {educationStages.map((stage) => {
             const IconComp = stage.icon;
             return (
-              <motion.div
+              <div
                 key={stage.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.15 }}
-                className={`rounded-3xl p-8 bg-[#0F0F12]/80 border border-white/10 backdrop-blur-xl shadow-xl flex flex-col justify-between space-y-8 relative group hairline-border ${stage.accentColor}`}
+                className={`rounded-3xl p-8 bg-[#0F0F12]/90 border border-white/10 backdrop-blur-xl shadow-xl flex flex-col justify-between space-y-8 relative group hairline-border hover:border-white/30 transition-all duration-300 ${stage.accentColor}`}
               >
                 <div className="space-y-6">
                   {/* Step & Badge Header */}
@@ -163,7 +158,7 @@ export default function EducationSection() {
                     </span>
                   </div>
                 )}
-              </motion.div>
+              </div>
             );
           })}
         </div>

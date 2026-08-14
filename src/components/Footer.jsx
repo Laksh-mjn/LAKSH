@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 
-export default function Footer({ activePage }) {
+export default function Footer() {
   const [time, setTime] = useState('');
 
   useEffect(() => {

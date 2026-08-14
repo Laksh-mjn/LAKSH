@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookOpen, ArrowLeft, Feather, Plus } from 'lucide-react';
+import { sanitizeString } from '../utils/security';
 
 const initialNovels = [
   {
@@ -77,21 +78,28 @@ export default function MJWorldPage({ onBack }) {
 
   const handleUploadNovel = (e) => {
     e.preventDefault();
-    if (!newTitle || !newSynopsis) return;
+    const cleanTitle = sanitizeString(newTitle, 80);
+    const cleanSubtitle = sanitizeString(newSubtitle, 100);
+    const cleanGenre = sanitizeString(newGenre, 40);
+    const cleanPages = sanitizeString(newPages, 30);
+    const cleanSynopsis = sanitizeString(newSynopsis, 800);
+    const cleanExcerpt = sanitizeString(newExcerpt, 2000);
+
+    if (!cleanTitle || !cleanSynopsis) return;
 
     const newBook = {
       id: `novel-${Date.now()}`,
-      title: newTitle,
-      subtitle: newSubtitle || 'Original Novel by MJ',
-      genre: newGenre,
+      title: cleanTitle,
+      subtitle: cleanSubtitle || 'Original Novel by MJ',
+      genre: cleanGenre || 'Fiction',
       year: new Date().getFullYear().toString(),
       status: 'User Added Novel',
-      pages: newPages,
+      pages: cleanPages || '250 Pages',
       coverGradient: 'from-[#2A2418] via-[#1B170F] to-[#0F0D08]',
       accentColor: 'border-l-4 border-l-[#D6C6A5]',
       badgeStyle: 'bg-[#D6C6A5]/10 text-[#D6C6A5] border-[#D6C6A5]/30',
-      synopsis: newSynopsis,
-      excerpt: newExcerpt || newSynopsis,
+      synopsis: cleanSynopsis,
+      excerpt: cleanExcerpt || cleanSynopsis,
       highlights: ['Original Work', 'MJ World Novel', 'Creative Storytelling'],
     };
 
@@ -415,7 +423,7 @@ export default function MJWorldPage({ onBack }) {
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-3 gap-3">
                       <div>
                         <label className="block text-[#D6C6A5] mb-1.5 font-bold uppercase">Subtitle / Tagline</label>
                         <input
@@ -430,9 +438,19 @@ export default function MJWorldPage({ onBack }) {
                         <label className="block text-[#D6C6A5] mb-1.5 font-bold uppercase">Genre</label>
                         <input
                           type="text"
-                          placeholder="e.g. Thriller, Mystery, Drama"
+                          placeholder="e.g. Thriller"
                           value={newGenre}
                           onChange={(e) => setNewGenre(e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl bg-[#0F0E0D] border border-[#D6C6A5]/30 text-[#F5F5F5] focus:outline-none focus:border-[#D6C6A5]"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[#D6C6A5] mb-1.5 font-bold uppercase">Pages</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. 280 Pages"
+                          value={newPages}
+                          onChange={(e) => setNewPages(e.target.value)}
                           className="w-full px-4 py-3 rounded-xl bg-[#0F0E0D] border border-[#D6C6A5]/30 text-[#F5F5F5] focus:outline-none focus:border-[#D6C6A5]"
                         />
                       </div>

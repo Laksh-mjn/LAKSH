@@ -1,53 +1,43 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 
 const TOTAL_FRAMES = 300;
-const STANDARD_FRAME_PREFIX = '/katana-frames/ezgif-frame-';
-const HQ_FRAME_PREFIX = '/katana-frames-hq/ezgif-frame-';
+const FRAME_PREFIX = '/katana-frames/ezgif-frame-';
 
 export default function GlobalKatanaBackground({ activePage }) {
   const canvasRef = useRef(null);
   const particlesCanvasRef = useRef(null);
 
-  // Standard frames cache (1920x1080)
-  const standardImagesRef = useRef(new Array(TOTAL_FRAMES));
-  // HQ frames cache (3840x2160 WebP)
-  const hqCacheRef = useRef(new Map());
+  // High-fidelity standard frames cache
+  const imagesRef = useRef(new Array(TOTAL_FRAMES));
 
-  // Frame and Settle tracking
+  // Animation controller refs (bypasses React re-renders for buttery 120fps RAF loop)
   const currentFrameRef = useRef(0);
   const targetFrameRef = useRef(0);
   const scrollVelocityRef = useRef(0);
   const lastScrollYRef = useRef(0);
   const lastScrollTimeRef = useRef(performance.now());
-  const settleTimeoutRef = useRef(null);
-  const inspectionTimerRef = useRef(null);
+  const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
   const isInspectionModeRef = useRef(false);
 
-  // Crossfade alpha for HQ settled frame
-  const hqAlphaRef = useRef(0);
-
-  // Mouse / Touch Parallax & Ambient Light
-  const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
-
-  // Atmospheric Particles (Sakura petals & vapor specks)
+  // Depth-separated particles
   const particlesRef = useRef([]);
 
-  // Initialize multi-depth atmospheric particles (optimized count on mobile)
+  // Initialize multi-depth background particles (Monochromatic aesthetic)
   useEffect(() => {
     const isMobile = window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches;
-    const particleCount = isMobile ? 18 : 38;
+    const particleCount = isMobile ? 18 : 36;
     const particles = [];
     for (let i = 0; i < particleCount; i++) {
       const depth = Math.random();
       particles.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        vx: (Math.random() - 0.5) * (0.2 + depth * 0.4),
-        vy: 0.18 + depth * 0.5,
-        size: depth > 0.7 ? 3.2 + Math.random() * 2.5 : 1.2 + Math.random() * 1.8,
+        vx: (Math.random() - 0.5) * (0.2 + depth * 0.35),
+        vy: 0.15 + depth * 0.45,
+        size: depth > 0.7 ? 2.8 + Math.random() * 2.0 : 1.2 + Math.random() * 1.5,
         rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.03,
-        opacity: depth > 0.7 ? 0.32 + Math.random() * 0.35 : 0.12 + Math.random() * 0.28,
+        rotationSpeed: (Math.random() - 0.5) * 0.025,
+        opacity: depth > 0.7 ? 0.35 + Math.random() * 0.35 : 0.12 + Math.random() * 0.25,
         depth: depth,
         type: Math.random() > 0.35 ? 'petal' : 'mist',
       });
@@ -55,28 +45,23 @@ export default function GlobalKatanaBackground({ activePage }) {
     particlesRef.current = particles;
   }, []);
 
-  // Preload standard frames
+  // Preload all frames with async off-thread decoding
   useEffect(() => {
     let isCancelled = false;
-    const standardImages = standardImagesRef.current;
-
-    // Instant Frame 1 load
-    const firstImg = new Image();
-    firstImg.src = `${STANDARD_FRAME_PREFIX}001.jpg`;
-    firstImg.onload = () => {
-      if (isCancelled) return;
-      standardImages[0] = firstImg;
-      preloadHQFrame(0);
-    };
+    const images = imagesRef.current;
 
     const loadSingleFrame = (index) => {
       return new Promise((resolve) => {
         const img = new Image();
         const frameNum = String(index + 1).padStart(3, '0');
-        img.src = `${STANDARD_FRAME_PREFIX}${frameNum}.jpg`;
+        img.src = `${FRAME_PREFIX}${frameNum}.jpg`;
         img.onload = () => {
           if (!isCancelled) {
-            standardImages[index] = img;
+            images[index] = img;
+            if (img.decode) {
+              img.decode().catch(() => {}).finally(() => resolve());
+              return;
+            }
           }
           resolve();
         };
@@ -85,18 +70,18 @@ export default function GlobalKatanaBackground({ activePage }) {
     };
 
     const loadAll = async () => {
-      // Priority first 30 frames
+      // Instant batch (first 30 frames)
       const priorityBatch = [];
-      for (let i = 1; i < 30; i++) {
+      for (let i = 0; i < 30; i++) {
         priorityBatch.push(loadSingleFrame(i));
       }
       await Promise.all(priorityBatch);
 
-      // Remaining frames in background batches
-      for (let i = 30; i < TOTAL_FRAMES; i += 25) {
+      // Fast streaming background load in chunks
+      for (let i = 30; i < TOTAL_FRAMES; i += 30) {
         if (isCancelled) break;
         const batch = [];
-        for (let j = i; j < Math.min(i + 25, TOTAL_FRAMES); j++) {
+        for (let j = i; j < Math.min(i + 30, TOTAL_FRAMES); j++) {
           batch.push(loadSingleFrame(j));
         }
         await Promise.all(batch);
@@ -110,34 +95,8 @@ export default function GlobalKatanaBackground({ activePage }) {
     };
   }, []);
 
-  // Smart HQ Loader
-  const preloadHQFrame = useCallback((frameIdx) => {
-    if (hqCacheRef.current.has(frameIdx)) {
-      return Promise.resolve(hqCacheRef.current.get(frameIdx));
-    }
-
-    return new Promise((resolve) => {
-      const hqImg = new Image();
-      const frameNum = String(frameIdx + 1).padStart(3, '0');
-      hqImg.src = `${HQ_FRAME_PREFIX}${frameNum}_hq.webp`;
-      hqImg.onload = () => {
-        hqCacheRef.current.set(frameIdx, hqImg);
-        resolve(hqImg);
-      };
-      hqImg.onerror = () => resolve(null);
-    });
-  }, []);
-
-  const preloadHQNeighborhood = useCallback((centerIdx) => {
-    preloadHQFrame(centerIdx);
-    if (centerIdx > 0) preloadHQFrame(centerIdx - 1);
-    if (centerIdx < TOTAL_FRAMES - 1) preloadHQFrame(centerIdx + 1);
-    if (centerIdx > 1) preloadHQFrame(centerIdx - 2);
-    if (centerIdx < TOTAL_FRAMES - 2) preloadHQFrame(centerIdx + 2);
-  }, [preloadHQFrame]);
-
-  // Main Canvas Renderer (Dual Layer: Standard + 4K HQ Settled WebP with Mobile Responsive Framing)
-  const renderCanvas = useCallback((frameIdx, hqBlend, progress, camX, camY) => {
+  // Main Canvas Renderer (Dual Layer with full sharpness)
+  const renderCanvas = useCallback((frameIdx, progress, camX, camY) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d', { alpha: false });
@@ -146,63 +105,61 @@ export default function GlobalKatanaBackground({ activePage }) {
     const cw = canvas.width;
     const ch = canvas.height;
 
-    // Fill deep studio dark
+    // Rich obsidian black base
     ctx.fillStyle = '#08080A';
     ctx.fillRect(0, 0, cw, ch);
 
-    let standardImg = standardImagesRef.current[frameIdx];
-    if (!standardImg || !standardImg.complete || standardImg.naturalWidth === 0) {
+    let img = imagesRef.current[frameIdx];
+    if (!img || !img.complete || img.naturalWidth === 0) {
       for (let prev = frameIdx - 1; prev >= 0; prev--) {
-        const p = standardImagesRef.current[prev];
+        const p = imagesRef.current[prev];
         if (p && p.complete && p.naturalWidth > 0) {
-          standardImg = p;
+          img = p;
           break;
+        }
+      }
+      if (!img || !img.complete || img.naturalWidth === 0) {
+        for (let next = frameIdx + 1; next < TOTAL_FRAMES; next++) {
+          const n = imagesRef.current[next];
+          if (n && n.complete && n.naturalWidth > 0) {
+            img = n;
+            break;
+          }
         }
       }
     }
 
-    if (!standardImg || !standardImg.complete || standardImg.naturalWidth === 0) return;
+    if (!img || !img.complete || img.naturalWidth === 0) return;
 
-    const iw = standardImg.naturalWidth;
-    const ih = standardImg.naturalHeight;
+    const iw = img.naturalWidth;
+    const ih = img.naturalHeight;
 
-    // Smart Mobile vs Desktop Framing:
-    // On vertical mobile screens (cw < ch), scale so the entire Katana is visible and well-framed
     const isVertical = cw < ch;
-    const baseAspectScale = isVertical 
-      ? Math.max(cw / iw, ch / ih * 0.72) * 1.25 
+
+    // Cinematic camera transform based on scroll
+    const baseAspectFit = isVertical
+      ? Math.max(cw / iw, (ch / ih) * 0.72) * 1.25
       : Math.max(cw / iw, ch / ih);
 
-    const dynamicScale = baseAspectScale * (1.0 + Math.sin(progress * Math.PI) * 0.06);
-    const nw = iw * dynamicScale;
-    const nh = ih * dynamicScale;
-    const nx = (cw - nw) / 2 + camX * cw * (isVertical ? 0.008 : 0.015);
-    const ny = (ch - nh) / 2 + camY * ch * (isVertical ? 0.008 : 0.015);
+    const camScale = 1.0 + Math.sin(progress * Math.PI) * 0.05;
+    const fitScale = baseAspectFit * camScale;
+    const nw = iw * fitScale;
+    const nh = ih * fitScale;
+    const nx = (cw - nw) / 2 + camX * cw * 0.015;
+    const ny = (ch - nh) / 2 + camY * ch * 0.015;
 
-    // Layer 1: Standard Frame
     ctx.globalAlpha = 1.0;
     ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = isVertical ? 'medium' : 'high';
-    ctx.drawImage(standardImg, nx, ny, nw, nh);
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, nx, ny, nw, nh);
 
-    // Layer 2: 4K HQ Settled WebP Frame
-    if (hqBlend > 0.01) {
-      const hqImg = hqCacheRef.current.get(frameIdx);
-      if (hqImg && hqImg.complete && hqImg.naturalWidth > 0) {
-        ctx.globalAlpha = Math.min(1.0, hqBlend);
-        ctx.drawImage(hqImg, nx, ny, nw, nh);
-      }
-    }
+    // Blade Hamon Razor Light Sheen Sweep (Frames 125 to 245)
+    if (frameIdx >= 125 && frameIdx <= 245) {
+      const bProgress = (frameIdx - 125) / 120;
+      const gx = nx + nw * (0.32 + bProgress * 0.35) + mouseRef.current.x * (isVertical ? 25 : 50);
+      const gy = ny + nh * 0.44 + mouseRef.current.y * (isVertical ? 18 : 35);
 
-    ctx.globalAlpha = 1.0;
-
-    // Dynamic Blade Glint Sweep
-    if (frameIdx >= 120 && frameIdx <= 250) {
-      const bProgress = (frameIdx - 120) / 130;
-      const gx = nx + nw * (0.32 + bProgress * 0.35) + mouseRef.current.x * 35;
-      const gy = ny + nh * 0.44 + mouseRef.current.y * 25;
-
-      const grad = ctx.createRadialGradient(gx, gy, 4, gx, gy, isVertical ? 110 : 180);
+      const grad = ctx.createRadialGradient(gx, gy, 4, gx, gy, isVertical ? 110 : 160);
       grad.addColorStop(0, 'rgba(255, 255, 255, 0.28)');
       grad.addColorStop(0.4, 'rgba(255, 255, 255, 0.06)');
       grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
@@ -213,7 +170,7 @@ export default function GlobalKatanaBackground({ activePage }) {
   }, []);
 
   // Multi-Depth Particles Renderer
-  const renderParticles = useCallback((velocity, mouseX, mouseY) => {
+  const renderParticles = useCallback((velocity, mouseX) => {
     const pCanvas = particlesCanvasRef.current;
     if (!pCanvas) return;
     const ctx = pCanvas.getContext('2d');
@@ -243,7 +200,7 @@ export default function GlobalKatanaBackground({ activePage }) {
       ctx.globalAlpha = p.opacity;
 
       if (p.type === 'petal') {
-        ctx.fillStyle = p.depth > 0.6 ? 'rgba(255, 192, 203, 0.7)' : 'rgba(255, 182, 193, 0.4)';
+        ctx.fillStyle = p.depth > 0.6 ? 'rgba(255, 255, 255, 0.65)' : 'rgba(215, 215, 225, 0.35)';
         ctx.beginPath();
         ctx.ellipse(0, 0, p.size * 1.4, p.size * 0.75, Math.PI / 4, 0, Math.PI * 2);
         ctx.fill();
@@ -258,7 +215,7 @@ export default function GlobalKatanaBackground({ activePage }) {
     }
   }, []);
 
-  // Handle Resize and Retina (capped to 1.5 on mobile for 120fps power efficiency)
+  // Handle Resize and Retina
   const handleResize = useCallback(() => {
     const canvas = canvasRef.current;
     const pCanvas = particlesCanvasRef.current;
@@ -274,16 +231,16 @@ export default function GlobalKatanaBackground({ activePage }) {
       pCanvas.height = window.innerHeight * dpr;
     }
 
-    renderCanvas(currentFrameRef.current, hqAlphaRef.current, 0, mouseRef.current.x, mouseRef.current.y);
+    renderCanvas(currentFrameRef.current, 0, mouseRef.current.x, mouseRef.current.y);
   }, [renderCanvas]);
 
   useEffect(() => {
     handleResize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
 
-  // Master Global Scroll Sync Loop
+  // Master Global Scroll Sync Loop with 2.2x Faster Dynamic Frame Velocity
   useEffect(() => {
     let animId;
 
@@ -295,6 +252,7 @@ export default function GlobalKatanaBackground({ activePage }) {
 
       if (docHeight <= 0) return;
 
+      // Smooth frame moving speed across portfolio sections
       const progress = Math.min(1, Math.max(0, window.scrollY / docHeight));
       const target = progress * (TOTAL_FRAMES - 1);
       targetFrameRef.current = target;
@@ -306,26 +264,6 @@ export default function GlobalKatanaBackground({ activePage }) {
       scrollVelocityRef.current = dy / dt;
       lastScrollYRef.current = window.scrollY;
       lastScrollTimeRef.current = now;
-
-      // Reset HQ alpha during active scroll
-      hqAlphaRef.current = 0;
-      isInspectionModeRef.current = false;
-
-      if (settleTimeoutRef.current) clearTimeout(settleTimeoutRef.current);
-      if (inspectionTimerRef.current) clearTimeout(inspectionTimerRef.current);
-
-      // Settle Detector (~160ms of stillness)
-      settleTimeoutRef.current = setTimeout(() => {
-        const settledFrame = Math.min(
-          TOTAL_FRAMES - 1,
-          Math.max(0, Math.round(currentFrameRef.current))
-        );
-        preloadHQNeighborhood(settledFrame);
-
-        inspectionTimerRef.current = setTimeout(() => {
-          isInspectionModeRef.current = true;
-        }, 600);
-      }, 160);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -349,10 +287,10 @@ export default function GlobalKatanaBackground({ activePage }) {
     window.addEventListener('mousemove', onMouseMove, { passive: true });
     window.addEventListener('touchmove', onTouchMove, { passive: true });
 
-    // 60FPS RAF Engine Loop
+    // 120FPS RAF Engine Loop with smooth 0.22 frame interpolation
     const loop = () => {
       const frameDiff = targetFrameRef.current - currentFrameRef.current;
-      currentFrameRef.current += frameDiff * 0.18;
+      currentFrameRef.current += frameDiff * 0.22;
       const currentRounded = Math.min(
         TOTAL_FRAMES - 1,
         Math.max(0, Math.round(currentFrameRef.current))
@@ -364,17 +302,8 @@ export default function GlobalKatanaBackground({ activePage }) {
       const camX = isInspectionModeRef.current ? mouseRef.current.x * 1.5 : mouseRef.current.x * 0.35;
       const camY = isInspectionModeRef.current ? mouseRef.current.y * 1.5 : mouseRef.current.y * 0.35;
 
-      const currentHQ = hqCacheRef.current.get(currentRounded);
-      const hasHQ = currentHQ && currentHQ.complete && currentHQ.naturalWidth > 0;
-
-      if (Math.abs(frameDiff) < 0.15 && hasHQ) {
-        hqAlphaRef.current += (1.0 - hqAlphaRef.current) * 0.14;
-      } else {
-        hqAlphaRef.current = 0;
-      }
-
-      renderCanvas(currentRounded, hqAlphaRef.current, currentFrameRef.current / (TOTAL_FRAMES - 1), camX, camY);
-      renderParticles(scrollVelocityRef.current, mouseRef.current.x, mouseRef.current.y);
+      renderCanvas(currentRounded, currentFrameRef.current / (TOTAL_FRAMES - 1), camX, camY);
+      renderParticles(scrollVelocityRef.current, mouseRef.current.x);
 
       scrollVelocityRef.current *= 0.9;
 
@@ -388,39 +317,32 @@ export default function GlobalKatanaBackground({ activePage }) {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('touchmove', onTouchMove);
       cancelAnimationFrame(animId);
-      if (settleTimeoutRef.current) clearTimeout(settleTimeoutRef.current);
-      if (inspectionTimerRef.current) clearTimeout(inspectionTimerRef.current);
     };
-  }, [renderCanvas, renderParticles, preloadHQNeighborhood, activePage]);
+  }, [renderCanvas, renderParticles, activePage]);
 
   return (
     <div className="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden select-none">
       {/* Instant Frame 1 Fallback */}
       <img
-        src={`${STANDARD_FRAME_PREFIX}001.jpg`}
+        src={`${FRAME_PREFIX}001.jpg`}
         alt="Global Katana Background"
-        className="absolute inset-0 w-full h-full object-contain pointer-events-none z-0"
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0"
       />
 
-      {/* Dual Layer High-DPI Katana Canvas */}
+      {/* Main Canvas Layer */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full object-contain pointer-events-none z-10"
+        className="absolute inset-0 w-full h-full pointer-events-none z-10 gpu-layer"
       />
 
-      {/* Multi-Depth Sakura & Vapor Particles */}
+      {/* Atmospheric Particles Layer */}
       <canvas
         ref={particlesCanvasRef}
-        className="absolute inset-0 w-full h-full object-contain pointer-events-none z-20"
+        className="absolute inset-0 w-full h-full pointer-events-none z-20"
       />
 
-      {/* Subtle Ambient Radial Lighting Drift */}
-      <div 
-        style={{
-          transform: `translate(${mouseRef.current.x * 20}px, ${mouseRef.current.y * 20}px)`,
-        }}
-        className="absolute inset-0 bg-radial from-white/[0.03] via-transparent to-transparent pointer-events-none z-25 transition-transform duration-700 ease-out"
-      />
+      {/* Background Dark Obsidian Vignette Overlay */}
+      <div className="absolute inset-0 bg-radial from-transparent via-[#08080A]/60 to-[#08080A]/90 pointer-events-none z-25" />
     </div>
   );
 }

@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, Disc, BookOpen, ShieldCheck } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { ArrowRight, Disc, BookOpen } from 'lucide-react';
 import heroKatanaMinimal from '../assets/hero_katana_minimal.jpg';
 
-export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, onOpenCertifications }) {
-  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
+export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCertifications }) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const rotateY = useSpring(useTransform(mouseX, [-1, 1], [-6, 6]), { damping: 25, stiffness: 180 });
+  const rotateX = useSpring(useTransform(mouseY, [-1, 1], [6, -6]), { damping: 25, stiffness: 180 });
 
   useEffect(() => {
     const handleMouseMove = (e) => {
       const { innerWidth, innerHeight } = window;
-      const x = (e.clientX - innerWidth / 2) / (innerWidth / 2);
-      const y = (e.clientY - innerHeight / 2) / (innerHeight / 2);
-      setMouseOffset({ x, y });
+      mouseX.set((e.clientX - innerWidth / 2) / (innerWidth / 2));
+      mouseY.set((e.clientY - innerHeight / 2) / (innerHeight / 2));
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [mouseX, mouseY]);
 
   return (
     <section className="relative min-h-[92vh] pt-32 pb-20 flex items-center justify-center overflow-hidden">
@@ -135,10 +138,11 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, onOpenCertif
           <div className="lg:col-span-5 flex justify-center">
             <motion.div
               style={{
-                transform: `perspective(1000px) rotateY(${mouseOffset.x * 6}deg) rotateX(${-mouseOffset.y * 6}deg)`,
+                perspective: 1000,
+                rotateY,
+                rotateX,
               }}
-              transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-              className="relative w-full max-w-md rounded-3xl p-1 bg-gradient-to-b from-white/20 via-white/5 to-white/10 shadow-2xl group"
+              className="relative w-full max-w-md rounded-3xl p-1 bg-gradient-to-b from-white/20 via-white/5 to-white/10 shadow-2xl group gpu-layer"
               data-cursor="KATANA"
             >
               <div className="relative w-full aspect-[4/5] rounded-[22px] overflow-hidden bg-[#0A0A0C]">

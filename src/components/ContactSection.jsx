@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, ExternalLink, Send, CheckCircle2, Globe, Share2, Disc } from 'lucide-react';
+import { Mail, Phone, MapPin, ExternalLink, Send, CheckCircle2, AlertCircle, Globe, Share2, Disc } from 'lucide-react';
+import { validateContactPayload } from '../utils/security';
 
-export default function ContactSection({ onOpenRaktaan }) {
+export default function ContactSection({ _onOpenRaktaan }) {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formError, setFormError] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
+    setFormError('');
 
-    const subject = encodeURIComponent(`Portfolio Message from ${formData.name}`);
+    // Strict input validation and sanitization against XSS and CRLF injection
+    const validation = validateContactPayload(formData.name, formData.email, formData.message);
+    if (!validation.isValid) {
+      setFormError(validation.errors[0] || 'Please complete all required fields.');
+      return;
+    }
+
+    const { name, email, message } = validation.data;
+    const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`);
     const body = encodeURIComponent(
-      `Hello Laksh,\n\nName: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      `Hello Laksh,\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}\n\n--- Sent from lakshmahajan.dev`
     );
     window.location.href = `mailto:laksh7583@gmail.com?subject=${subject}&body=${body}`;
 
     setSubmitted(true);
+    setFormData({ name: '', email: '', message: '' });
     setTimeout(() => setSubmitted(false), 6000);
   };
 
@@ -122,7 +133,7 @@ export default function ContactSection({ onOpenRaktaan }) {
             <a
               href="https://www.google.com/maps/search/?api=1&query=Udhampur%2C+Jammu+and+Kashmir"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="p-6 rounded-2xl bg-[#0F0F12]/80 border border-white/10 shadow-lg flex items-center justify-between hover:border-white/30 transition-all group cursor-pointer"
             >
               <div className="flex items-center gap-4">
@@ -154,17 +165,17 @@ export default function ContactSection({ onOpenRaktaan }) {
                       key={s.name}
                       href={s.href}
                       target="_blank"
-                      rel="noreferrer"
-                      className="p-3.5 rounded-xl bg-[#0F0F12]/80 border border-white/10 text-[#F5F5F7] flex items-center justify-between hover:border-white/30 transition-all"
+                      rel="noopener noreferrer"
+                      className="p-3.5 rounded-xl bg-[#0F0F12]/80 border border-white/10 text-[#F5F5F7] flex items-center justify-between hover:border-white/30 transition-all group"
                     >
                       <div className="flex items-center gap-2.5 overflow-hidden">
-                        <IconComp className="w-4 h-4 shrink-0 text-white/70" />
+                        <IconComp className="w-4 h-4 shrink-0 text-white/70 group-hover:text-white" />
                         <div className="truncate">
-                          <span className="block font-bold text-xs truncate">{s.name}</span>
+                          <span className="block font-bold text-xs truncate group-hover:text-white">{s.name}</span>
                           <span className="block text-[10px] text-[#86868B] font-mono-code truncate">{s.handle}</span>
                         </div>
                       </div>
-                      <ExternalLink className="w-3.5 h-3.5 shrink-0 text-[#86868B]" />
+                      <ExternalLink className="w-3.5 h-3.5 shrink-0 text-[#86868B] group-hover:text-white" />
                     </a>
                   );
                 })}
@@ -180,14 +191,21 @@ export default function ContactSection({ onOpenRaktaan }) {
                 Send a Message
               </h3>
               <p className="text-xs text-[#86868B] font-mono-code">
-                Submitting this form opens your email client addressed to laksh7583@gmail.com.
+                Submitting this form safely prepares and opens your email client addressed to laksh7583@gmail.com.
               </p>
             </div>
 
             {submitted && (
               <div className="p-4 rounded-xl bg-white/[0.06] border border-white/20 text-white text-xs font-mono-code flex items-center gap-3">
-                <CheckCircle2 className="w-4 h-4 shrink-0" />
-                <span>Opening email client addressed to laksh7583@gmail.com!</span>
+                <CheckCircle2 className="w-4 h-4 shrink-0 text-[#10B981]" />
+                <span>Message prepared securely! Opening your email client.</span>
+              </div>
+            )}
+
+            {formError && (
+              <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-mono-code flex items-center gap-3">
+                <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+                <span>{formError}</span>
               </div>
             )}
 
@@ -199,6 +217,7 @@ export default function ContactSection({ onOpenRaktaan }) {
                 <input
                   type="text"
                   required
+                  maxLength={80}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="Enter your full name"
@@ -213,6 +232,7 @@ export default function ContactSection({ onOpenRaktaan }) {
                 <input
                   type="email"
                   required
+                  maxLength={100}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="name@example.com"
@@ -227,6 +247,7 @@ export default function ContactSection({ onOpenRaktaan }) {
                 <textarea
                   rows="5"
                   required
+                  maxLength={3000}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Hello Laksh, I would like to get in touch regarding..."
@@ -236,7 +257,7 @@ export default function ContactSection({ onOpenRaktaan }) {
 
               <button
                 type="submit"
-                className="w-full px-8 py-4 rounded-full bg-white text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-3 transition-all hover:bg-[#E5E5EA] hover:scale-105 cursor-pointer shadow-lg"
+                className="w-full px-8 py-4 rounded-full bg-white text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-3 transition-all hover:bg-[#E5E5EA] hover:scale-102 active:scale-98 cursor-pointer shadow-lg"
               >
                 <Send className="w-4 h-4" />
                 <span>Send to laksh7583@gmail.com</span>

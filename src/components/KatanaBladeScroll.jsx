@@ -16,13 +16,13 @@ export default function KatanaBladeScroll() {
   }, []);
 
   // Blade unsheathes (draws out) as user scrolls down the page
-  const bladeDraw = useTransform(smoothProgress, [0, 1], [15, 100]);
+  const bladeDraw = useTransform(smoothProgress, [0, 1], ['15%', '100%']);
   const bladeSheenX = useTransform(smoothProgress, [0, 1], ['-100%', '200%']);
 
   if (!isVisible) return null;
 
   return (
-    <div className="fixed top-24 right-8 z-40 hidden xl:flex flex-col items-center pointer-events-none select-none transition-opacity duration-500">
+    <div className="fixed top-24 right-8 z-40 hidden xl:flex flex-col items-center pointer-events-none select-none transition-opacity duration-500 gpu-layer">
       
       {/* Katana Blade Vertical Assembly */}
       <div className="relative w-8 h-64 flex flex-col items-center">
@@ -43,7 +43,7 @@ export default function KatanaBladeScroll() {
           
           {/* Razor Steel Katana Blade (Extends on scroll) */}
           <motion.div
-            style={{ height: `${bladeDraw.get()}%` }}
+            style={{ height: bladeDraw }}
             className="w-full bg-gradient-to-t from-[#FFFFFF] via-[#E2E8F0] to-[#94A3B8] relative shadow-[0_0_12px_rgba(255,255,255,0.4)]"
           >
             {/* Hamon (Temper Line) */}

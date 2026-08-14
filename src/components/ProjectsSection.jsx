@@ -70,7 +70,7 @@ export default function ProjectsSection() {
 
         {/* Minimalist Editorial Projects List */}
         <div className="space-y-16">
-          {projects.map((proj, idx) => (
+          {projects.map((proj) => (
             <div
               key={proj.id}
               className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#0F0F12]/80 border border-white/10 rounded-3xl p-8 sm:p-10 backdrop-blur-xl shadow-xl group hairline-border"
@@ -98,8 +98,8 @@ export default function ProjectsSection() {
                   <span className="font-heading text-4xl font-black text-white">
                     {proj.id}
                   </span>
-                  <span className="text-xs font-mono-code text-[#86868B] uppercase tracking-widest">
-                    // CASE_STUDY
+                  <span className="text-xs font-mono-code text-[#86868B] uppercase tracking-widest font-semibold">
+                    CASE STUDY
                   </span>
                 </div>
 
@@ -137,7 +137,7 @@ export default function ProjectsSection() {
                   <a
                     href={proj.github}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="p-3 rounded-full bg-[#08080A] border border-white/15 text-[#F5F5F7] hover:border-white transition-colors"
                   >
                     <GitBranch className="w-4 h-4" />
@@ -235,7 +235,7 @@ export default function ProjectsSection() {
                   <a
                     href={selectedProject.github}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="px-6 py-3 rounded-full bg-[#08080A] border border-white/20 text-[#F5F5F7] hover:border-white text-xs font-mono-code font-bold inline-flex items-center gap-2"
                   >
                     <GitBranch className="w-4 h-4" />

@@ -44,11 +44,17 @@ export default function Navbar({ activePage, setActivePage }) {
         setActivePage('portfolio');
         setTimeout(() => {
           const el = document.querySelector(href);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
+          if (el) {
+            const top = el.getBoundingClientRect().top + window.scrollY - 75;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }
         }, 150);
       } else {
         const el = document.querySelector(href);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - 75;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
       }
     }
   };
@@ -68,7 +74,6 @@ export default function Navbar({ activePage, setActivePage }) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           className="flex items-center gap-3 bg-[#0F0F12]/80 border border-white/10 px-4 py-2 rounded-full backdrop-blur-xl shadow-lg cursor-pointer group hover:border-white/30 transition-all"
-          data-cursor="HOME"
         >
           <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
           <span className="font-heading text-sm font-bold tracking-tight text-[#F5F5F7]">

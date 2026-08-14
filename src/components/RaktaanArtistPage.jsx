@@ -183,7 +183,7 @@ export default function RaktaanArtistPage({ onBack }) {
                 <a
                   href="https://open.spotify.com/artist/1lkEE1c2w8HcHWEixWwc7E?si=l7nGAUANSciFDPzbXnN0DQ"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="px-7 py-3.5 rounded-full bg-[#D6C6A5] hover:bg-[#c5b391] text-[#111111] text-xs font-bold font-mono-code tracking-wide flex items-center gap-2 transition-all shadow-xl hover:scale-105"
                 >
                   <Disc className="w-4 h-4" />
@@ -206,7 +206,7 @@ export default function RaktaanArtistPage({ onBack }) {
               <a
                 href="https://open.spotify.com/artist/1lkEE1c2w8HcHWEixWwc7E?si=l7nGAUANSciFDPzbXnN0DQ"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="relative w-64 h-72 sm:w-72 sm:h-80 rounded-2xl overflow-hidden border-2 border-[#D6C6A5]/40 shadow-2xl bg-[#161513] group block cursor-pointer"
               >
                 <img
@@ -243,7 +243,7 @@ export default function RaktaanArtistPage({ onBack }) {
           <a
             href="https://open.spotify.com/artist/1lkEE1c2w8HcHWEixWwc7E?si=l7nGAUANSciFDPzbXnN0DQ"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="text-xs font-mono-code text-[#D6C6A5] hover:underline flex items-center gap-1.5"
           >
             <span>Follow on Spotify</span>
@@ -333,6 +333,8 @@ export default function RaktaanArtistPage({ onBack }) {
                         height="152"
                         frameBorder="0"
                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                        referrerPolicy="no-referrer-when-downgrade"
                         loading="lazy"
                         title={`Spotify Player ${song.title}`}
                       />
@@ -349,7 +351,7 @@ export default function RaktaanArtistPage({ onBack }) {
                   <a
                     href={song.url}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
                     className="w-full py-3 rounded-full bg-[#D6C6A5] hover:bg-[#c5b391] text-[#111111] text-xs font-mono-code font-bold tracking-wide flex items-center justify-center gap-2 transition-all shadow-md hover:scale-102"
                   >

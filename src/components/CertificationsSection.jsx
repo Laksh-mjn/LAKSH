@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Award, CheckCircle2, ExternalLink, Search, ShieldCheck } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { CheckCircle2, ExternalLink, Search, ShieldCheck } from 'lucide-react';
 
 export default function CertificationsSection({ onOpenFullVault }) {
   const [selectedIssuer, setSelectedIssuer] = useState('All');

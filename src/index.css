@@ -16,13 +16,13 @@
   }
 
   html {
-    scroll-behavior: smooth;
     font-size: 16px;
+    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #08080A;
     color: #F5F5F7;
-    touch-action: pan-y;
+    text-rendering: optimizeLegibility;
   }
 
   body {
@@ -32,6 +32,14 @@
     line-height: 1.6;
     overflow-x: clip;
   }
+}
+
+/* Hardware accelerated layer */
+.gpu-layer {
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Custom Typography Utilities */

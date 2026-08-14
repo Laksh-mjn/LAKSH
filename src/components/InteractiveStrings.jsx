@@ -7,17 +7,23 @@ export default function InteractiveStrings() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     let animId;
 
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
+    let resizeTimeout;
     const handleResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      initStrings();
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (!canvas) return;
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        initStrings();
+      }, 100);
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     const mouse = { x: -1000, y: -1000, prevX: -1000, prevY: -1000, speed: 0 };
 
@@ -30,7 +36,22 @@ export default function InteractiveStrings() {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     };
-    window.addEventListener('mousemove', handleMouseMove);
+
+    const handleTouchMove = (e) => {
+      if (e.touches && e.touches[0]) {
+        const t = e.touches[0];
+        const dx = t.clientX - mouse.x;
+        const dy = t.clientY - mouse.y;
+        mouse.speed = Math.sqrt(dx * dx + dy * dy);
+        mouse.prevX = mouse.x;
+        mouse.prevY = mouse.y;
+        mouse.x = t.clientX;
+        mouse.y = t.clientY;
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
 
     // Create tension strings across the viewport
     let strings = [];
@@ -47,6 +68,7 @@ export default function InteractiveStrings() {
             y: yBase,
             originY: yBase,
             vy: 0,
+            phase: (i * 0.5) + (j * 0.1),
           });
         }
         strings.push({
@@ -59,10 +81,12 @@ export default function InteractiveStrings() {
     };
     initStrings();
 
+    let time = 0;
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
+      time += 0.02;
 
-      strings.forEach((str) => {
+      strings.forEach((str, strIdx) => {
         // Update points
         str.points.forEach((p, idx) => {
           if (idx === 0 || idx === str.points.length - 1) return; // anchor ends
@@ -77,8 +101,11 @@ export default function InteractiveStrings() {
             p.vy += force;
           }
 
+          // Subtle ambient acoustic harmonic ripple
+          const idleWave = Math.sin(time + p.phase) * 0.15;
+
           // Spring physics back to baseline
-          const displacement = p.y - p.originY;
+          const displacement = (p.y - p.originY) - idleWave;
           const spring = -str.tension * displacement;
           p.vy += spring;
           p.vy *= str.damping;
@@ -99,7 +126,7 @@ export default function InteractiveStrings() {
           str.points[str.points.length - 1].y
         );
 
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+        ctx.strokeStyle = strIdx % 2 === 0 ? 'rgba(255, 255, 255, 0.07)' : 'rgba(255, 255, 255, 0.04)';
         ctx.lineWidth = 1;
         ctx.stroke();
 
@@ -108,8 +135,8 @@ export default function InteractiveStrings() {
           const disp = Math.abs(p.y - p.originY);
           if (disp > 1.5) {
             ctx.beginPath();
-            ctx.arc(p.x, p.y, Math.min(disp * 0.3, 3), 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(disp * 0.05, 0.4)})`;
+            ctx.arc(p.x, p.y, Math.min(disp * 0.3, 3.5), 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(disp * 0.06, 0.45)})`;
             ctx.fill();
           }
         });
@@ -123,6 +150,8 @@ export default function InteractiveStrings() {
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+      clearTimeout(resizeTimeout);
       cancelAnimationFrame(animId);
     };
   }, []);
@@ -130,7 +159,7 @@ export default function InteractiveStrings() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0 opacity-80"
+      className="fixed inset-0 pointer-events-none z-0 opacity-80 gpu-layer"
     />
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Cpu, Code, Users, Music, ExternalLink, ShieldCheck, CheckCircle2, Disc } from 'lucide-react';
 
 const LINKEDIN_SKILLS_URL = 'https://www.linkedin.com/in/laksh-mahajan-696157329/details/skills/';
@@ -140,7 +140,7 @@ export default function SkillsSection() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-3xl">
             <span className="text-xs font-mono-code font-medium tracking-widest text-[#86868B] uppercase block mb-3">
-              STRING-TUNED CAPABILITIES MATRIX
+              TECHNICAL & CREATIVE CAPABILITIES
             </span>
             <h2 className="font-heading text-4xl sm:text-6xl font-bold text-[#F5F5F7] tracking-tight">
               Skills & Engineering Graph
@@ -153,7 +153,7 @@ export default function SkillsSection() {
           <a
             href={LINKEDIN_SKILLS_URL}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="px-6 py-3 rounded-full bg-white text-black text-xs font-mono-code font-bold inline-flex items-center gap-2 transition-all hover:bg-[#E5E5EA] hover:scale-105 shrink-0 cursor-pointer shadow-lg"
             data-cursor="LINKEDIN"
           >
@@ -303,7 +303,7 @@ export default function SkillsSection() {
                           key={s}
                           href={LINKEDIN_SKILLS_URL}
                           target="_blank"
-                          rel="noreferrer"
+                          rel="noopener noreferrer"
                           className="px-3.5 py-1.5 rounded-xl bg-[#08080A] hover:bg-white hover:text-black border border-white/10 text-xs font-mono-code text-[#A1A1AA] transition-all inline-flex items-center gap-1.5 cursor-pointer group"
                         >
                           <span>{s}</span>
@@ -332,7 +332,7 @@ export default function SkillsSection() {
                       <a
                         href={LINKEDIN_SKILLS_URL}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="text-white hover:underline font-medium text-[11px] flex items-center gap-1"
                       >
                         <span>Verify Skillset</span>

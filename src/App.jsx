@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import Lenis from 'lenis';
-import CustomCursor from './components/CustomCursor';
+import React, { useState } from 'react';
 import InteractiveStrings from './components/InteractiveStrings';
 import GlobalKatanaBackground from './components/GlobalKatanaBackground';
 import KatanaScrollEntry from './components/KatanaScrollEntry';
-import KatanaBladeScroll from './components/KatanaBladeScroll';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
 import EducationSection from './components/EducationSection';
-import CertificationsSection from './components/CertificationsSection';
 import CertificationsPage from './components/CertificationsPage';
 import MJWorldPage from './components/MJWorldPage';
 import LeadershipSection from './components/LeadershipSection';
@@ -22,23 +18,6 @@ import { ShieldCheck, ArrowRight, BookOpen, Feather, Disc } from 'lucide-react';
 
 export default function App() {
   const [activePage, setActivePage] = useState('portfolio');
-
-  // Initialize Lenis smooth momentum scroll
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    });
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    return () => lenis.destroy();
-  }, []);
 
   const switchPage = (pageName) => {
     setActivePage(pageName);
@@ -53,12 +32,6 @@ export default function App() {
 
       {/* Interactive Elastic Tension Strings */}
       <InteractiveStrings />
-
-      {/* Persistent Katana Blade Unsheathing Indicator */}
-      <KatanaBladeScroll />
-
-      {/* Custom Minimalist Magnetic Cursor */}
-      <CustomCursor />
 
       {/* Minimal Header Glass Navbar */}
       <Navbar activePage={activePage} setActivePage={switchPage} />

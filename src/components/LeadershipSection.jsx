@@ -1,6 +1,5 @@
 import React from 'react';
 import { Award, HeartHandshake, Users, CheckCircle2 } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 export default function LeadershipSection() {
   const organizations = [
@@ -63,16 +62,12 @@ export default function LeadershipSection() {
 
         {/* Organizations Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {organizations.map((org, idx) => {
+          {organizations.map((org) => {
             const IconComp = org.icon;
             return (
-              <motion.div
+              <div
                 key={org.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.15 }}
-                className="rounded-3xl p-8 sm:p-10 bg-[#0F0F12]/80 border border-white/10 backdrop-blur-xl shadow-xl flex flex-col justify-between space-y-8 group hairline-border"
+                className="rounded-3xl p-8 sm:p-10 bg-[#0F0F12]/90 border border-white/10 backdrop-blur-xl shadow-xl flex flex-col justify-between space-y-8 group hairline-border hover:border-white/30 transition-all duration-300"
               >
                 <div className="space-y-6">
                   {/* Top Role Badge */}
@@ -127,7 +122,7 @@ export default function LeadershipSection() {
                     </span>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

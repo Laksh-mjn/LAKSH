@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Award, ArrowLeft, ExternalLink, Search, Sparkles, ShieldCheck, CheckCircle2, Copy, Check, Filter } from 'lucide-react';
+import { Award, ArrowLeft, ExternalLink, Search, ShieldCheck, CheckCircle2, Copy, Check, Filter } from 'lucide-react';
 
 const LINKEDIN_CERTS_URL = 'https://www.linkedin.com/in/laksh-mahajan-696157329/details/certifications/';
 
@@ -385,7 +385,7 @@ export default function CertificationsPage({ onBack }) {
                 <a
                   href={LINKEDIN_CERTS_URL}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="px-7 py-3.5 rounded-full bg-[#0A66C2] hover:bg-[#004182] text-white text-xs font-mono-code font-bold flex items-center gap-2 transition-all shadow-xl hover:scale-105"
                 >
                   <span>Verify All Licenses on LinkedIn</span>
@@ -415,7 +415,7 @@ export default function CertificationsPage({ onBack }) {
                 <a
                   href={LINKEDIN_CERTS_URL}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="pt-2 border-t border-[#FFFFFF]/10 text-[11px] text-[#10B981] font-bold flex items-center justify-between hover:underline"
                 >
                   <span className="flex items-center gap-1.5">
@@ -614,7 +614,7 @@ export default function CertificationsPage({ onBack }) {
                   <a
                     href={LINKEDIN_CERTS_URL}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="px-3.5 py-1.5 rounded-full bg-[#0A66C2] hover:bg-[#004182] text-white text-[11px] font-mono-code font-bold flex items-center gap-1.5 transition-all shadow-xs hover:scale-105"
                   >
                     <span>Verify on LinkedIn</span>
@@ -703,7 +703,7 @@ export default function CertificationsPage({ onBack }) {
                     <a
                       href={LINKEDIN_CERTS_URL}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="px-6 py-2.5 rounded-full bg-[#0A66C2] hover:bg-[#004182] text-white text-xs font-mono-code font-bold flex items-center gap-2 transition-all shadow-md"
                     >
                       <span>Verify on LinkedIn</span>

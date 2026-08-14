@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldCheck, Award, HeartHandshake, Cpu, Sparkles } from 'lucide-react';
+import { Award, HeartHandshake, Cpu, Sparkles } from 'lucide-react';
 
 export default function AboutSection() {
   const roles = ['AI ENGINEER', 'BUILDER', 'CREATOR', 'LEARNER', 'PROBLEM SOLVER'];
@@ -53,7 +53,7 @@ export default function AboutSection() {
           
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <span className="text-xs font-mono-code font-bold text-[#A1A1AA] tracking-wider uppercase">
-              EXECUTIVE PROFILE // LAKSH MAHAJAN
+              EXECUTIVE PROFILE
             </span>
             <span className="text-[11px] font-mono-code text-white/70">VERIFIED</span>
           </div>
