@@ -19,8 +19,8 @@ export default function ProjectsSection() {
       solution: 'Built a multi-layer Generative AI & machine learning engine leveraging LLM agents, custom data embeddings, and interactive React analytics dashboards.',
       results: 'Reduced manual report synthesis time by 85% with real-time inference streaming and high-precision anomaly alerts.',
       tags: ['Python', 'Generative AI', 'React', 'REST API', 'Tailwind CSS', 'LLMs'],
-      github: 'https://github.com',
-      demo: '#',
+      github: 'https://github.com/Laksh-mjn',
+      demo: 'https://github.com/Laksh-mjn',
     },
     {
       id: '02',
@@ -32,8 +32,8 @@ export default function ProjectsSection() {
       solution: 'Engineered a full-stack event command center with real-time attendee density heatmaps, registration tracking, and stage logistics management.',
       results: 'Successfully handled registration for multi-state cultural festivals in Delhi, Ludhiana, Chandigarh, and Jhansi.',
       tags: ['React', 'Next.js', 'Tailwind CSS', 'SQL', 'Node.js'],
-      github: 'https://github.com',
-      demo: '#',
+      github: 'https://github.com/Laksh-mjn',
+      demo: 'https://github.com/Laksh-mjn',
     },
     {
       id: '03',
@@ -45,8 +45,8 @@ export default function ProjectsSection() {
       solution: 'Designed a real-time Web Audio API visualizer canvas with dynamic spectrum analyzers, synced lyric reading engine, and Spotify API integration.',
       results: 'Powers the dedicated music showcase for 7 released Spotify singles (*Panna*, *Jaan*, *Chuwaa*, *Paarwana*, *Khwaab*, *Motions*, *Midnight*).',
       tags: ['JavaScript', 'Web Audio API', 'React', 'Tailwind CSS', 'Canvas API'],
-      github: 'https://github.com',
-      demo: '#',
+      github: 'https://github.com/Laksh-mjn',
+      demo: 'https://open.spotify.com/artist/1lkEE1c2w8HcHWEixWwc7E',
     },
   ];
 
@@ -243,6 +243,8 @@ export default function ProjectsSection() {
                   </a>
                   <a
                     href={selectedProject.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="px-6 py-3 rounded-full bg-white text-black text-xs font-mono-code font-bold inline-flex items-center gap-2 hover:bg-[#E5E5EA] transition-all"
                   >
                     <span>Live Demo</span>

@@ -57,17 +57,6 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     particlesRef.current = particles;
   }, []);
 
-  // Trigger frame preloading
-  useEffect(() => {
-    preloadKatanaFrames();
-    const unsubscribe = onFrameLoaded(() => {
-      if (currentFrameRef.current === 0) {
-        renderCanvas(0, 0, mouseRef.current.x, mouseRef.current.y);
-      }
-    });
-    return () => unsubscribe();
-  }, []);
-
   // Cinematic Camera Transform Matrix
   const getCameraTransform = (progress, camX, camY, isVertical) => {
     let baseScale = 1.0;
@@ -167,6 +156,17 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
       ctx.fillRect(0, 0, cw, ch);
     }
   }, []);
+
+  // Trigger frame preloading
+  useEffect(() => {
+    preloadKatanaFrames();
+    const unsubscribe = onFrameLoaded(() => {
+      if (currentFrameRef.current === 0) {
+        renderCanvas(0, 0, mouseRef.current.x, mouseRef.current.y);
+      }
+    });
+    return () => unsubscribe();
+  }, [renderCanvas]);
 
   // Multi-Depth Particles Canvas Renderer
   const renderParticles = useCallback((velocity, mouseX) => {

@@ -49,17 +49,6 @@ export default function GlobalKatanaBackground({ activePage }) {
     particlesRef.current = particles;
   }, []);
 
-  // Preload shared frames
-  useEffect(() => {
-    preloadKatanaFrames();
-    const unsubscribe = onFrameLoaded(() => {
-      if (currentFrameRef.current === 0) {
-        renderCanvas(0, 0, mouseRef.current.x, mouseRef.current.y);
-      }
-    });
-    return () => unsubscribe();
-  }, []);
-
   // Main Canvas Renderer with Glassmorphism Lighting
   const renderCanvas = useCallback((frameIdx, progress, camX, camY) => {
     const canvas = canvasRef.current;
@@ -116,6 +105,17 @@ export default function GlobalKatanaBackground({ activePage }) {
       ctx.fillRect(0, 0, cw, ch);
     }
   }, []);
+
+  // Preload shared frames
+  useEffect(() => {
+    preloadKatanaFrames();
+    const unsubscribe = onFrameLoaded(() => {
+      if (currentFrameRef.current === 0) {
+        renderCanvas(0, 0, mouseRef.current.x, mouseRef.current.y);
+      }
+    });
+    return () => unsubscribe();
+  }, [renderCanvas]);
 
   // Multi-Depth Particles Renderer
   const renderParticles = useCallback((velocity, mouseX) => {

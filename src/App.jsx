@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
+import CustomCursor from './components/CustomCursor';
 import InteractiveStrings from './components/InteractiveStrings';
 import GlobalKatanaBackground from './components/GlobalKatanaBackground';
 import KatanaScrollEntry from './components/KatanaScrollEntry';
@@ -6,15 +7,29 @@ import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
 import EducationSection from './components/EducationSection';
-import CertificationsPage from './components/CertificationsPage';
-import MJWorldPage from './components/MJWorldPage';
 import LeadershipSection from './components/LeadershipSection';
 import SkillsSection from './components/SkillsSection';
 import ProjectsSection from './components/ProjectsSection';
-import RaktaanArtistPage from './components/RaktaanArtistPage';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import { ShieldCheck, ArrowRight, BookOpen, Feather, Disc } from 'lucide-react';
+
+// Code-split subpage bundles to optimize initial load & Core Web Vitals
+const CertificationsPage = lazy(() => import('./components/CertificationsPage'));
+const MJWorldPage = lazy(() => import('./components/MJWorldPage'));
+const RaktaanArtistPage = lazy(() => import('./components/RaktaanArtistPage'));
+
+// Elegant Minimalist Loading Fallback
+function SubpageLoadingFallback() {
+  return (
+    <div className="min-h-[70vh] flex flex-col items-center justify-center p-8 space-y-4">
+      <div className="w-10 h-10 rounded-full border-2 border-white/20 border-t-white animate-spin" />
+      <span className="text-xs font-mono-code text-[#86868B] uppercase tracking-widest">
+        LOADING EXPERIENCE...
+      </span>
+    </div>
+  );
+}
 
 export default function App() {
   const [activePage, setActivePage] = useState('portfolio');
@@ -27,6 +42,9 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#08080A] text-[#F5F5F7] relative overflow-x-clip selection:bg-white selection:text-black">
       
+      {/* Precision Dynamic Cursor for Desktop */}
+      <CustomCursor />
+
       {/* Persistent Global Katana Animation Engine (Behind Every Page) */}
       <GlobalKatanaBackground activePage={activePage} />
 
@@ -40,15 +58,21 @@ export default function App() {
       <div className="relative z-10">
         {activePage === 'raktaan' ? (
           <main className="pt-24">
-            <RaktaanArtistPage onBack={() => switchPage('portfolio')} />
+            <Suspense fallback={<SubpageLoadingFallback />}>
+              <RaktaanArtistPage onBack={() => switchPage('portfolio')} />
+            </Suspense>
           </main>
         ) : activePage === 'certifications' ? (
           <main className="pt-24">
-            <CertificationsPage onBack={() => switchPage('portfolio')} />
+            <Suspense fallback={<SubpageLoadingFallback />}>
+              <CertificationsPage onBack={() => switchPage('portfolio')} />
+            </Suspense>
           </main>
         ) : activePage === 'mjworld' ? (
           <main className="pt-24">
-            <MJWorldPage onBack={() => switchPage('portfolio')} />
+            <Suspense fallback={<SubpageLoadingFallback />}>
+              <MJWorldPage onBack={() => switchPage('portfolio')} />
+            </Suspense>
           </main>
         ) : (
           <main>
