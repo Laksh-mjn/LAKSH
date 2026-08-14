@@ -49,15 +49,13 @@ export default function Navbar({ activePage, setActivePage }) {
         setTimeout(() => {
           const el = document.querySelector(href);
           if (el) {
-            const top = el.getBoundingClientRect().top + window.scrollY - 75;
-            window.scrollTo({ top, behavior: 'smooth' });
+            el.scrollIntoView({ behavior: 'smooth' });
           }
         }, 150);
       } else {
         const el = document.querySelector(href);
         if (el) {
-          const top = el.getBoundingClientRect().top + window.scrollY - 75;
-          window.scrollTo({ top, behavior: 'smooth' });
+          el.scrollIntoView({ behavior: 'smooth' });
         }
       }
     }

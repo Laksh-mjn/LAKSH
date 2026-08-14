@@ -132,7 +132,7 @@ export default function SkillsSection() {
   const active = neuralNodes[activeNode];
 
   return (
-    <section id="skills" className="py-28 scroll-mt-24 bg-[#08080A] border-b border-white/[0.06] relative overflow-hidden">
+    <section id="skills" className="py-28 scroll-mt-32 bg-[#08080A] border-b border-white/[0.06] relative overflow-hidden">
       
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10 space-y-16">
         
@@ -167,7 +167,7 @@ export default function SkillsSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center glass-panel p-6 sm:p-10 rounded-3xl shadow-2xl">
           
           {/* Left Column: Taut Synapse Graph Canvas */}
-          <div className="lg:col-span-7 relative min-h-[380px] sm:min-h-[440px] flex items-center justify-center overflow-hidden rounded-2xl bg-black/20">
+          <div className="lg:col-span-7 relative min-h-[420px] sm:min-h-[460px] lg:min-h-[480px] flex items-center justify-center overflow-hidden rounded-2xl bg-black/20 px-4">
             
             {/* SVG Connecting Strings with normalized 0..100 viewBox */}
             <svg 
@@ -177,16 +177,17 @@ export default function SkillsSection() {
             >
               <defs>
                 <linearGradient id="activeSynapseGrad" x1="50%" y1="50%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
-                  <stop offset="100%" stopColor="#A1A1AA" stopOpacity="0.4" />
+                  <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+                  <stop offset="100%" stopColor="#D4D4D8" stopOpacity="0.5" />
                 </linearGradient>
               </defs>
 
               {neuralNodes.map((node, i) => {
                 const angle = (i * 360) / neuralNodes.length;
                 const rad = (angle * Math.PI) / 180;
-                const xPct = 50 + 36 * Math.cos(rad);
-                const yPct = 50 + 34 * Math.sin(rad);
+                // Calibrated elliptical radius so pills never clip container edges
+                const xPct = 50 + 29 * Math.cos(rad);
+                const yPct = 50 + 32 * Math.sin(rad);
                 const isSelected = activeNode === i;
 
                 return (
@@ -197,7 +198,7 @@ export default function SkillsSection() {
                       x2={xPct}
                       y2={yPct}
                       stroke={isSelected ? 'url(#activeSynapseGrad)' : 'rgba(255, 255, 255, 0.12)'}
-                      strokeWidth={isSelected ? '0.8' : '0.35'}
+                      strokeWidth={isSelected ? '0.85' : '0.35'}
                       strokeDasharray={isSelected ? 'none' : '1.5, 1.5'}
                     />
                     {isSelected && (
@@ -226,8 +227,8 @@ export default function SkillsSection() {
             {neuralNodes.map((node, i) => {
               const angle = (i * 360) / neuralNodes.length;
               const rad = (angle * Math.PI) / 180;
-              const xPct = 50 + 36 * Math.cos(rad);
-              const yPct = 50 + 34 * Math.sin(rad);
+              const xPct = 50 + 29 * Math.cos(rad);
+              const yPct = 50 + 32 * Math.sin(rad);
               const isSelected = activeNode === i;
 
               return (
