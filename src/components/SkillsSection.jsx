@@ -132,7 +132,7 @@ export default function SkillsSection() {
   const active = neuralNodes[activeNode];
 
   return (
-    <section id="skills" className="py-28 bg-[#08080A] border-b border-white/[0.06] relative overflow-hidden">
+    <section id="skills" className="py-28 scroll-mt-24 bg-[#08080A] border-b border-white/[0.06] relative overflow-hidden">
       
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10 space-y-16">
         
@@ -164,30 +164,52 @@ export default function SkillsSection() {
         </div>
 
         {/* Minimalist Interactive Node Graph */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center glass-panel p-6 sm:p-12 rounded-3xl shadow-2xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center glass-panel p-6 sm:p-10 rounded-3xl shadow-2xl">
           
-          {/* Left Column: Taut Strings Synapse Canvas */}
-          <div className="lg:col-span-7 relative min-h-[360px] sm:min-h-[420px] flex items-center justify-center">
+          {/* Left Column: Taut Synapse Graph Canvas */}
+          <div className="lg:col-span-7 relative min-h-[380px] sm:min-h-[440px] flex items-center justify-center overflow-hidden rounded-2xl bg-black/20">
             
-            {/* SVG Connecting Strings */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none">
+            {/* SVG Connecting Strings with normalized 0..100 viewBox */}
+            <svg 
+              className="absolute inset-0 w-full h-full pointer-events-none" 
+              viewBox="0 0 100 100" 
+              preserveAspectRatio="none"
+            >
+              <defs>
+                <linearGradient id="activeSynapseGrad" x1="50%" y1="50%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
+                  <stop offset="100%" stopColor="#A1A1AA" stopOpacity="0.4" />
+                </linearGradient>
+              </defs>
+
               {neuralNodes.map((node, i) => {
                 const angle = (i * 360) / neuralNodes.length;
                 const rad = (angle * Math.PI) / 180;
-                const rx = 160 * Math.cos(rad);
-                const ry = 140 * Math.sin(rad);
+                const xPct = 50 + 36 * Math.cos(rad);
+                const yPct = 50 + 34 * Math.sin(rad);
                 const isSelected = activeNode === i;
 
                 return (
-                  <line
-                    key={node.id}
-                    x1="50%"
-                    y1="50%"
-                    x2={`calc(50% + ${rx}px)`}
-                    y2={`calc(50% + ${ry}px)`}
-                    stroke={isSelected ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.12)'}
-                    strokeWidth={isSelected ? 1.5 : 0.75}
-                  />
+                  <g key={node.id}>
+                    <line
+                      x1="50"
+                      y1="50"
+                      x2={xPct}
+                      y2={yPct}
+                      stroke={isSelected ? 'url(#activeSynapseGrad)' : 'rgba(255, 255, 255, 0.12)'}
+                      strokeWidth={isSelected ? '0.8' : '0.35'}
+                      strokeDasharray={isSelected ? 'none' : '1.5, 1.5'}
+                    />
+                    {isSelected && (
+                      <circle
+                        cx={xPct}
+                        cy={yPct}
+                        r="1.2"
+                        fill="#FFFFFF"
+                        className="animate-pulse"
+                      />
+                    )}
+                  </g>
                 );
               })}
             </svg>
@@ -200,32 +222,33 @@ export default function SkillsSection() {
               </div>
             </div>
 
-            {/* Orbiting Satellite Nodes */}
+            {/* Orbiting Satellite Nodes with Precision Centering */}
             {neuralNodes.map((node, i) => {
               const angle = (i * 360) / neuralNodes.length;
               const rad = (angle * Math.PI) / 180;
-              const rx = (window.innerWidth < 640 ? 125 : 160) * Math.cos(rad);
-              const ry = (window.innerWidth < 640 ? 110 : 140) * Math.sin(rad);
+              const xPct = 50 + 36 * Math.cos(rad);
+              const yPct = 50 + 34 * Math.sin(rad);
               const isSelected = activeNode === i;
 
               return (
                 <motion.div
                   key={node.id}
                   onClick={() => setActiveNode(i)}
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.08 }}
                   style={{
                     position: 'absolute',
-                    left: `calc(50% + ${rx}px - 50px)`,
-                    top: `calc(50% + ${ry}px - 18px)`,
+                    left: `${xPct}%`,
+                    top: `${yPct}%`,
+                    transform: 'translate(-50%, -50%)',
                   }}
-                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border text-[10px] sm:text-xs font-mono-code font-bold cursor-pointer transition-all z-30 flex items-center gap-1.5 ${
+                  className={`px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full border text-[10px] sm:text-xs font-mono-code font-bold cursor-pointer transition-all z-30 flex items-center gap-1.5 whitespace-nowrap select-none shadow-lg ${
                     isSelected
-                      ? 'bg-white text-black border-white shadow-xl scale-105'
-                      : 'glass-pill text-[#A1A1AA] hover:border-white/40 hover:text-white'
+                      ? 'bg-white text-black border-white shadow-2xl scale-105 ring-2 ring-white/30'
+                      : 'glass-pill text-[#D4D4D8] hover:border-white/50 hover:text-white hover:bg-white/10'
                   }`}
                   data-cursor="INSPECT"
                 >
-                  <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-black' : 'bg-white/40'}`} />
+                  <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-black' : 'bg-white/50'}`} />
                   <span>{node.name}</span>
                 </motion.div>
               );

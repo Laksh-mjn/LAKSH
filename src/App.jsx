@@ -80,7 +80,7 @@ export default function App() {
             <KatanaScrollEntry />
 
             {/* Main Portfolio Hero Section */}
-            <div id="portfolio-start">
+            <div id="portfolio-start" className="scroll-mt-24">
               <HeroSection
                 onOpenRaktaan={() => switchPage('raktaan')}
                 onOpenMJWorld={() => switchPage('mjworld')}
@@ -92,7 +92,7 @@ export default function App() {
             <EducationSection />
 
             {/* Certifications Vault Section Banner */}
-            <section id="certifications" className="py-20 bg-[#08080A]/60 backdrop-blur-md border-b border-white/[0.06] relative">
+            <section id="certifications" className="py-20 scroll-mt-24 bg-[#08080A]/60 backdrop-blur-md border-b border-white/[0.06] relative">
               <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
                 <div className="p-8 sm:p-12 rounded-3xl bg-[#0F0F12]/80 border border-white/10 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8 hairline-border">
                   <div className="space-y-4 max-w-2xl">
@@ -125,7 +125,7 @@ export default function App() {
             <ProjectsSection />
             
             {/* MJ World Section Banner */}
-            <section id="mjworld" className="py-20 bg-[#08080A]/60 backdrop-blur-md border-b border-white/[0.06] relative">
+            <section id="mjworld" className="py-20 scroll-mt-24 bg-[#08080A]/60 backdrop-blur-md border-b border-white/[0.06] relative">
               <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
                 <div className="p-8 sm:p-12 rounded-3xl bg-[#0F0F12]/80 border border-white/10 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8 hairline-border">
                   <div className="space-y-4 max-w-2xl">
@@ -154,7 +154,7 @@ export default function App() {
             </section>
 
             {/* Raktaan World Section Banner */}
-            <section id="raktaan" className="py-20 bg-[#08080A]/60 backdrop-blur-md border-b border-white/[0.06] relative">
+            <section id="raktaan" className="py-20 scroll-mt-24 bg-[#08080A]/60 backdrop-blur-md border-b border-white/[0.06] relative">
               <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
                 <div className="p-8 sm:p-12 rounded-3xl bg-[#0F0F12]/90 border border-white/10 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8 hairline-border">
                   <div className="space-y-4 max-w-2xl">

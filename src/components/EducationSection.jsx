@@ -59,7 +59,7 @@ export default function EducationSection() {
   ];
 
   return (
-    <section id="education" className="py-28 bg-[#08080A]/60 backdrop-blur-md border-b border-white/[0.06] relative overflow-hidden">
+    <section id="education" className="py-28 scroll-mt-24 bg-[#08080A]/60 backdrop-blur-md border-b border-white/[0.06] relative overflow-hidden">
       
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10 space-y-16">
         

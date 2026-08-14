@@ -51,7 +51,7 @@ export default function ProjectsSection() {
   ];
 
   return (
-    <section id="projects" className="py-28 bg-[#0B0B0E] border-y border-white/[0.06] relative overflow-hidden">
+    <section id="projects" className="py-28 scroll-mt-24 bg-[#0B0B0E] border-y border-white/[0.06] relative overflow-hidden">
       
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10 space-y-20">
         
