@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://laksh-mjn.github.io/LAKSH/sitemap.xml
