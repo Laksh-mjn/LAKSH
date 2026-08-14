@@ -44,19 +44,24 @@ export default function Navbar({ activePage, setActivePage }) {
     if (linkName === 'Certifications') {
       setActivePage('certifications');
     } else {
-      if (isRaktaan || isCertifications || isMJWorld) {
-        setActivePage('portfolio');
-        setTimeout(() => {
-          const el = document.querySelector(href);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 150);
-      } else {
+      const scrollToTarget = () => {
         const el = document.querySelector(href);
         if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
+          const navHeight = 90;
+          const elementPosition = el.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
         }
+      };
+
+      if (isRaktaan || isCertifications || isMJWorld) {
+        setActivePage('portfolio');
+        setTimeout(scrollToTarget, 150);
+      } else {
+        scrollToTarget();
       }
     }
   };

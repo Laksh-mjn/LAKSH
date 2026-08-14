@@ -132,9 +132,9 @@ export default function SkillsSection() {
   const active = neuralNodes[activeNode];
 
   return (
-    <section id="skills" className="py-28 scroll-mt-32 bg-[#08080A] border-b border-white/[0.06] relative overflow-hidden">
+    <section id="skills" className="py-20 sm:py-24 bg-[#08080A] border-b border-white/[0.06] relative overflow-hidden">
       
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10 space-y-16">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10 space-y-10 sm:space-y-12">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -167,7 +167,7 @@ export default function SkillsSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center glass-panel p-6 sm:p-10 rounded-3xl shadow-2xl overflow-visible">
           
           {/* Left Column: Taut Synapse Graph Canvas */}
-          <div className="lg:col-span-7 relative min-h-[440px] sm:min-h-[480px] flex items-center justify-center overflow-visible rounded-2xl bg-black/20 p-6 sm:p-10">
+          <div className="lg:col-span-7 relative min-h-[420px] sm:min-h-[460px] flex items-center justify-center overflow-visible rounded-2xl bg-black/20 p-6 sm:p-10">
             
             {/* SVG Connecting Strings with normalized 0..100 viewBox */}
             <svg 
@@ -244,7 +244,7 @@ export default function SkillsSection() {
                   }}
                   className={`px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full border text-[10px] sm:text-xs font-mono-code font-bold cursor-pointer transition-all z-30 flex items-center gap-1.5 whitespace-nowrap select-none shadow-xl shrink-0 ${
                     isSelected
-                      ? 'bg-white text-black border-white shadow-2xl scale-105 ring-2 ring-white/30'
+                      ? 'bg-white text-black border-white shadow-[0_0_25px_rgba(255,255,255,0.4)] scale-105 ring-2 ring-white/40'
                       : 'glass-pill text-[#D4D4D8] hover:border-white/50 hover:text-white hover:bg-white/10'
                   }`}
                   data-cursor="INSPECT"
