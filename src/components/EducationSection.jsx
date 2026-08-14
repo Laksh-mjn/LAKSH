@@ -83,7 +83,7 @@ export default function EducationSection() {
             return (
               <div
                 key={stage.id}
-                className={`rounded-3xl p-8 bg-[#0F0F12]/90 border border-white/10 backdrop-blur-xl shadow-xl flex flex-col justify-between space-y-8 relative group hairline-border hover:border-white/30 transition-all duration-300 ${stage.accentColor}`}
+                className={`rounded-3xl p-8 glass-card flex flex-col justify-between space-y-8 relative group hover:border-white/40 transition-all duration-300 ${stage.accentColor}`}
               >
                 <div className="space-y-6">
                   {/* Step & Badge Header */}

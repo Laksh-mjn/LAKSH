@@ -67,15 +67,15 @@ export default function LeadershipSection() {
             return (
               <div
                 key={org.title}
-                className="rounded-3xl p-8 sm:p-10 bg-[#0F0F12]/90 border border-white/10 backdrop-blur-xl shadow-xl flex flex-col justify-between space-y-8 group hairline-border hover:border-white/30 transition-all duration-300"
+                className="rounded-3xl p-8 sm:p-10 glass-card shadow-2xl flex flex-col justify-between space-y-8 group hover:border-white/40 transition-all duration-300"
               >
                 <div className="space-y-6">
                   {/* Top Role Badge */}
                   <div className="flex items-center justify-between">
-                    <span className="px-3.5 py-1 rounded-full text-[10px] font-mono-code font-bold uppercase tracking-wider bg-white text-black">
+                    <span className="px-3.5 py-1 rounded-full text-[10px] font-mono-code font-bold uppercase tracking-wider bg-white text-black shadow-md">
                       {org.impact}
                     </span>
-                    <div className="w-10 h-10 rounded-xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-white">
+                    <div className="w-10 h-10 rounded-xl glass-pill flex items-center justify-center text-white">
                       <IconComp className="w-5 h-5" />
                     </div>
                   </div>
@@ -116,7 +116,7 @@ export default function LeadershipSection() {
                   {org.skills.map((s, i) => (
                     <span
                       key={i}
-                      className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[#A1A1AA] text-[11px] font-mono-code"
+                      className="px-3 py-1 rounded-full glass-pill text-[#A1A1AA] text-[11px] font-mono-code"
                     >
                       {s}
                     </span>
@@ -128,7 +128,7 @@ export default function LeadershipSection() {
         </div>
 
         {/* Executive Capabilities Matrix */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-[#0F0F12]/80 border border-white/10 backdrop-blur-xl shadow-xl space-y-6 hairline-border">
+        <div className="p-8 sm:p-10 rounded-3xl glass-panel shadow-2xl space-y-6">
           <div className="flex items-center gap-3">
             <Users className="w-5 h-5 text-white" />
             <h3 className="font-heading text-xl sm:text-2xl font-bold text-[#F5F5F7]">
@@ -140,9 +140,9 @@ export default function LeadershipSection() {
             {leadershipSkills.map((skill, i) => (
               <div
                 key={i}
-                className="p-4 rounded-2xl bg-[#08080A] border border-white/10 flex items-center gap-3"
+                className="p-4 rounded-2xl glass-card flex items-center gap-3"
               >
-                <div className="w-2 h-2 rounded-full bg-white" />
+                <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
                 <span className="text-xs font-mono-code text-[#D4D4D8]">
                   {skill}
                 </span>

@@ -88,11 +88,11 @@ export default function ContactSection({ _onOpenRaktaan }) {
             {/* Phone Card */}
             <a
               href="tel:+917006659770"
-              className="p-6 rounded-2xl bg-[#0F0F12]/80 border border-white/10 shadow-lg flex items-center justify-between hover:border-white/30 transition-all group cursor-pointer"
+              className="p-6 rounded-2xl glass-card flex items-center justify-between hover:border-white/40 transition-all group cursor-pointer"
               data-cursor="CALL"
             >
               <div className="flex items-center gap-4">
-                <div className="p-3.5 rounded-xl bg-[#08080A] text-white border border-white/10 group-hover:bg-white group-hover:text-black transition-colors">
+                <div className="p-3.5 rounded-xl glass-pill text-white group-hover:bg-white group-hover:text-black transition-colors">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
@@ -110,11 +110,11 @@ export default function ContactSection({ _onOpenRaktaan }) {
             {/* Email Card */}
             <a
               href="mailto:laksh7583@gmail.com"
-              className="p-6 rounded-2xl bg-[#0F0F12]/80 border border-white/10 shadow-lg flex items-center justify-between hover:border-white/30 transition-all group cursor-pointer"
+              className="p-6 rounded-2xl glass-card flex items-center justify-between hover:border-white/40 transition-all group cursor-pointer"
               data-cursor="EMAIL"
             >
               <div className="flex items-center gap-4">
-                <div className="p-3.5 rounded-xl bg-[#08080A] text-white border border-white/10 group-hover:bg-white group-hover:text-black transition-colors">
+                <div className="p-3.5 rounded-xl glass-pill text-white group-hover:bg-white group-hover:text-black transition-colors">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
@@ -134,10 +134,10 @@ export default function ContactSection({ _onOpenRaktaan }) {
               href="https://www.google.com/maps/search/?api=1&query=Udhampur%2C+Jammu+and+Kashmir"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-6 rounded-2xl bg-[#0F0F12]/80 border border-white/10 shadow-lg flex items-center justify-between hover:border-white/30 transition-all group cursor-pointer"
+              className="p-6 rounded-2xl glass-card flex items-center justify-between hover:border-white/40 transition-all group cursor-pointer"
             >
               <div className="flex items-center gap-4">
-                <div className="p-3.5 rounded-xl bg-[#08080A] text-white border border-white/10 group-hover:bg-white group-hover:text-black transition-colors">
+                <div className="p-3.5 rounded-xl glass-pill text-white group-hover:bg-white group-hover:text-black transition-colors">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
@@ -166,7 +166,7 @@ export default function ContactSection({ _onOpenRaktaan }) {
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3.5 rounded-xl bg-[#0F0F12]/80 border border-white/10 text-[#F5F5F7] flex items-center justify-between hover:border-white/30 transition-all group"
+                      className="p-3.5 rounded-xl glass-card text-[#F5F5F7] flex items-center justify-between hover:border-white/40 transition-all group"
                     >
                       <div className="flex items-center gap-2.5 overflow-hidden">
                         <IconComp className="w-4 h-4 shrink-0 text-white/70 group-hover:text-white" />
@@ -184,8 +184,8 @@ export default function ContactSection({ _onOpenRaktaan }) {
 
           </div>
 
-          {/* Right Column: Direct Email Form */}
-          <div className="lg:col-span-7 p-8 sm:p-12 rounded-3xl bg-[#0F0F12]/80 border border-white/10 shadow-xl space-y-6">
+          {/* Right Column: Direct Email Form with Glassmorphism */}
+          <div className="lg:col-span-7 p-6 sm:p-12 rounded-3xl glass-panel shadow-2xl space-y-6">
             <div className="space-y-1">
               <h3 className="font-heading text-2xl sm:text-3xl font-bold text-[#F5F5F7]">
                 Send a Message
@@ -196,7 +196,7 @@ export default function ContactSection({ _onOpenRaktaan }) {
             </div>
 
             {submitted && (
-              <div className="p-4 rounded-xl bg-white/[0.06] border border-white/20 text-white text-xs font-mono-code flex items-center gap-3">
+              <div className="p-4 rounded-xl glass-pill text-white text-xs font-mono-code flex items-center gap-3">
                 <CheckCircle2 className="w-4 h-4 shrink-0 text-[#10B981]" />
                 <span>Message prepared securely! Opening your email client.</span>
               </div>
@@ -221,7 +221,7 @@ export default function ContactSection({ _onOpenRaktaan }) {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="Enter your full name"
-                  className="w-full px-5 py-3.5 rounded-xl border border-white/10 bg-[#08080A] text-[#F5F5F7] text-sm focus:outline-none focus:border-white/40 transition-all"
+                  className="w-full px-5 py-3.5 rounded-xl glass-input text-[#F5F5F7] text-sm focus:outline-none focus:border-white/40 transition-all"
                 />
               </div>
 
@@ -236,7 +236,7 @@ export default function ContactSection({ _onOpenRaktaan }) {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="name@example.com"
-                  className="w-full px-5 py-3.5 rounded-xl border border-white/10 bg-[#08080A] text-[#F5F5F7] text-sm focus:outline-none focus:border-white/40 transition-all"
+                  className="w-full px-5 py-3.5 rounded-xl glass-input text-[#F5F5F7] text-sm focus:outline-none focus:border-white/40 transition-all"
                 />
               </div>
 
@@ -251,7 +251,7 @@ export default function ContactSection({ _onOpenRaktaan }) {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Hello Laksh, I would like to get in touch regarding..."
-                  className="w-full px-5 py-3.5 rounded-xl border border-white/10 bg-[#08080A] text-[#F5F5F7] text-sm focus:outline-none focus:border-white/40 transition-all"
+                  className="w-full px-5 py-3.5 rounded-xl glass-input text-[#F5F5F7] text-sm focus:outline-none focus:border-white/40 transition-all"
                 />
               </div>
 

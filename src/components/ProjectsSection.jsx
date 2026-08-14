@@ -73,7 +73,7 @@ export default function ProjectsSection() {
           {projects.map((proj) => (
             <div
               key={proj.id}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#0F0F12]/80 border border-white/10 rounded-3xl p-8 sm:p-10 backdrop-blur-xl shadow-xl group hairline-border"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl group"
             >
               {/* Image Preview */}
               <div
@@ -87,7 +87,7 @@ export default function ProjectsSection() {
                   className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 filter contrast-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#08080A]/80 via-transparent to-transparent" />
-                <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 border border-white/10 text-white text-xs font-mono-code backdrop-blur-md">
+                <div className="absolute top-4 left-4 px-3 py-1 rounded-full glass-pill text-white text-xs font-mono-code">
                   {proj.category}
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default function ProjectsSection() {
                   {proj.tags.map((t) => (
                     <span
                       key={t}
-                      className="px-3 py-1 rounded-xl bg-[#08080A] border border-white/10 text-xs font-mono-code text-[#D4D4D8]"
+                      className="px-3 py-1 rounded-xl glass-pill text-xs font-mono-code text-[#D4D4D8]"
                     >
                       {t}
                     </span>
@@ -138,7 +138,7 @@ export default function ProjectsSection() {
                     href={proj.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-3 rounded-full bg-[#08080A] border border-white/15 text-[#F5F5F7] hover:border-white transition-colors"
+                    className="p-3 rounded-full glass-pill text-[#F5F5F7] hover:border-white transition-colors"
                   >
                     <GitBranch className="w-4 h-4" />
                   </a>
@@ -151,14 +151,14 @@ export default function ProjectsSection() {
 
       </div>
 
-      {/* Expanded Modal Case Study Inspector */}
+      {/* Expanded Modal Case Study Inspector with Glassmorphism */}
       <AnimatePresence>
         {selectedProject && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-xl p-6 sm:p-10 flex items-center justify-center overflow-y-auto"
+            className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-2xl p-4 sm:p-10 flex items-center justify-center overflow-y-auto"
             onClick={() => setSelectedProject(null)}
           >
             <motion.div
@@ -166,7 +166,7 @@ export default function ProjectsSection() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-[#0F0F12] border border-white/15 rounded-3xl max-w-4xl w-full p-8 sm:p-12 space-y-8 shadow-2xl relative my-8 max-h-[90vh] overflow-y-auto"
+              className="glass-panel rounded-3xl max-w-4xl w-full p-6 sm:p-12 space-y-8 shadow-2xl relative my-8 max-h-[88vh] overflow-y-auto"
             >
               {/* Close Button */}
               <button

@@ -48,14 +48,14 @@ export default function AboutSection() {
           </p>
         </div>
 
-        {/* Minimalist Profile Biography Card */}
-        <div className="bg-[#0F0F12]/80 border border-white/10 rounded-3xl p-8 sm:p-12 shadow-xl backdrop-blur-xl space-y-8 hairline-border">
+        {/* Minimalist Profile Biography Card with Glassmorphism */}
+        <div className="glass-panel rounded-3xl p-6 sm:p-12 shadow-2xl space-y-8">
           
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <span className="text-xs font-mono-code font-bold text-[#A1A1AA] tracking-wider uppercase">
               EXECUTIVE PROFILE
             </span>
-            <span className="text-[11px] font-mono-code text-white/70">VERIFIED</span>
+            <span className="text-[11px] font-mono-code text-white/90 glass-pill px-2.5 py-0.5 rounded-full">VERIFIED</span>
           </div>
 
           <div className="space-y-6 text-base sm:text-lg text-[#D4D4D8] leading-relaxed font-light">
@@ -68,37 +68,37 @@ export default function AboutSection() {
             </p>
           </div>
 
-          {/* Minimal Key Metrics */}
+          {/* Minimal Key Metrics with Glass Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/10">
-            <div className="p-5 rounded-2xl bg-[#08080A] border border-white/10 text-center">
-              <Award className="w-5 h-5 text-white/80 mx-auto mb-2" />
+            <div className="p-5 rounded-2xl glass-card text-center">
+              <Award className="w-5 h-5 text-white/90 mx-auto mb-2" />
               <span className="text-3xl font-heading font-extrabold text-white block">19</span>
-              <span className="text-[11px] font-mono-code text-[#86868B] uppercase">Verified Certifications</span>
+              <span className="text-[11px] font-mono-code text-[#A1A1AA] uppercase">Verified Certifications</span>
             </div>
 
-            <div className="p-5 rounded-2xl bg-[#08080A] border border-white/10 text-center">
-              <HeartHandshake className="w-5 h-5 text-white/80 mx-auto mb-2" />
+            <div className="p-5 rounded-2xl glass-card text-center">
+              <HeartHandshake className="w-5 h-5 text-white/90 mx-auto mb-2" />
               <span className="text-3xl font-heading font-extrabold text-white block">300+</span>
-              <span className="text-[11px] font-mono-code text-[#86868B] uppercase">Artists Mentored</span>
+              <span className="text-[11px] font-mono-code text-[#A1A1AA] uppercase">Artists Mentored</span>
             </div>
 
-            <div className="p-5 rounded-2xl bg-[#08080A] border border-white/10 text-center">
-              <Cpu className="w-5 h-5 text-white/80 mx-auto mb-2" />
+            <div className="p-5 rounded-2xl glass-card text-center">
+              <Cpu className="w-5 h-5 text-white/90 mx-auto mb-2" />
               <span className="text-3xl font-heading font-extrabold text-white block">7</span>
-              <span className="text-[11px] font-mono-code text-[#86868B] uppercase">Spotify Singles (Raktaan)</span>
+              <span className="text-[11px] font-mono-code text-[#A1A1AA] uppercase">Spotify Singles (Raktaan)</span>
             </div>
           </div>
 
         </div>
 
-        {/* Minimal Core Philosophy Slogan */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-[#0F0F12] border border-white/10 text-center space-y-4 blade-shine">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[#A1A1AA] text-xs font-mono-code uppercase">
-            <Sparkles className="w-3.5 h-3.5" />
+        {/* Minimal Core Philosophy Slogan Glass Card */}
+        <div className="p-8 sm:p-12 rounded-3xl glass-card text-center space-y-4 blade-shine">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-pill text-[#A1A1AA] text-xs font-mono-code uppercase">
+            <Sparkles className="w-3.5 h-3.5 text-white/90" />
             <span>OPERATING PHILOSOPHY</span>
           </span>
 
-          <blockquote className="font-display text-2xl sm:text-3xl lg:text-4xl italic font-normal leading-relaxed text-[#F5F5F7]">
+          <blockquote className="font-display text-xl sm:text-3xl lg:text-4xl italic font-normal leading-relaxed text-[#F5F5F7]">
             “I believe my strength lies in bringing together technology, creativity, and leadership — <span className="text-white font-medium underline underline-offset-8 decoration-white/30">building with logic</span>, <span className="text-white font-medium underline underline-offset-8 decoration-white/30">creating with purpose</span>, and <span className="text-white font-medium underline underline-offset-8 decoration-white/30">leading with impact</span>.”
           </blockquote>
         </div>

@@ -27,28 +27,31 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
   const scrollVelocityRef = useRef(0);
   const lastScrollYRef = useRef(0);
   const lastScrollTimeRef = useRef(performance.now());
+  const isMobileRef = useRef(false);
 
-  // Depth-separated 3D atmospheric particles
+  // Depth-separated atmospheric particles
   const particlesRef = useRef([]);
 
-  // Initialize multi-depth atmospheric particles
+  // Initialize multi-depth atmospheric particles (lightweight on mobile)
   useEffect(() => {
     const isMobile = window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches;
-    const particleCount = isMobile ? 12 : 24;
+    isMobileRef.current = isMobile;
+
+    const particleCount = isMobile ? 6 : 22;
     const particles = [];
     for (let i = 0; i < particleCount; i++) {
       const depth = Math.random();
       particles.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        vx: (Math.random() - 0.5) * (0.15 + depth * 0.25),
-        vy: 0.12 + depth * 0.3,
-        size: depth > 0.7 ? 2.2 + Math.random() * 1.4 : 1.0 + Math.random() * 1.0,
+        vx: (Math.random() - 0.5) * (0.15 + depth * 0.2),
+        vy: 0.12 + depth * 0.25,
+        size: depth > 0.7 ? 2.0 + Math.random() * 1.2 : 1.0 + Math.random() * 0.8,
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 0.015,
-        opacity: depth > 0.7 ? 0.28 + Math.random() * 0.25 : 0.08 + Math.random() * 0.18,
+        opacity: depth > 0.7 ? 0.25 + Math.random() * 0.2 : 0.08 + Math.random() * 0.15,
         depth: depth,
-        type: Math.random() > 0.35 ? 'petal' : 'mist',
+        type: Math.random() > 0.4 ? 'petal' : 'mist',
       });
     }
     particlesRef.current = particles;
@@ -65,7 +68,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     return () => unsubscribe();
   }, []);
 
-  // Cinematic Camera Transform Matrix across story acts
+  // Cinematic Camera Transform Matrix
   const getCameraTransform = (progress, camX, camY, isVertical) => {
     let baseScale = 1.0;
     let panX = 0;
@@ -113,13 +116,13 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
   const renderCanvas = useCallback((frameIdx, progress, camX, camY) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d', { alpha: false });
+    const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
     if (!ctx) return;
 
     const cw = canvas.width;
     const ch = canvas.height;
 
-    // Deep Obsidian base
+    // Obsidian base
     ctx.fillStyle = '#08080A';
     ctx.fillRect(0, 0, cw, ch);
 
@@ -133,8 +136,9 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     const isVertical = cw < ch;
     const { scale: camScale, offsetX, offsetY } = getCameraTransform(progress, camX, camY, isVertical);
 
+    // Responsive aspect fit across all screens (iPhone, iPad, Mac, Ultrawide)
     const baseAspectFit = isVertical
-      ? Math.max(cw / iw, (ch / ih) * 0.75) * 1.2
+      ? Math.max(cw / iw, (ch / ih) * 0.72) * 1.18
       : Math.max(cw / iw, ch / ih);
 
     const fitScale = baseAspectFit * camScale;
@@ -145,7 +149,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
 
     ctx.globalAlpha = 1.0;
     ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'medium';
+    ctx.imageSmoothingQuality = isMobileRef.current ? 'low' : 'medium';
     ctx.drawImage(img, nx, ny, nw, nh);
 
     // Blade Hamon Razor Light Sheen Sweep (Frames 125 to 245)
@@ -210,20 +214,23 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     }
   }, []);
 
-  // Resize & HiDPI Canvas setup
+  // Performance-Optimized Resize & DPR Capping (Prevents Mobile 3x GPU Bottleneck)
   const handleResize = useCallback(() => {
     const canvas = canvasRef.current;
     const pCanvas = particlesCanvasRef.current;
-    const isMobile = window.innerWidth < 768;
-    const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.75);
+    const isMobile = window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches;
+    isMobileRef.current = isMobile;
+
+    // Cap DPR at 1.0 on mobile to prevent rendering 3 million pixels on high-density phones
+    const dpr = isMobile ? 1.0 : Math.min(window.devicePixelRatio || 1, 1.75);
 
     if (canvas) {
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
+      canvas.width = Math.round(window.innerWidth * dpr);
+      canvas.height = Math.round(window.innerHeight * dpr);
     }
     if (pCanvas) {
-      pCanvas.width = window.innerWidth * dpr;
-      pCanvas.height = window.innerHeight * dpr;
+      pCanvas.width = Math.round(window.innerWidth * dpr);
+      pCanvas.height = Math.round(window.innerHeight * dpr);
     }
 
     renderCanvas(activeFrame, scrollProgress, mouseRef.current.x, mouseRef.current.y);
@@ -235,7 +242,7 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
 
-  // Master High-Speed Render Loop with calibrated 0.11 lerp for luxury, deliberate pacing
+  // Master Scroll & RAF Engine (Dynamic lerp: 0.16 on mobile for instant response, 0.11 on desktop for cinematic glide)
   useEffect(() => {
     let animId;
 
@@ -262,10 +269,10 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // Professional 0.11 cinematic lerp
     const loop = () => {
+      const lerpSpeed = isMobileRef.current ? 0.18 : 0.11;
       const frameDiff = targetFrameRef.current - currentFrameRef.current;
-      currentFrameRef.current += frameDiff * 0.11;
+      currentFrameRef.current += frameDiff * lerpSpeed;
       const currentRounded = Math.min(
         FRAME_COUNT - 1,
         Math.max(0, Math.round(currentFrameRef.current))
@@ -280,7 +287,10 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
       setActiveFrame(currentRounded);
 
       renderCanvas(currentRounded, currentFrameRef.current / (FRAME_COUNT - 1), camX, camY);
-      renderParticles(scrollVelocityRef.current, mouseRef.current.x);
+      
+      if (!isMobileRef.current) {
+        renderParticles(scrollVelocityRef.current, mouseRef.current.x);
+      }
 
       scrollVelocityRef.current *= 0.85;
 
@@ -296,23 +306,16 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
   }, [renderCanvas, renderParticles]);
 
   const handleMouseMove = (e) => {
+    if (isMobileRef.current) return;
     const { innerWidth, innerHeight } = window;
     mouseRef.current.targetX = (e.clientX - innerWidth / 2) / (innerWidth / 2);
     mouseRef.current.targetY = (e.clientY - innerHeight / 2) / (innerHeight / 2);
   };
 
-  const handleTouchMove = (e) => {
-    if (e.touches && e.touches[0]) {
-      const { innerWidth, innerHeight } = window;
-      mouseRef.current.targetX = (e.touches[0].clientX - innerWidth / 2) / (innerWidth / 2);
-      mouseRef.current.targetY = (e.touches[0].clientY - innerHeight / 2) / (innerHeight / 2);
-    }
-  };
-
   const scrollToPortfolio = () => {
     const target = document.querySelector('#portfolio-start');
     if (target) {
-      const top = target.getBoundingClientRect().top + window.scrollY - 30;
+      const top = target.getBoundingClientRect().top + window.scrollY - 20;
       window.scrollTo({ top, behavior: 'smooth' });
     } else if (containerRef.current) {
       const bottom = containerRef.current.offsetTop + containerRef.current.offsetHeight;
@@ -321,7 +324,6 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     if (onEnterComplete) onEnterComplete();
   };
 
-  // Even, balanced distribution across 6 acts
   const getStoryAct = () => {
     if (scrollProgress < 0.16) return 'act1';
     if (scrollProgress < 0.33) return 'act2';
@@ -337,15 +339,14 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      onTouchMove={handleTouchMove}
       onMouseLeave={() => {
         mouseRef.current.targetX = 0;
         mouseRef.current.targetY = 0;
       }}
-      className="relative h-[560vh] sm:h-[620vh] bg-[#08080A] selection:bg-white selection:text-black cursor-default touch-pan-y"
+      className="relative h-[340vh] sm:h-[480vh] lg:h-[560vh] bg-[#08080A] selection:bg-white selection:text-black cursor-default touch-pan-y"
     >
-      {/* Sticky Fullscreen Cinematic Canvas Layer */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-between overflow-hidden select-none z-30 pointer-events-auto">
+      {/* Sticky Fullscreen Cinematic Canvas Layer (using 100dvh for zero mobile jump) */}
+      <div className="sticky top-0 h-[100dvh] w-full flex flex-col justify-between overflow-hidden select-none z-30 pointer-events-auto">
         
         {/* Layer 0: Instant Frame 1 Fallback Image */}
         <img
@@ -354,16 +355,16 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
           className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0"
         />
 
-        {/* Layer 1: High-Speed Crisp 120FPS Render Canvas */}
+        {/* Layer 1: Hardware-Accelerated 120FPS Render Canvas */}
         <canvas
           ref={canvasRef}
           className="absolute inset-0 w-full h-full pointer-events-none z-10 gpu-layer"
         />
 
-        {/* Layer 2: Multi-Depth Atmospheric Silver Mist Particles */}
+        {/* Layer 2: Multi-Depth Atmospheric Silver Mist Particles (Desktop) */}
         <canvas
           ref={particlesCanvasRef}
-          className="absolute inset-0 w-full h-full pointer-events-none z-20"
+          className="absolute inset-0 w-full h-full pointer-events-none z-20 hidden md:block"
         />
 
         {/* Layer 3: Interactive Ambient Studio Light Drift */}
@@ -375,24 +376,24 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
         />
 
         {/* TOP BAR */}
-        <header className="w-full max-w-7xl mx-auto px-5 sm:px-8 pt-5 sm:pt-8 flex items-center justify-between z-30 relative">
+        <header className="w-full max-w-7xl mx-auto px-4 sm:px-8 pt-4 sm:pt-8 flex items-center justify-between z-30 relative">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-white/80 animate-pulse" />
-            <span className="text-[11px] font-mono-code tracking-widest text-[#A1A1AA] uppercase">
+            <span className="text-[10px] sm:text-[11px] font-mono-code tracking-widest text-[#A1A1AA] uppercase">
               LAKSH MAHAJAN
             </span>
           </div>
 
           <button
             onClick={scrollToPortfolio}
-            className="min-h-[44px] px-3 flex items-center gap-1.5 text-xs font-mono-code tracking-widest text-[#86868B] hover:text-white transition-colors cursor-pointer uppercase active:scale-95"
+            className="min-h-[44px] px-3 flex items-center gap-1.5 text-[11px] sm:text-xs font-mono-code tracking-widest text-[#86868B] hover:text-white transition-colors cursor-pointer uppercase active:scale-95"
           >
             <span>Skip to Portfolio</span>
             <ArrowDown className="w-3.5 h-3.5" />
           </button>
         </header>
 
-        {/* FOREGROUND: NARRATIVE CINEMATIC TYPOGRAPHY */}
+        {/* FOREGROUND: NARRATIVE CINEMATIC TYPOGRAPHY (Responsive font scaling) */}
         <div className="w-full max-w-7xl mx-auto px-5 sm:px-14 flex flex-col justify-center items-start z-30 pointer-events-none relative flex-1">
           <AnimatePresence mode="wait">
             
@@ -400,23 +401,23 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
             {currentAct === 'act1' && (
               <motion.div
                 key="act1"
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-2xl space-y-4"
+                exit={{ opacity: 0, y: -14 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-2xl space-y-3 sm:space-y-4"
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono-code font-bold tracking-widest text-[#A1A1AA] uppercase">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-[10px] sm:text-xs font-mono-code font-bold tracking-widest text-[#A1A1AA] uppercase">
                     VISION & INCEPTION
                   </span>
-                  <span className="h-[1px] w-12 bg-white/20" />
+                  <span className="h-[1px] w-8 sm:w-12 bg-white/20" />
                 </div>
-                <h1 className="font-heading text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#F5F5F7] uppercase leading-[0.95]">
+                <h1 className="font-heading text-3xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#F5F5F7] uppercase leading-[0.98] sm:leading-[0.95]">
                   Everything <br />
                   <span className="text-white">Starts With a Vision.</span>
                 </h1>
-                <p className="font-display text-base sm:text-xl text-[#A1A1AA] italic leading-relaxed pt-1">
+                <p className="font-display text-sm sm:text-xl text-[#A1A1AA] italic leading-relaxed pt-0.5">
                   Before code, before sound, before every creation — there is clarity.
                 </p>
               </motion.div>
@@ -426,23 +427,23 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
             {currentAct === 'act2' && (
               <motion.div
                 key="act2"
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-2xl space-y-4"
+                exit={{ opacity: 0, y: -14 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-2xl space-y-3 sm:space-y-4"
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono-code font-bold tracking-widest text-[#A1A1AA] uppercase">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-[10px] sm:text-xs font-mono-code font-bold tracking-widest text-[#A1A1AA] uppercase">
                     CRAFT & DISCIPLINE
                   </span>
-                  <span className="h-[1px] w-12 bg-white/20" />
+                  <span className="h-[1px] w-8 sm:w-12 bg-white/20" />
                 </div>
-                <h2 className="font-heading text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#F5F5F7] uppercase leading-[0.95]">
+                <h2 className="font-heading text-3xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#F5F5F7] uppercase leading-[0.98] sm:leading-[0.95]">
                   Precision in <br />
                   <span className="text-white">Every Line.</span>
                 </h2>
-                <p className="font-display text-base sm:text-xl text-[#A1A1AA] italic leading-relaxed pt-1">
+                <p className="font-display text-sm sm:text-xl text-[#A1A1AA] italic leading-relaxed pt-0.5">
                   Like folded steel, great engineering demands patience and relentless refinement.
                 </p>
               </motion.div>
@@ -452,23 +453,23 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
             {currentAct === 'act3' && (
               <motion.div
                 key="act3"
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-2xl space-y-4"
+                exit={{ opacity: 0, y: -14 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-2xl space-y-3 sm:space-y-4"
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono-code font-bold tracking-widest text-[#A1A1AA] uppercase">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-[10px] sm:text-xs font-mono-code font-bold tracking-widest text-[#A1A1AA] uppercase">
                     INTELLIGENCE & AI
                   </span>
-                  <span className="h-[1px] w-12 bg-white/20" />
+                  <span className="h-[1px] w-8 sm:w-12 bg-white/20" />
                 </div>
-                <h2 className="font-heading text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#F5F5F7] uppercase leading-[0.95]">
+                <h2 className="font-heading text-3xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#F5F5F7] uppercase leading-[0.98] sm:leading-[0.95]">
                   The Spark of <br />
                   <span className="text-white">Intelligence.</span>
                 </h2>
-                <p className="font-display text-base sm:text-xl text-[#A1A1AA] italic leading-relaxed pt-1">
+                <p className="font-display text-sm sm:text-xl text-[#A1A1AA] italic leading-relaxed pt-0.5">
                   Where algorithms become art, and systems learn to reason and create.
                 </p>
               </motion.div>
@@ -478,23 +479,23 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
             {currentAct === 'act4' && (
               <motion.div
                 key="act4"
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-2xl space-y-4"
+                exit={{ opacity: 0, y: -14 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-2xl space-y-3 sm:space-y-4"
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono-code font-bold tracking-widest text-[#A1A1AA] uppercase">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-[10px] sm:text-xs font-mono-code font-bold tracking-widest text-[#A1A1AA] uppercase">
                     HARMONY & CREATIVITY
                   </span>
-                  <span className="h-[1px] w-12 bg-white/20" />
+                  <span className="h-[1px] w-8 sm:w-12 bg-white/20" />
                 </div>
-                <h2 className="font-heading text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#F5F5F7] uppercase leading-[0.95]">
+                <h2 className="font-heading text-3xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#F5F5F7] uppercase leading-[0.98] sm:leading-[0.95]">
                   Sound. Story. <br />
                   <span className="text-white">Science.</span>
                 </h2>
-                <p className="font-display text-base sm:text-xl text-[#A1A1AA] italic leading-relaxed pt-1">
+                <p className="font-display text-sm sm:text-xl text-[#A1A1AA] italic leading-relaxed pt-0.5">
                   Three dimensions of one mind — producing music, writing worlds, engineering AI.
                 </p>
               </motion.div>
@@ -504,23 +505,23 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
             {currentAct === 'act5' && (
               <motion.div
                 key="act5"
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-2xl space-y-4"
+                exit={{ opacity: 0, y: -14 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-2xl space-y-3 sm:space-y-4"
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono-code font-bold tracking-widest text-[#A1A1AA] uppercase">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-[10px] sm:text-xs font-mono-code font-bold tracking-widest text-[#A1A1AA] uppercase">
                     LEADERSHIP & MASTERY
                   </span>
-                  <span className="h-[1px] w-12 bg-white/20" />
+                  <span className="h-[1px] w-8 sm:w-12 bg-white/20" />
                 </div>
-                <h2 className="font-heading text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#F5F5F7] uppercase leading-[0.95]">
+                <h2 className="font-heading text-3xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#F5F5F7] uppercase leading-[0.98] sm:leading-[0.95]">
                   Forged Through <br />
                   <span className="text-white">Discipline.</span>
                 </h2>
-                <p className="font-display text-base sm:text-xl text-[#A1A1AA] italic leading-relaxed pt-1">
+                <p className="font-display text-sm sm:text-xl text-[#A1A1AA] italic leading-relaxed pt-0.5">
                   19 verified certifications. Published discography. Boundless curiosity.
                 </p>
               </motion.div>
@@ -530,30 +531,30 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
             {currentAct === 'act6' && (
               <motion.div
                 key="act6"
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-2xl space-y-6 pointer-events-auto"
+                exit={{ opacity: 0, y: -14 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-2xl space-y-4 sm:space-y-6 pointer-events-auto"
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono-code font-bold tracking-widest text-[#A1A1AA] uppercase">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-[10px] sm:text-xs font-mono-code font-bold tracking-widest text-[#A1A1AA] uppercase">
                     PORTFOLIO OVERVIEW
                   </span>
-                  <span className="h-[1px] w-12 bg-white/20" />
+                  <span className="h-[1px] w-8 sm:w-12 bg-white/20" />
                 </div>
-                <h2 className="font-heading text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#F5F5F7] uppercase leading-[0.95]">
+                <h2 className="font-heading text-3xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#F5F5F7] uppercase leading-[0.98] sm:leading-[0.95]">
                   Ready to <br />
                   <span className="text-white">Build the Future.</span>
                 </h2>
-                <p className="font-display text-base sm:text-xl text-[#A1A1AA] italic leading-relaxed">
+                <p className="font-display text-sm sm:text-xl text-[#A1A1AA] italic leading-relaxed">
                   Welcome to the digital atelier of Laksh Mahajan.
                 </p>
 
                 <div className="pt-2">
                   <button
                     onClick={scrollToPortfolio}
-                    className="px-8 py-4 rounded-full bg-white text-black font-mono-code font-bold text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#E5E5EA] transition-all hover:scale-105 shadow-xl cursor-pointer"
+                    className="px-7 py-3.5 sm:px-8 sm:py-4 rounded-full bg-white text-black font-mono-code font-bold text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#E5E5EA] transition-all hover:scale-105 shadow-xl cursor-pointer"
                   >
                     <span>Enter Portfolio</span>
                     <ArrowDown className="w-4 h-4" />
@@ -566,9 +567,9 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
         </div>
 
         {/* BOTTOM STATUS & PROGRESS BAR */}
-        <footer className="w-full max-w-7xl mx-auto px-5 sm:px-8 pb-6 sm:pb-8 flex items-end justify-between z-30 relative">
+        <footer className="w-full max-w-7xl mx-auto px-4 sm:px-8 pb-5 sm:pb-8 flex items-end justify-between z-30 relative">
           <div className="space-y-2">
-            <div className="w-44 sm:w-60 h-[2px] bg-white/10 rounded-full overflow-hidden">
+            <div className="w-32 sm:w-60 h-[2px] bg-white/10 rounded-full overflow-hidden">
               <motion.div
                 className="h-full bg-white"
                 style={{ width: `${scrollProgress * 100}%` }}
@@ -576,9 +577,9 @@ export default function KatanaScrollEntry({ onEnterComplete }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-mono-code tracking-widest text-[#86868B] uppercase">
+          <div className="flex items-center gap-2 text-[10px] sm:text-xs font-mono-code tracking-widest text-[#86868B] uppercase">
             <span>Scroll to explore</span>
-            <ChevronDown className="w-3.5 h-3.5" />
+            <ChevronDown className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
           </div>
         </footer>
 

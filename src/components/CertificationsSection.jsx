@@ -155,7 +155,7 @@ export default function CertificationsSection({ onOpenFullVault }) {
         </div>
 
         {/* Filter Bar */}
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 p-4 rounded-2xl bg-[#0A0D18]/90 border border-[#00F0FF]/25 shadow-2xl backdrop-blur-xl box-glow-cyan">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 p-4 rounded-2xl glass-panel shadow-2xl backdrop-blur-2xl">
           
           <div className="flex flex-wrap items-center gap-2">
             {categoriesList.map((cat) => {
@@ -167,8 +167,8 @@ export default function CertificationsSection({ onOpenFullVault }) {
                   onClick={() => setSelectedIssuer(cat)}
                   className={`px-4 py-2 rounded-xl text-xs font-mono-code font-bold transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-[#00F0FF] text-black shadow-[0_0_10px_#00F0FF]'
-                      : 'bg-[#05060A] text-[#8A99AD] hover:text-[#00F0FF] border border-white/10'
+                      ? 'bg-white text-black shadow-lg'
+                      : 'glass-pill text-[#A1A1AA] hover:text-white'
                   }`}
                 >
                   {cat} ({count})
@@ -184,7 +184,7 @@ export default function CertificationsSection({ onOpenFullVault }) {
               placeholder="Search certs (e.g. Claude, RAG)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#05060A] border border-[#00F0FF]/20 text-xs font-mono-code text-[#F0F4FF] focus:outline-none focus:border-[#00F0FF] transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl glass-input text-xs font-mono-code text-[#F0F4FF] focus:outline-none focus:border-white/40 transition-all"
             />
           </div>
 
@@ -195,7 +195,7 @@ export default function CertificationsSection({ onOpenFullVault }) {
           {filteredCertifications.map((cert) => (
             <div
               key={cert.id}
-              className={`p-7 rounded-3xl bg-[#0A0D18]/80 border border-[#00F0FF]/20 shadow-2xl backdrop-blur-xl hover:border-[#00F0FF]/60 transition-all flex flex-col justify-between space-y-6 ${cert.accentColor} box-glow-cyan`}
+              className={`p-7 rounded-3xl glass-card hover:border-white/40 transition-all flex flex-col justify-between space-y-6 ${cert.accentColor}`}
             >
               <div>
                 <div className="flex items-center justify-between mb-4">

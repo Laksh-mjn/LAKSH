@@ -164,10 +164,10 @@ export default function SkillsSection() {
         </div>
 
         {/* Minimalist Interactive Node Graph */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#0F0F12]/80 border border-white/10 p-8 sm:p-12 rounded-3xl backdrop-blur-xl shadow-xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center glass-panel p-6 sm:p-12 rounded-3xl shadow-2xl">
           
           {/* Left Column: Taut Strings Synapse Canvas */}
-          <div className="lg:col-span-7 relative min-h-[420px] flex items-center justify-center">
+          <div className="lg:col-span-7 relative min-h-[360px] sm:min-h-[420px] flex items-center justify-center">
             
             {/* SVG Connecting Strings */}
             <svg className="absolute inset-0 w-full h-full pointer-events-none">
@@ -193,10 +193,10 @@ export default function SkillsSection() {
             </svg>
 
             {/* Central Node "LAKSH" */}
-            <div className="relative z-20 w-24 h-24 rounded-full bg-white p-0.5 shadow-2xl flex items-center justify-center">
+            <div className="relative z-20 w-20 sm:w-24 h-20 sm:h-24 rounded-full bg-white p-0.5 shadow-2xl flex items-center justify-center">
               <div className="w-full h-full rounded-full bg-[#08080A] flex flex-col items-center justify-center p-2 text-center">
-                <span className="font-heading font-black text-sm text-white tracking-widest">LAKSH</span>
-                <span className="text-[9px] font-mono-code text-[#86868B]">ENGINEER</span>
+                <span className="font-heading font-black text-xs sm:text-sm text-white tracking-widest">LAKSH</span>
+                <span className="text-[8px] sm:text-[9px] font-mono-code text-[#86868B]">ENGINEER</span>
               </div>
             </div>
 
@@ -204,8 +204,8 @@ export default function SkillsSection() {
             {neuralNodes.map((node, i) => {
               const angle = (i * 360) / neuralNodes.length;
               const rad = (angle * Math.PI) / 180;
-              const rx = 160 * Math.cos(rad);
-              const ry = 140 * Math.sin(rad);
+              const rx = (window.innerWidth < 640 ? 125 : 160) * Math.cos(rad);
+              const ry = (window.innerWidth < 640 ? 110 : 140) * Math.sin(rad);
               const isSelected = activeNode === i;
 
               return (
@@ -215,13 +215,13 @@ export default function SkillsSection() {
                   whileHover={{ scale: 1.1 }}
                   style={{
                     position: 'absolute',
-                    left: `calc(50% + ${rx}px - 55px)`,
-                    top: `calc(50% + ${ry}px - 20px)`,
+                    left: `calc(50% + ${rx}px - 50px)`,
+                    top: `calc(50% + ${ry}px - 18px)`,
                   }}
-                  className={`px-3 py-1.5 rounded-full border text-xs font-mono-code font-bold cursor-pointer transition-all z-30 flex items-center gap-1.5 ${
+                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border text-[10px] sm:text-xs font-mono-code font-bold cursor-pointer transition-all z-30 flex items-center gap-1.5 ${
                     isSelected
                       ? 'bg-white text-black border-white shadow-xl scale-105'
-                      : 'bg-[#08080A] border-white/15 text-[#A1A1AA] hover:border-white/40 hover:text-white'
+                      : 'glass-pill text-[#A1A1AA] hover:border-white/40 hover:text-white'
                   }`}
                   data-cursor="INSPECT"
                 >
@@ -234,13 +234,13 @@ export default function SkillsSection() {
           </div>
 
           {/* Right Column: Node Details Inspector */}
-          <div className="lg:col-span-5 bg-[#08080A] border border-white/10 p-6 sm:p-8 rounded-2xl space-y-6">
+          <div className="lg:col-span-5 glass-card p-6 sm:p-8 rounded-2xl space-y-6">
             
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <span className="text-xs font-mono-code text-white/80 font-bold uppercase tracking-wider">
                 [ NODE_0{active.id + 1} ]
               </span>
-              <span className="text-[11px] font-mono-code px-2.5 py-0.5 rounded-full bg-white/[0.05] text-[#A1A1AA] border border-white/10">
+              <span className="text-[11px] font-mono-code px-2.5 py-0.5 rounded-full glass-pill text-[#A1A1AA]">
                 {active.category}
               </span>
             </div>
@@ -262,9 +262,9 @@ export default function SkillsSection() {
                 {active.subSkills.map((sub) => (
                   <span
                     key={sub}
-                    className="px-3 py-1 rounded-xl bg-[#0F0F12] border border-white/10 text-xs font-mono-code text-[#E5E5EA] flex items-center gap-1.5"
+                    className="px-3 py-1 rounded-xl glass-pill text-xs font-mono-code text-[#E5E5EA] flex items-center gap-1.5"
                   >
-                    <CheckCircle2 className="w-3.5 h-3.5 text-white/60" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-white/70" />
                     <span>{sub}</span>
                   </span>
                 ))}
@@ -282,7 +282,7 @@ export default function SkillsSection() {
             return (
               <div
                 key={cat.title}
-                className="p-8 rounded-3xl bg-[#0F0F12]/80 border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between space-y-6"
+                className="p-8 rounded-3xl glass-card hover:border-white/40 transition-all flex flex-col justify-between space-y-6"
               >
                 <div>
                   <div className="flex items-center justify-between gap-3 mb-6">

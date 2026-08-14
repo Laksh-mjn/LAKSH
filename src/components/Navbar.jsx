@@ -12,11 +12,15 @@ export default function Navbar({ activePage, setActivePage }) {
 
   React.useEffect(() => {
     const checkScroll = () => {
-      // Show navbar once user scrolls past the katana scroll section (~250vh) or on subpages
       if (isRaktaan || isCertifications || isMJWorld) {
         setScrolledPastIntro(true);
+        return;
+      }
+      const portfolioStart = document.querySelector('#portfolio-start');
+      if (portfolioStart) {
+        setScrolledPastIntro(portfolioStart.getBoundingClientRect().top <= 80);
       } else {
-        setScrolledPastIntro(window.scrollY > window.innerHeight * 2.2);
+        setScrolledPastIntro(window.scrollY > window.innerHeight * 4.5);
       }
     };
     checkScroll();

@@ -171,11 +171,11 @@ export default function MJWorldPage({ onBack }) {
                 <span>OFFICIAL NOVELIST & AUTHOR UNIVERSE</span>
               </div>
 
-              <h1 className="font-heading text-6xl sm:text-8xl font-medium tracking-tight text-[#F5F5F5] leading-none">
+              <h1 className="font-heading text-4xl sm:text-7xl lg:text-8xl font-medium tracking-tight text-[#F5F5F5] leading-none">
                 MJ World
               </h1>
 
-              <p className="text-2xl sm:text-3xl font-medium text-[#D6C6A5] tracking-wide font-heading italic">
+              <p className="text-xl sm:text-3xl font-medium text-[#D6C6A5] tracking-wide font-heading italic">
                 Novelist • Storyteller • Fiction Writer
               </p>
 
@@ -423,7 +423,7 @@ export default function MJWorldPage({ onBack }) {
                       />
                     </div>
 
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <div>
                         <label className="block text-[#D6C6A5] mb-1.5 font-bold uppercase">Subtitle / Tagline</label>
                         <input

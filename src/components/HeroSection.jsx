@@ -51,7 +51,7 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="font-heading text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight text-[#F5F5F7] leading-[0.95] uppercase"
+                className="font-heading text-4xl sm:text-7xl lg:text-8xl font-black tracking-tight text-[#F5F5F7] leading-[0.98] sm:leading-[0.95] uppercase break-words"
               >
                 Laksh <br />
                 <span className="text-white relative inline-block">
@@ -81,7 +81,7 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="text-base sm:text-lg text-[#86868B] leading-relaxed max-w-2xl font-light"
+              className="text-sm sm:text-lg text-[#86868B] leading-relaxed max-w-2xl font-light"
             >
               I’m <strong className="text-[#F5F5F7] font-semibold">Laksh Mahajan</strong>, an aspiring AI Engineer exploring <span className="text-white font-medium">Artificial Intelligence, Machine Learning, Cybersecurity, Data Analytics, and Cloud Computing</span>. Beyond engineering, I compose and produce music as <strong className="text-white font-semibold">Raktaan</strong>, author novels in <strong className="text-white font-semibold">MJ World</strong>, and lead as President of Youth On Beat & District VP of Betiya Foundation.
             </motion.p>
@@ -91,9 +91,9 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7, duration: 0.7 }}
-              className="p-6 rounded-2xl bg-[#0F0F12]/80 border border-white/10 backdrop-blur-xl relative overflow-hidden blade-shine"
+              className="p-5 sm:p-6 rounded-2xl bg-[#0F0F12]/80 border border-white/10 backdrop-blur-xl relative overflow-hidden blade-shine"
             >
-              <p className="font-display text-lg sm:text-xl italic text-[#E5E5EA] leading-snug font-normal">
+              <p className="font-display text-base sm:text-xl italic text-[#E5E5EA] leading-snug font-normal">
                 “I build with technology, create through music, and lead with purpose.”
               </p>
             </motion.div>
@@ -103,11 +103,11 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-wrap items-center gap-4 pt-2"
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2"
             >
               <a
                 href="#projects"
-                className="px-8 py-4 rounded-full bg-white text-black font-mono-code font-bold text-xs uppercase tracking-wider flex items-center gap-3 transition-all hover:bg-[#E5E5EA] hover:scale-105 shadow-lg cursor-pointer"
+                className="px-8 py-4 rounded-full bg-white text-black font-mono-code font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-3 transition-all hover:bg-[#E5E5EA] hover:scale-105 shadow-lg cursor-pointer text-center"
                 data-cursor="PROJECTS"
               >
                 <span>Explore Projects</span>
@@ -116,7 +116,7 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
 
               <button
                 onClick={onOpenRaktaan}
-                className="px-6 py-4 rounded-full bg-white/[0.05] border border-white/15 text-[#F5F5F7] hover:bg-white hover:text-black font-mono-code font-bold text-xs uppercase tracking-wider flex items-center gap-2.5 transition-all hover:scale-105 cursor-pointer blade-shine"
+                className="px-6 py-4 rounded-full bg-white/[0.05] border border-white/15 text-[#F5F5F7] hover:bg-white hover:text-black font-mono-code font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 transition-all hover:scale-105 cursor-pointer blade-shine"
                 data-cursor="RAKTAAN"
               >
                 <Disc className="w-4 h-4 text-[#A1A1AA]" />
@@ -125,7 +125,7 @@ export default function HeroSection({ onOpenRaktaan, onOpenMJWorld, _onOpenCerti
 
               <button
                 onClick={onOpenMJWorld}
-                className="px-6 py-4 rounded-full bg-white/[0.05] border border-white/15 text-[#F5F5F7] hover:bg-white hover:text-black font-mono-code font-bold text-xs uppercase tracking-wider flex items-center gap-2.5 transition-all hover:scale-105 cursor-pointer blade-shine"
+                className="px-6 py-4 rounded-full bg-white/[0.05] border border-white/15 text-[#F5F5F7] hover:bg-white hover:text-black font-mono-code font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 transition-all hover:scale-105 cursor-pointer blade-shine"
                 data-cursor="MJ WORLD"
               >
                 <BookOpen className="w-4 h-4 text-[#A1A1AA]" />

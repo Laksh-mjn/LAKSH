@@ -4,6 +4,10 @@ export default function InteractiveStrings() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    // Disable on mobile / touch-only devices to save 100% CPU/GPU and prevent scroll stutter
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
+    if (isTouchDevice) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -21,7 +25,7 @@ export default function InteractiveStrings() {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
         initStrings();
-      }, 100);
+      }, 150);
     };
     window.addEventListener('resize', handleResize, { passive: true });
 
@@ -37,30 +41,16 @@ export default function InteractiveStrings() {
       mouse.y = e.clientY;
     };
 
-    const handleTouchMove = (e) => {
-      if (e.touches && e.touches[0]) {
-        const t = e.touches[0];
-        const dx = t.clientX - mouse.x;
-        const dy = t.clientY - mouse.y;
-        mouse.speed = Math.sqrt(dx * dx + dy * dy);
-        mouse.prevX = mouse.x;
-        mouse.prevY = mouse.y;
-        mouse.x = t.clientX;
-        mouse.y = t.clientY;
-      }
-    };
-
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
 
     // Create tension strings across the viewport
     let strings = [];
     const initStrings = () => {
       strings = [];
-      const stringCount = 6;
+      const stringCount = 5;
       for (let i = 0; i < stringCount; i++) {
         const yBase = (height / (stringCount + 1)) * (i + 1);
-        const pointCount = 35;
+        const pointCount = 28;
         const points = [];
         for (let j = 0; j < pointCount; j++) {
           points.push({
@@ -87,24 +77,19 @@ export default function InteractiveStrings() {
       time += 0.02;
 
       strings.forEach((str, strIdx) => {
-        // Update points
         str.points.forEach((p, idx) => {
-          if (idx === 0 || idx === str.points.length - 1) return; // anchor ends
+          if (idx === 0 || idx === str.points.length - 1) return;
 
-          // Mouse interaction (pluck string)
           const dx = mouse.x - p.x;
           const dy = mouse.y - p.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 90) {
-            const force = (1 - dist / 90) * (mouse.y - mouse.prevY) * 0.4;
+          if (dist < 80) {
+            const force = (1 - dist / 80) * (mouse.y - mouse.prevY) * 0.35;
             p.vy += force;
           }
 
-          // Subtle ambient acoustic harmonic ripple
-          const idleWave = Math.sin(time + p.phase) * 0.15;
-
-          // Spring physics back to baseline
+          const idleWave = Math.sin(time + p.phase) * 0.12;
           const displacement = (p.y - p.originY) - idleWave;
           const spring = -str.tension * displacement;
           p.vy += spring;
@@ -112,7 +97,6 @@ export default function InteractiveStrings() {
           p.y += p.vy;
         });
 
-        // Draw string with quadratic curve smoothing
         ctx.beginPath();
         ctx.moveTo(str.points[0].x, str.points[0].y);
 
@@ -126,17 +110,16 @@ export default function InteractiveStrings() {
           str.points[str.points.length - 1].y
         );
 
-        ctx.strokeStyle = strIdx % 2 === 0 ? 'rgba(255, 255, 255, 0.07)' : 'rgba(255, 255, 255, 0.04)';
+        ctx.strokeStyle = strIdx % 2 === 0 ? 'rgba(255, 255, 255, 0.07)' : 'rgba(255, 255, 255, 0.035)';
         ctx.lineWidth = 1;
         ctx.stroke();
 
-        // Highlight plucked area with subtle white glow
         str.points.forEach((p) => {
           const disp = Math.abs(p.y - p.originY);
           if (disp > 1.5) {
             ctx.beginPath();
-            ctx.arc(p.x, p.y, Math.min(disp * 0.3, 3.5), 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(disp * 0.06, 0.45)})`;
+            ctx.arc(p.x, p.y, Math.min(disp * 0.25, 3), 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(disp * 0.05, 0.4)})`;
             ctx.fill();
           }
         });
@@ -150,7 +133,6 @@ export default function InteractiveStrings() {
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
       clearTimeout(resizeTimeout);
       cancelAnimationFrame(animId);
     };
@@ -159,7 +141,7 @@ export default function InteractiveStrings() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0 opacity-80 gpu-layer"
+      className="fixed inset-0 pointer-events-none z-0 opacity-80 gpu-layer hidden md:block"
     />
   );
 }
