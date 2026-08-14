@@ -77,22 +77,22 @@ export default function Navbar({ activePage, setActivePage }) {
             setActivePage('portfolio');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="flex items-center gap-3 bg-[#0F0F12]/80 border border-white/10 px-4 py-2 rounded-full backdrop-blur-xl shadow-lg cursor-pointer group hover:border-white/30 transition-all"
+          className="flex items-center gap-3 glass-pill px-4 py-2 rounded-full shadow-lg cursor-pointer group hover:border-white/40 transition-all"
         >
           <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-          <span className="font-heading text-sm font-bold tracking-tight text-[#F5F5F7]">
+          <span className="font-heading text-xs sm:text-sm font-bold tracking-tight text-[#F5F5F7]">
             LAKSH MAHAJAN
           </span>
         </div>
 
         {/* Desktop Minimal Nav Pills */}
-        <nav className="hidden lg:flex items-center gap-1 bg-[#0F0F12]/80 border border-white/10 px-3 py-1.5 rounded-full backdrop-blur-xl shadow-xl">
+        <nav className="hidden lg:flex items-center gap-1 glass-panel px-3 py-1.5 rounded-full shadow-xl">
           {standardNavLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
               onClick={(e) => handleNavClick(link.name, link.href, e)}
-              className="px-3.5 py-1 rounded-full text-xs font-mono-code font-medium text-[#86868B] hover:text-white hover:bg-white/[0.06] transition-all cursor-pointer"
+              className="px-3.5 py-1 rounded-full text-xs font-mono-code font-medium text-[#86868B] hover:text-white hover:bg-white/[0.08] transition-all cursor-pointer"
             >
               {link.name}
             </a>
@@ -106,7 +106,7 @@ export default function Navbar({ activePage, setActivePage }) {
             className={`px-3.5 py-1 rounded-full text-xs font-mono-code font-medium inline-flex items-center gap-1.5 transition-all cursor-pointer ${
               isMJWorld
                 ? 'bg-white text-black font-bold shadow-md'
-                : 'text-[#A1A1AA] hover:text-white hover:bg-white/[0.06]'
+                : 'text-[#A1A1AA] hover:text-white hover:bg-white/[0.08]'
             }`}
             data-cursor="MJ WORLD"
           >
@@ -120,7 +120,7 @@ export default function Navbar({ activePage, setActivePage }) {
             className={`px-3.5 py-1 rounded-full text-xs font-mono-code font-medium inline-flex items-center gap-1.5 transition-all cursor-pointer ${
               isRaktaan
                 ? 'bg-white text-black font-bold shadow-md'
-                : 'text-[#A1A1AA] hover:text-white hover:bg-white/[0.06]'
+                : 'text-[#A1A1AA] hover:text-white hover:bg-white/[0.08]'
             }`}
             data-cursor="RAKTAAN"
           >
@@ -130,7 +130,7 @@ export default function Navbar({ activePage, setActivePage }) {
         </nav>
 
         {/* Action Controls & Mobile Toggle */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           {(isRaktaan || isCertifications || isMJWorld) && (
             <button
               onClick={() => setActivePage('portfolio')}
@@ -144,7 +144,7 @@ export default function Navbar({ activePage, setActivePage }) {
           <a
             href="#contact"
             onClick={(e) => handleNavClick('Contact', '#contact', e)}
-            className="hidden sm:flex px-5 py-2 rounded-full text-xs font-mono-code font-bold border border-white/20 text-[#F5F5F7] hover:bg-white hover:text-black transition-all"
+            className="hidden sm:flex px-5 py-2 rounded-full text-xs font-mono-code font-bold border border-white/20 text-[#F5F5F7] hover:bg-white hover:text-black transition-all glass-pill"
           >
             Contact
           </a>
@@ -152,7 +152,7 @@ export default function Navbar({ activePage, setActivePage }) {
           {/* Mobile Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2.5 rounded-full bg-[#0F0F12] border border-white/15 text-white backdrop-blur-xl"
+            className="lg:hidden p-2.5 rounded-full glass-card text-white active:scale-95"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -161,14 +161,14 @@ export default function Navbar({ activePage, setActivePage }) {
 
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Drawer with Glassmorphism */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="lg:hidden pointer-events-auto fixed inset-x-4 top-20 z-50 bg-[#0F0F12]/95 border border-white/15 rounded-3xl p-6 backdrop-blur-2xl shadow-2xl space-y-4"
+            className="lg:hidden pointer-events-auto fixed inset-x-4 top-20 z-50 glass-panel rounded-3xl p-6 shadow-2xl space-y-4"
           >
             <div className="flex items-center justify-between pb-3 border-b border-white/10 text-xs font-mono-code text-[#86868B]">
               <span>NAVIGATION</span>
@@ -181,11 +181,18 @@ export default function Navbar({ activePage, setActivePage }) {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(link.name, link.href, e)}
-                  className="p-3 rounded-xl bg-[#08080A] border border-white/10 text-xs font-mono-code text-[#D4D4D8] hover:text-white"
+                  className="p-3.5 rounded-xl glass-pill text-xs font-mono-code text-[#D4D4D8] hover:text-white active:bg-white active:text-black transition-colors"
                 >
                   {link.name}
                 </a>
               ))}
+              <a
+                href="#contact"
+                onClick={(e) => handleNavClick('Contact', '#contact', e)}
+                className="p-3.5 rounded-xl glass-pill text-xs font-mono-code text-white font-bold bg-white/10"
+              >
+                Contact ↗
+              </a>
             </div>
 
             <div className="pt-2 grid grid-cols-2 gap-2">
@@ -194,7 +201,7 @@ export default function Navbar({ activePage, setActivePage }) {
                   setActivePage('mjworld');
                   setMobileMenuOpen(false);
                 }}
-                className="p-3 rounded-xl bg-white/[0.05] border border-white/10 text-[#F5F5F7] font-mono-code font-medium text-xs flex items-center justify-center gap-2"
+                className="p-3 rounded-xl glass-card text-[#F5F5F7] font-mono-code font-medium text-xs flex items-center justify-center gap-2 active:scale-95"
               >
                 <Feather className="w-3.5 h-3.5" />
                 <span>MJ World</span>
@@ -205,7 +212,7 @@ export default function Navbar({ activePage, setActivePage }) {
                   setActivePage('raktaan');
                   setMobileMenuOpen(false);
                 }}
-                className="p-3 rounded-xl bg-white/[0.05] border border-white/10 text-[#F5F5F7] font-mono-code font-medium text-xs flex items-center justify-center gap-2"
+                className="p-3 rounded-xl glass-card text-[#F5F5F7] font-mono-code font-medium text-xs flex items-center justify-center gap-2 active:scale-95"
               >
                 <Disc className="w-3.5 h-3.5" />
                 <span>Raktaan</span>
