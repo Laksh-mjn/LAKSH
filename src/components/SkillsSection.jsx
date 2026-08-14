@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { 
   Cpu, Code, Users, Music, ExternalLink, ShieldCheck, CheckCircle2, Disc,
   Brain, Layers, Terminal, Cloud, Database, Lock, Wand2
@@ -10,7 +9,7 @@ const LINKEDIN_SKILLS_URL = 'https://www.linkedin.com/in/laksh-mahajan-696157329
 export default function SkillsSection() {
   const [activeNode, setActiveNode] = useState(0);
 
-  const neuralNodes = [
+  const skills = [
     {
       id: 0,
       name: 'Artificial Intelligence',
@@ -140,12 +139,12 @@ export default function SkillsSection() {
     },
   ];
 
-  const active = neuralNodes[activeNode];
+  const active = skills[activeNode];
 
   return (
     <section id="skills" className="py-20 sm:py-24 bg-[#08080A] border-b border-white/[0.06] relative overflow-hidden">
       
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10 space-y-12 sm:space-y-16">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10 space-y-12">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -154,10 +153,10 @@ export default function SkillsSection() {
               TECHNICAL & CREATIVE CAPABILITIES
             </span>
             <h2 className="font-heading text-4xl sm:text-6xl font-bold text-[#F5F5F7] tracking-tight">
-              Skills & Engineering Graph
+              Skills & Engineering
             </h2>
             <p className="text-base sm:text-lg text-[#86868B] mt-2 font-light">
-              Interactive circular radar connecting Laksh’s engineering and creative capabilities. Click any node to inspect.
+              Interactive circular skill hub. Select any node to inspect core engineering and creative specializations.
             </p>
           </div>
 
@@ -165,7 +164,7 @@ export default function SkillsSection() {
             href={LINKEDIN_SKILLS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 rounded-full bg-white text-black text-xs font-mono-code font-bold inline-flex items-center gap-2 transition-all hover:bg-[#E5E5EA] hover:scale-105 shrink-0 cursor-pointer shadow-lg"
+            className="px-6 py-3 rounded-full bg-white text-black text-xs font-mono-code font-bold inline-flex items-center gap-2 transition-all hover:bg-[#E5E5EA] shrink-0 cursor-pointer shadow-lg"
             data-cursor="LINKEDIN"
           >
             <ShieldCheck className="w-4 h-4" />
@@ -174,143 +173,80 @@ export default function SkillsSection() {
           </a>
         </div>
 
-        {/* Circular Radar Selector + Inspector Grid */}
+        {/* Simple Circular Selector + Inspector Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center glass-panel p-6 sm:p-10 rounded-3xl shadow-2xl">
           
-          {/* Left Column: Precision Circular Orbit Radar */}
-          <div className="lg:col-span-6 flex flex-col items-center justify-center">
+          {/* Left Column: Clean Circular Orbit Wheel */}
+          <div className="lg:col-span-6 flex flex-col items-center justify-center p-2 sm:p-6">
             
-            {/* Square Radar Container with fixed aspect ratio */}
-            <div className="relative w-full max-w-[340px] sm:max-w-[400px] aspect-square flex items-center justify-center">
+            {/* Circular Container with clean fixed aspect ratio */}
+            <div className="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] flex items-center justify-center">
               
-              {/* SVG Circular Orbit Track & Synapse Beams */}
-              <svg 
-                className="absolute inset-0 w-full h-full pointer-events-none" 
-                viewBox="0 0 100 100"
-              >
-                <defs>
-                  <linearGradient id="activeSynapseGrad" x1="50%" y1="50%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
-                    <stop offset="100%" stopColor="#D4D4D8" stopOpacity="0.6" />
-                  </linearGradient>
-                </defs>
+              {/* Clean Circular Track Ring */}
+              <div className="absolute inset-4 rounded-full border border-white/10" />
+              <div className="absolute inset-16 rounded-full border border-white/[0.04]" />
 
-                {/* Outer Circular Track */}
-                <circle 
-                  cx="50" 
-                  cy="50" 
-                  r="36" 
-                  fill="none" 
-                  stroke="rgba(255, 255, 255, 0.12)" 
-                  strokeWidth="0.5" 
-                  strokeDasharray="2, 2"
-                />
-
-                {/* Inner Wave Ring */}
-                <circle 
-                  cx="50" 
-                  cy="50" 
-                  r="20" 
-                  fill="none" 
-                  stroke="rgba(255, 255, 255, 0.06)" 
-                  strokeWidth="0.4" 
-                />
-
-                {/* Radial Spokes to all 8 circular nodes */}
-                {neuralNodes.map((node, i) => {
-                  const angle = (i * 360) / neuralNodes.length;
-                  const rad = (angle * Math.PI) / 180;
-                  const x = 50 + 36 * Math.cos(rad);
-                  const y = 50 + 36 * Math.sin(rad);
-                  const isSelected = activeNode === i;
-
-                  return (
-                    <g key={node.id}>
-                      <line
-                        x1="50"
-                        y1="50"
-                        x2={x}
-                        y2={y}
-                        stroke={isSelected ? 'url(#activeSynapseGrad)' : 'rgba(255, 255, 255, 0.08)'}
-                        strokeWidth={isSelected ? '0.9' : '0.3'}
-                        strokeDasharray={isSelected ? 'none' : '1.5, 1.5'}
-                      />
-                      {isSelected && (
-                        <circle
-                          cx={x}
-                          cy={y}
-                          r="1.5"
-                          fill="#FFFFFF"
-                          className="animate-ping opacity-75"
-                        />
-                      )}
-                    </g>
-                  );
-                })}
-              </svg>
-
-              {/* Central Core "LAKSH" */}
-              <div className="relative z-20 w-16 sm:w-20 h-16 sm:h-20 rounded-full bg-white p-0.5 shadow-2xl flex items-center justify-center shrink-0">
-                <div className="w-full h-full rounded-full bg-[#08080A] flex flex-col items-center justify-center p-1.5 text-center">
-                  <span className="font-heading font-black text-[11px] sm:text-xs text-white tracking-widest">LAKSH</span>
-                  <span className="text-[7px] sm:text-[8px] font-mono-code text-[#86868B]">AI CORE</span>
+              {/* Central Hub */}
+              <div className="relative z-10 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/5 border border-white/20 p-1 flex items-center justify-center shadow-xl">
+                <div className="w-full h-full rounded-full bg-[#08080A] flex flex-col items-center justify-center text-center p-1">
+                  <span className="font-heading font-bold text-xs sm:text-sm text-white tracking-widest">LAKSH</span>
+                  <span className="text-[8px] font-mono-code text-[#86868B]">SKILLS</span>
                 </div>
               </div>
 
-              {/* 8 Clean Circular Satellite Badges */}
-              {neuralNodes.map((node, i) => {
-                const angle = (i * 360) / neuralNodes.length;
+              {/* 8 Circular Skill Buttons positioned evenly around the circle */}
+              {skills.map((skill, index) => {
+                const angle = (index * 360) / skills.length;
                 const rad = (angle * Math.PI) / 180;
-                const xPct = 50 + 36 * Math.cos(rad);
-                const yPct = 50 + 36 * Math.sin(rad);
-                const isSelected = activeNode === i;
-                const IconComponent = node.icon;
+                // Radius in percentage from center (0..100)
+                const radius = 38;
+                const xPct = 50 + radius * Math.cos(rad);
+                const yPct = 50 + radius * Math.sin(rad);
+                const isSelected = activeNode === index;
+                const IconComp = skill.icon;
 
                 return (
-                  <motion.button
-                    key={node.id}
-                    onClick={() => setActiveNode(i)}
-                    whileHover={{ scale: 1.15 }}
-                    whileTap={{ scale: 0.95 }}
+                  <button
+                    key={skill.id}
+                    onClick={() => setActiveNode(index)}
                     style={{
                       position: 'absolute',
                       left: `${xPct}%`,
                       top: `${yPct}%`,
                       transform: 'translate(-50%, -50%)',
                     }}
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center cursor-pointer transition-all duration-300 z-30 group shadow-xl ${
+                    className={`w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center transition-all cursor-pointer z-20 shadow-md ${
                       isSelected
-                        ? 'bg-white text-black border-white shadow-[0_0_30px_rgba(255,255,255,0.6)] scale-110 ring-4 ring-white/30'
-                        : 'bg-[#0F0F13] text-[#A1A1AA] border-white/15 hover:border-white/60 hover:text-white hover:bg-white/10'
+                        ? 'bg-white text-black border-2 border-white shadow-[0_0_20px_rgba(255,255,255,0.4)] scale-110'
+                        : 'bg-[#121216] text-[#A1A1AA] border border-white/15 hover:border-white/50 hover:text-white'
                     }`}
-                    data-cursor="SELECT"
-                    title={node.name}
+                    title={skill.name}
+                    aria-label={skill.name}
                   >
-                    <IconComponent className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${isSelected ? 'scale-110' : 'group-hover:scale-110'}`} />
-                  </motion.button>
+                    <IconComp className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </button>
                 );
               })}
-
             </div>
 
-            {/* Quick Skill Indicator Tag below orbit */}
-            <div className="mt-4 text-center">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono-code text-white/90">
-                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            {/* Active Skill Indicator Badge */}
+            <div className="mt-4">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono-code text-white">
+                <span className="w-2 h-2 rounded-full bg-white" />
                 <span>Selected: <strong>{active.name}</strong></span>
               </span>
             </div>
 
           </div>
 
-          {/* Right Column: Node Details Inspector */}
+          {/* Right Column: Clean Skill Inspector Details */}
           <div className="lg:col-span-6 glass-card p-6 sm:p-8 rounded-2xl space-y-6">
             
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <span className="text-xs font-mono-code text-white/80 font-bold uppercase tracking-wider">
-                [ NODE_0{active.id + 1} ]
+                [ SKILL_0{active.id + 1} ]
               </span>
-              <span className="text-[11px] font-mono-code px-2.5 py-0.5 rounded-full glass-pill text-[#A1A1AA]">
+              <span className="text-[11px] font-mono-code px-3 py-1 rounded-full glass-pill text-[#A1A1AA]">
                 {active.category}
               </span>
             </div>
@@ -319,7 +255,7 @@ export default function SkillsSection() {
               <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white">
                 {active.name}
               </h3>
-              <p className="text-sm text-[#86868B] leading-relaxed font-light">
+              <p className="text-sm sm:text-base text-[#86868B] leading-relaxed font-light">
                 {active.desc}
               </p>
             </div>
@@ -332,7 +268,7 @@ export default function SkillsSection() {
                 {active.subSkills.map((sub) => (
                   <span
                     key={sub}
-                    className="px-3 py-1 rounded-xl glass-pill text-xs font-mono-code text-[#E5E5EA] flex items-center gap-1.5"
+                    className="px-3 py-1.5 rounded-xl glass-pill text-xs font-mono-code text-[#E5E5EA] flex items-center gap-1.5"
                   >
                     <CheckCircle2 className="w-3.5 h-3.5 text-white/70" />
                     <span>{sub}</span>
