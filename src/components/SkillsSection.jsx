@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, Code, Users, Music, ExternalLink, ShieldCheck, CheckCircle2, Disc } from 'lucide-react';
+import { 
+  Cpu, Code, Users, Music, ExternalLink, ShieldCheck, CheckCircle2, Disc,
+  Brain, Layers, Terminal, Cloud, Database, Lock, Wand2
+} from 'lucide-react';
 
 const LINKEDIN_SKILLS_URL = 'https://www.linkedin.com/in/laksh-mahajan-696157329/details/skills/';
 
@@ -12,6 +15,7 @@ export default function SkillsSection() {
       id: 0,
       name: 'Artificial Intelligence',
       category: 'AI & ML Core',
+      icon: Cpu,
       subSkills: ['Anthropic Claude', 'Generative AI', 'Large Language Models (LLM)', 'AI Agents', 'RAG Architectures', 'Prompt Engineering'],
       desc: 'Expertise in building AI agents, fine-tuning LLMs, RAG pipelines, and deploying automated intelligent workflows.',
     },
@@ -19,6 +23,7 @@ export default function SkillsSection() {
       id: 1,
       name: 'Machine Learning',
       category: 'AI & ML Core',
+      icon: Brain,
       subSkills: ['Supervised Learning', 'Unsupervised Clustering', 'Neural Networks', 'Scikit-learn', 'PyTorch Basics'],
       desc: 'Predictive modeling, data classification, and mathematical machine learning algorithm implementations.',
     },
@@ -26,6 +31,7 @@ export default function SkillsSection() {
       id: 2,
       name: 'Generative AI',
       category: 'GenAI & Automation',
+      icon: Wand2,
       subSkills: ['Claude 101 (Anthropic)', 'OpenAI AI Foundations', 'IBM AI Agents & RAG', 'Prompt Design', 'Chatbot Architectures'],
       desc: 'Generative model integration, multi-agent frameworks, synthetic data generation, and context optimization.',
     },
@@ -33,6 +39,7 @@ export default function SkillsSection() {
       id: 3,
       name: 'Python',
       category: 'Programming & Logic',
+      icon: Terminal,
       subSkills: ['Data Analytics', 'Pandas & NumPy', 'REST APIs', 'Backend Automation', 'Object-Oriented Programming'],
       desc: 'Primary engineering language used for data manipulation, AI scripting, automated workflows, and web services.',
     },
@@ -40,6 +47,7 @@ export default function SkillsSection() {
       id: 4,
       name: 'Deep Learning',
       category: 'Neural Networks',
+      icon: Layers,
       subSkills: ['Multi-Layer Perceptrons', 'Computer Vision Basics', 'Model Fine-tuning', 'Tensor Calculations'],
       desc: 'Neural network training, optimization algorithms, gradient descent, and deep neural layer abstractions.',
     },
@@ -47,6 +55,7 @@ export default function SkillsSection() {
       id: 5,
       name: 'Cybersecurity',
       category: 'Systems & Security',
+      icon: Lock,
       subSkills: ['Network Security', 'Threat Analysis', 'Operating Systems Hardening', 'Data Encryption Standards'],
       desc: 'Protecting digital infrastructures, secure coding principles, network protocol inspection, and access controls.',
     },
@@ -54,6 +63,7 @@ export default function SkillsSection() {
       id: 6,
       name: 'Cloud Computing',
       category: 'Infrastructure',
+      icon: Cloud,
       subSkills: ['Microsoft Cloud Basics', 'AWS/GCP Fundamentals', 'Container Deployment', 'Serverless APIs'],
       desc: 'Scalable cloud architectures, distributed system deployment, database hosting, and cloud service management.',
     },
@@ -61,6 +71,7 @@ export default function SkillsSection() {
       id: 7,
       name: 'Data Analytics',
       category: 'Data Engineering',
+      icon: Database,
       subSkills: ['SQL Databases', 'DBMS Systems', 'Data Visualization', 'Statistical Analysis', 'Predictive Metrics'],
       desc: 'Structured database management, SQL query optimization, data cleaning, and business intelligence reporting.',
     },
@@ -134,7 +145,7 @@ export default function SkillsSection() {
   return (
     <section id="skills" className="py-20 sm:py-24 bg-[#08080A] border-b border-white/[0.06] relative overflow-hidden">
       
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10 space-y-10 sm:space-y-12">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10 space-y-12 sm:space-y-16">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -146,7 +157,7 @@ export default function SkillsSection() {
               Skills & Engineering Graph
             </h2>
             <p className="text-base sm:text-lg text-[#86868B] mt-2 font-light">
-              Interactive node graph connecting Laksh’s engineering and creative capabilities. Click any node to inspect.
+              Interactive circular radar connecting Laksh’s engineering and creative capabilities. Click any node to inspect.
             </p>
           </div>
 
@@ -163,102 +174,137 @@ export default function SkillsSection() {
           </a>
         </div>
 
-        {/* Minimalist Interactive Node Graph */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center glass-panel p-6 sm:p-10 rounded-3xl shadow-2xl overflow-visible">
+        {/* Circular Radar Selector + Inspector Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center glass-panel p-6 sm:p-10 rounded-3xl shadow-2xl">
           
-          {/* Left Column: Taut Synapse Graph Canvas */}
-          <div className="lg:col-span-7 relative min-h-[420px] sm:min-h-[460px] flex items-center justify-center overflow-visible rounded-2xl bg-black/20 p-6 sm:p-10">
+          {/* Left Column: Precision Circular Orbit Radar */}
+          <div className="lg:col-span-6 flex flex-col items-center justify-center">
             
-            {/* SVG Connecting Strings with normalized 0..100 viewBox */}
-            <svg 
-              className="absolute inset-0 w-full h-full pointer-events-none overflow-visible" 
-              viewBox="0 0 100 100" 
-              preserveAspectRatio="none"
-            >
-              <defs>
-                <linearGradient id="activeSynapseGrad" x1="50%" y1="50%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
-                  <stop offset="100%" stopColor="#D4D4D8" stopOpacity="0.5" />
-                </linearGradient>
-              </defs>
+            {/* Square Radar Container with fixed aspect ratio */}
+            <div className="relative w-full max-w-[340px] sm:max-w-[400px] aspect-square flex items-center justify-center">
+              
+              {/* SVG Circular Orbit Track & Synapse Beams */}
+              <svg 
+                className="absolute inset-0 w-full h-full pointer-events-none" 
+                viewBox="0 0 100 100"
+              >
+                <defs>
+                  <linearGradient id="activeSynapseGrad" x1="50%" y1="50%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+                    <stop offset="100%" stopColor="#D4D4D8" stopOpacity="0.6" />
+                  </linearGradient>
+                </defs>
 
+                {/* Outer Circular Track */}
+                <circle 
+                  cx="50" 
+                  cy="50" 
+                  r="36" 
+                  fill="none" 
+                  stroke="rgba(255, 255, 255, 0.12)" 
+                  strokeWidth="0.5" 
+                  strokeDasharray="2, 2"
+                />
+
+                {/* Inner Wave Ring */}
+                <circle 
+                  cx="50" 
+                  cy="50" 
+                  r="20" 
+                  fill="none" 
+                  stroke="rgba(255, 255, 255, 0.06)" 
+                  strokeWidth="0.4" 
+                />
+
+                {/* Radial Spokes to all 8 circular nodes */}
+                {neuralNodes.map((node, i) => {
+                  const angle = (i * 360) / neuralNodes.length;
+                  const rad = (angle * Math.PI) / 180;
+                  const x = 50 + 36 * Math.cos(rad);
+                  const y = 50 + 36 * Math.sin(rad);
+                  const isSelected = activeNode === i;
+
+                  return (
+                    <g key={node.id}>
+                      <line
+                        x1="50"
+                        y1="50"
+                        x2={x}
+                        y2={y}
+                        stroke={isSelected ? 'url(#activeSynapseGrad)' : 'rgba(255, 255, 255, 0.08)'}
+                        strokeWidth={isSelected ? '0.9' : '0.3'}
+                        strokeDasharray={isSelected ? 'none' : '1.5, 1.5'}
+                      />
+                      {isSelected && (
+                        <circle
+                          cx={x}
+                          cy={y}
+                          r="1.5"
+                          fill="#FFFFFF"
+                          className="animate-ping opacity-75"
+                        />
+                      )}
+                    </g>
+                  );
+                })}
+              </svg>
+
+              {/* Central Core "LAKSH" */}
+              <div className="relative z-20 w-16 sm:w-20 h-16 sm:h-20 rounded-full bg-white p-0.5 shadow-2xl flex items-center justify-center shrink-0">
+                <div className="w-full h-full rounded-full bg-[#08080A] flex flex-col items-center justify-center p-1.5 text-center">
+                  <span className="font-heading font-black text-[11px] sm:text-xs text-white tracking-widest">LAKSH</span>
+                  <span className="text-[7px] sm:text-[8px] font-mono-code text-[#86868B]">AI CORE</span>
+                </div>
+              </div>
+
+              {/* 8 Clean Circular Satellite Badges */}
               {neuralNodes.map((node, i) => {
                 const angle = (i * 360) / neuralNodes.length;
                 const rad = (angle * Math.PI) / 180;
-                // Calibrated orbital radius: rx=22, ry=30 for guaranteed margin on all screen sizes
-                const xPct = 50 + 22 * Math.cos(rad);
-                const yPct = 50 + 30 * Math.sin(rad);
+                const xPct = 50 + 36 * Math.cos(rad);
+                const yPct = 50 + 36 * Math.sin(rad);
                 const isSelected = activeNode === i;
+                const IconComponent = node.icon;
 
                 return (
-                  <g key={node.id}>
-                    <line
-                      x1="50"
-                      y1="50"
-                      x2={xPct}
-                      y2={yPct}
-                      stroke={isSelected ? 'url(#activeSynapseGrad)' : 'rgba(255, 255, 255, 0.12)'}
-                      strokeWidth={isSelected ? '0.85' : '0.35'}
-                      strokeDasharray={isSelected ? 'none' : '1.5, 1.5'}
-                    />
-                    {isSelected && (
-                      <circle
-                        cx={xPct}
-                        cy={yPct}
-                        r="1.2"
-                        fill="#FFFFFF"
-                        className="animate-pulse"
-                      />
-                    )}
-                  </g>
+                  <motion.button
+                    key={node.id}
+                    onClick={() => setActiveNode(i)}
+                    whileHover={{ scale: 1.15 }}
+                    whileTap={{ scale: 0.95 }}
+                    style={{
+                      position: 'absolute',
+                      left: `${xPct}%`,
+                      top: `${yPct}%`,
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center cursor-pointer transition-all duration-300 z-30 group shadow-xl ${
+                      isSelected
+                        ? 'bg-white text-black border-white shadow-[0_0_30px_rgba(255,255,255,0.6)] scale-110 ring-4 ring-white/30'
+                        : 'bg-[#0F0F13] text-[#A1A1AA] border-white/15 hover:border-white/60 hover:text-white hover:bg-white/10'
+                    }`}
+                    data-cursor="SELECT"
+                    title={node.name}
+                  >
+                    <IconComponent className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${isSelected ? 'scale-110' : 'group-hover:scale-110'}`} />
+                  </motion.button>
                 );
               })}
-            </svg>
 
-            {/* Central Node "LAKSH" */}
-            <div className="relative z-20 w-20 sm:w-24 h-20 sm:h-24 rounded-full bg-white p-0.5 shadow-2xl flex items-center justify-center shrink-0">
-              <div className="w-full h-full rounded-full bg-[#08080A] flex flex-col items-center justify-center p-2 text-center">
-                <span className="font-heading font-black text-xs sm:text-sm text-white tracking-widest">LAKSH</span>
-                <span className="text-[8px] sm:text-[9px] font-mono-code text-[#86868B]">ENGINEER</span>
-              </div>
             </div>
 
-            {/* Orbiting Satellite Nodes with Precision Centering & Full Text Visibility */}
-            {neuralNodes.map((node, i) => {
-              const angle = (i * 360) / neuralNodes.length;
-              const rad = (angle * Math.PI) / 180;
-              const xPct = 50 + 22 * Math.cos(rad);
-              const yPct = 50 + 30 * Math.sin(rad);
-              const isSelected = activeNode === i;
-
-              return (
-                <motion.div
-                  key={node.id}
-                  onClick={() => setActiveNode(i)}
-                  whileHover={{ scale: 1.08 }}
-                  style={{
-                    position: 'absolute',
-                    left: `${xPct}%`,
-                    top: `${yPct}%`,
-                    transform: 'translate(-50%, -50%)',
-                  }}
-                  className={`px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full border text-[10px] sm:text-xs font-mono-code font-bold cursor-pointer transition-all z-30 flex items-center gap-1.5 whitespace-nowrap select-none shadow-xl shrink-0 ${
-                    isSelected
-                      ? 'bg-white text-black border-white shadow-[0_0_25px_rgba(255,255,255,0.4)] scale-105 ring-2 ring-white/40'
-                      : 'glass-pill text-[#D4D4D8] hover:border-white/50 hover:text-white hover:bg-white/10'
-                  }`}
-                  data-cursor="INSPECT"
-                >
-                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isSelected ? 'bg-black' : 'bg-white/50'}`} />
-                  <span className="shrink-0">{node.name}</span>
-                </motion.div>
-              );
-            })}
+            {/* Quick Skill Indicator Tag below orbit */}
+            <div className="mt-4 text-center">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono-code text-white/90">
+                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                <span>Selected: <strong>{active.name}</strong></span>
+              </span>
+            </div>
 
           </div>
 
           {/* Right Column: Node Details Inspector */}
-          <div className="lg:col-span-5 glass-card p-6 sm:p-8 rounded-2xl space-y-6">
+          <div className="lg:col-span-6 glass-card p-6 sm:p-8 rounded-2xl space-y-6">
             
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <span className="text-xs font-mono-code text-white/80 font-bold uppercase tracking-wider">
