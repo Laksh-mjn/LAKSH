@@ -185,9 +185,9 @@ export default function SkillsSection() {
               {neuralNodes.map((node, i) => {
                 const angle = (i * 360) / neuralNodes.length;
                 const rad = (angle * Math.PI) / 180;
-                // Calibrated elliptical radius so pills never clip container edges
-                const xPct = 50 + 29 * Math.cos(rad);
-                const yPct = 50 + 32 * Math.sin(rad);
+                // Calibrated elliptical radius for spacious padding around all labels
+                const xPct = 50 + 24 * Math.cos(rad);
+                const yPct = 50 + 29 * Math.sin(rad);
                 const isSelected = activeNode === i;
 
                 return (
@@ -227,8 +227,8 @@ export default function SkillsSection() {
             {neuralNodes.map((node, i) => {
               const angle = (i * 360) / neuralNodes.length;
               const rad = (angle * Math.PI) / 180;
-              const xPct = 50 + 29 * Math.cos(rad);
-              const yPct = 50 + 32 * Math.sin(rad);
+              const xPct = 50 + 24 * Math.cos(rad);
+              const yPct = 50 + 29 * Math.sin(rad);
               const isSelected = activeNode === i;
 
               return (
