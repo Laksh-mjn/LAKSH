@@ -164,14 +164,14 @@ export default function SkillsSection() {
         </div>
 
         {/* Minimalist Interactive Node Graph */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center glass-panel p-6 sm:p-10 rounded-3xl shadow-2xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center glass-panel p-6 sm:p-10 rounded-3xl shadow-2xl overflow-visible">
           
           {/* Left Column: Taut Synapse Graph Canvas */}
-          <div className="lg:col-span-7 relative min-h-[420px] sm:min-h-[460px] lg:min-h-[480px] flex items-center justify-center overflow-hidden rounded-2xl bg-black/20 px-4">
+          <div className="lg:col-span-7 relative min-h-[440px] sm:min-h-[480px] flex items-center justify-center overflow-visible rounded-2xl bg-black/20 p-6 sm:p-10">
             
             {/* SVG Connecting Strings with normalized 0..100 viewBox */}
             <svg 
-              className="absolute inset-0 w-full h-full pointer-events-none" 
+              className="absolute inset-0 w-full h-full pointer-events-none overflow-visible" 
               viewBox="0 0 100 100" 
               preserveAspectRatio="none"
             >
@@ -185,9 +185,9 @@ export default function SkillsSection() {
               {neuralNodes.map((node, i) => {
                 const angle = (i * 360) / neuralNodes.length;
                 const rad = (angle * Math.PI) / 180;
-                // Calibrated elliptical radius for spacious padding around all labels
-                const xPct = 50 + 24 * Math.cos(rad);
-                const yPct = 50 + 29 * Math.sin(rad);
+                // Calibrated orbital radius for generous padding & perfect centering
+                const xPct = 50 + 26 * Math.cos(rad);
+                const yPct = 50 + 26 * Math.sin(rad);
                 const isSelected = activeNode === i;
 
                 return (
@@ -216,19 +216,19 @@ export default function SkillsSection() {
             </svg>
 
             {/* Central Node "LAKSH" */}
-            <div className="relative z-20 w-20 sm:w-24 h-20 sm:h-24 rounded-full bg-white p-0.5 shadow-2xl flex items-center justify-center">
+            <div className="relative z-20 w-20 sm:w-24 h-20 sm:h-24 rounded-full bg-white p-0.5 shadow-2xl flex items-center justify-center shrink-0">
               <div className="w-full h-full rounded-full bg-[#08080A] flex flex-col items-center justify-center p-2 text-center">
                 <span className="font-heading font-black text-xs sm:text-sm text-white tracking-widest">LAKSH</span>
                 <span className="text-[8px] sm:text-[9px] font-mono-code text-[#86868B]">ENGINEER</span>
               </div>
             </div>
 
-            {/* Orbiting Satellite Nodes with Precision Centering */}
+            {/* Orbiting Satellite Nodes with Precision Centering & Full Text Visibility */}
             {neuralNodes.map((node, i) => {
               const angle = (i * 360) / neuralNodes.length;
               const rad = (angle * Math.PI) / 180;
-              const xPct = 50 + 24 * Math.cos(rad);
-              const yPct = 50 + 29 * Math.sin(rad);
+              const xPct = 50 + 26 * Math.cos(rad);
+              const yPct = 50 + 26 * Math.sin(rad);
               const isSelected = activeNode === i;
 
               return (
@@ -242,15 +242,15 @@ export default function SkillsSection() {
                     top: `${yPct}%`,
                     transform: 'translate(-50%, -50%)',
                   }}
-                  className={`px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full border text-[10px] sm:text-xs font-mono-code font-bold cursor-pointer transition-all z-30 flex items-center gap-1.5 whitespace-nowrap select-none shadow-lg ${
+                  className={`px-3 sm:px-4 py-1.5 rounded-full border text-[11px] sm:text-xs font-mono-code font-bold cursor-pointer transition-all z-30 flex items-center gap-2 whitespace-nowrap select-none shadow-xl shrink-0 ${
                     isSelected
                       ? 'bg-white text-black border-white shadow-2xl scale-105 ring-2 ring-white/30'
                       : 'glass-pill text-[#D4D4D8] hover:border-white/50 hover:text-white hover:bg-white/10'
                   }`}
                   data-cursor="INSPECT"
                 >
-                  <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-black' : 'bg-white/50'}`} />
-                  <span>{node.name}</span>
+                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isSelected ? 'bg-black' : 'bg-white/50'}`} />
+                  <span className="shrink-0">{node.name}</span>
                 </motion.div>
               );
             })}
